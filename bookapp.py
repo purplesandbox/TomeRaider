@@ -5,8 +5,7 @@ from itertools import takewhile
 """
 I think lots of parts of this code can go into  different classes. 
 For this class with the external API don't we just need functions to do the following: 
-1) return 3 random book suggestions based on criteria they input - is that what we said? 
-2) return 1 random suggestion based on criteria they input 
+1) return x random book suggestions based on criteria they input - where x can be decided by the API that we make.  
 3) returning 1 book based on title
 4) returning all books based on author 
 
@@ -64,6 +63,13 @@ def find_all_books(category, book_type):
 
 
 # API filtering function
+
+"""
+I think the reason this code is taking a while to give a response is because you're generating all the responses and then randomly selecting from them. That's going through a lot of selections. 
+Rather, just using random, generate a random number from the range(number of pages of responses), then get it to load x responses per page. 
+If we get this function to get x number of random responses, that means we can change it via the API we make later, to get it to give 10 responses if we so wanted later. Or 1 response, or 3. The function works for everything. 
+x would just be a variable in the function. 
+"""
 
 def book_filtering_function(category, book_type):
     category_input = input("\nWhat category books are you interested in? Please, select the number of the option:\n1. Animals, Bugs & Pets,\n2. Art,Creativity & Music,\n3. General Literature,\n4. Hobbies,\n5. Sports & Outdoors,\n6. Science Fiction & Fantasy,\n7. Real Life,\n8. Science & Technology,\n9. Mystery & Suspense,\n10. Reference\n> ")
