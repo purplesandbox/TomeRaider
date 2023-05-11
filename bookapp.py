@@ -2,6 +2,17 @@ import requests
 import random
 from itertools import takewhile
 
+"""
+I think lots of parts of this code can go into  different classes. 
+For this class with the external API don't we just need functions to do the following: 
+1) return 3 random book suggestions based on criteria they input - is that what we said? 
+2) return 1 random suggestion based on criteria they input 
+3) returning 1 book based on title
+4) returning all books based on author 
+
+everything else should be done in other classes. This should be just about talking to the external API 
+"""
+
 endpoint = 'https://book-finder1.p.rapidapi.com/api/search'
 
 choice = input("Hello! How can I help you today? Do you know what you're after or would you want me to pick something for you? (Type 'I know' or 'pick something' as an answer)\n> ")
