@@ -214,3 +214,32 @@ def move_book(book_title): # doesn't take it off the to-read table
 
 move_book('The Hobbit')
 get_all_books('read_books')
+
+def move_book2(book_title): # does remove the book from the to read table
+    try:
+        db_name = 'Bookapp'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+        print(f"Connected to DB: {db_name}")
+
+        # Query to insert the book into the 'read_books' table
+        query_insert = f"""
+            INSERT INTO read_books (title, author, category)
+            SELECT title, author, category
+            FROM to_read_books
+            WHERE title = '{book_title}';"""
+        cur.execute(query_insert)
+        db_connection.commit()
+
+        # Query to delete the book from the 'to_read_books' table
+        query_delete = f"""
+            DELETE FROM to_read_books
+            WHERE title = '{book_title}';"""
+        cur.execute(query_delete)
+        db_connection.commit()
+
+        cur.close()
+        print(f'{book_title} has been moved to your Read Books!')
+
+    except Exception as e:
+        print(f"Error raised = {str(e)}")
