@@ -1,12 +1,23 @@
 class UserInteractions:
-    def __init__(self, api, db):
+    def __init__(self, book, api, db):
+        self.book = book
         self.api = api
         self.db = db
+        self.book_list = []
+        self.notes_list = []
 
-
-"""function to search for book - asks user what type of book, calls API function, 
-calls add to list function, calls add notes to lsit function"""
-
+    def user_choice_search_or_random(self):
+        while True:
+            try:
+                search_or_random = input('Would you like to search or generate a random book? (search/random) ')
+                if search_or_random.lower() not in ['search', 'random']:
+                    raise ValueError('Invalid input. Please enter either "search" or "random".')
+                break
+            except ValueError as e:
+                print(str(e))
+                continue    def user_choice_search_or_random(self):
+        search_or_random = input('Would you like to search or generate a random book? (search/random)')
+        return search_or_random.lower()
     def search_for_book(self):
         book_criteria = input('What type of book are you looking for? (customise to search params): ')
         number_of_books = int(input('How many books would you like to search for?: '))
@@ -16,7 +27,7 @@ calls add to list function, calls add notes to lsit function"""
         self.add_book_or_not(book)
         self.add_notes_to_book(book)
 
-"""function to generate random book - asks user what type of book, calls API function, 
+"""function to generate random book - asks user what type of book, calls API function,
 calls add to list function, calls add notes to lsit function"""
     def generate_random_book(self):
         book_criteria = input('What type of book are you looking for? (customise to search params): ')
@@ -27,8 +38,13 @@ calls add to list function, calls add notes to lsit function"""
         self.add_notes_to_book(book)
 
 """add book to list or not"""
-    def add_book_or_not(self, book):
-        add_to_list_or_not = input('Would you like to add this book to a list? (y/n): ')
+    def add_to_list_or_not(self, book):
+        add_to_list = input('Would you like to add this book to a list? (y/n): ')
+        if add_to_list == 'y':
+            True
+        else:
+            False
+
         if add_to_list_or_not == 'y':
             which_list = input('Which list would you like to add this book to? (to-read/read): ')
             if which_list == 'to-read':
@@ -88,6 +104,12 @@ calls add to list function, calls add notes to lsit function"""
                 break
             else:
                 print('Invalid choice. Please try again.')
+        return search_or_random.lower()
 
+   print(user_choice_search_or_random())
 
-UserInteractions.welcome('hi')
+#
+#
+#
+#
+#
