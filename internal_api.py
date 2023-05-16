@@ -18,7 +18,7 @@ class BookAppAPI:
 
 
     # Endpoint to get 1-10 book suggestions after user inputs search
-    @app.route('/books/search', methods=['GET'])
+    # @app.route('/books/search', methods=['GET'])
     def search_book_suggestions(self, user_input):
         user_input = self.clean_user_input(user_input)
         # Call function to get a book suggestions
@@ -32,7 +32,7 @@ class BookAppAPI:
         #print this in user interactions class
 
     # Endpoint to get 1 random book suggestion
-    @app.route('/books/random_suggestion', methods=['GET'])
+    # @app.route('/books/random_suggestion', methods=['GET'])
     def random_book_suggestion(self, user_input):
         user_input = self.clean_user_input(user_input)
         random_book = self.book_finder_api.get_random_result(user_input)
@@ -44,8 +44,8 @@ class BookAppAPI:
 #
 #
     # Endpoint to add a book to the reading list
-    @app.route('/books/reading_list', methods=['POST'])
-    def add_to_reading_list(self, to_read):
+    # @app.route('/books/reading_list', methods=['POST'])
+    def add_to_to_read_list(self, to_read):
         #to_read should be a dictionay coming from the user interactions where it gives the author, title, etc
 
         # Call function to add book to reading list
@@ -53,37 +53,34 @@ class BookAppAPI:
 
         # Return success message
         return ({'message': 'Book added to reading list'})
-#
-#
-# # Endpoint to add a book to the list of books already read
-# @app.route('/books/already_read', methods=['POST'])
-# def add_to_read_list(book_title):
-#
-#     # Call function to add book to list of books already read
-#     add_book_to_read_list(book_title)
-#
-#     # Return success message
-#     return ({'message': 'Book added to list of books already read'})
-#
-#
-# # Endpoint to get the reading list
-# @app.route('/books/reading_list', methods=['GET'])
-# def get_to_read_list():
-#     # Call function to get reading list
-#     reading_list = get_reading_list()
-#
-#     # Return reading list
-#     return ({'reading_list': reading_list})
-#
-#
-# # Endpoint to get the list of books already read
-# @app.route('/books/read', methods=['GET'])
-# def get_read_list():
-#     # Call function to get list of books already read
-#     read_list = get_read_list()
-#
-#     # Return list of books already read
-#     return ({'already_read_list': read_list})
+
+    # Endpoint to get the to read list
+    # @app.route('/books/reading_list', methods=['GET'])
+    def get_to_read_list(self):
+        to_read_list = Database_access2.get_all_books(table = 'to_read_books')
+
+        # Return reading list
+        return ({'reading_list': to_read_list})
+
+    # Endpoint to add a book to the read list
+    # @app.route('/books/already_read', methods=['POST'])
+    def add_to_read_list(self, read):
+    #read should be a dictionary for the book from the user interaction
+        # Call function to add book to list of books already read
+        Database_access2.insert_book(table='read_books', title=read['title'], author = read['author'], category= read['category'])
+
+        # Return success message
+        return ({'message': 'Book added to list of books read'})
+
+
+        # Endpoint to get the read books list
+        # @app.route('/books/read', methods=['GET'])
+    def get_read_list(self):
+        # Call function to get list of books already read
+        read_list = Database_access2.get_all_books(table = 'to_read_books')
+
+        # Return list of books already read
+        return ({'read_list': read_list})
 #
 #
 
