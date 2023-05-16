@@ -1,135 +1,78 @@
 import requests
 import random
-from itertools import takewhile
+from pprint import pprint
+from urllib.error import HTTPError, URLError
 
-"""
-I think lots of parts of this code can go into  different classes. 
-For this class with the external API don't we just need functions to do the following: 
-1) return x random book suggestions based on criteria they input - where x can be decided by the API that we make.  
-3) returning 1 book based on title
-4) returning all books based on author 
 
-everything else should be done in other classes. This should be just about talking to the external API 
-"""
-
-endpoint = 'https://book-finder1.p.rapidapi.com/api/search'
-
-choice = input("Hello! How can I help you today? Do you know what you're after or would you want me to pick something for you? (Type 'I know' or 'pick something' as an answer)\n> ")
-
-# Get all the books from the API
-# This actually could be the main OOP class for calling APIs
-
-category = {1: "Animals, Bugs & Pets", 2: "Art, Creativity & Music", 3: "General Literature", 4: "Hobbies",
-            5: "Sports & Outdoors", 6: "Science Fiction & Fantasy", 7: "Real Life", 8: "Science & Technology",
-            9: "Mystery & Suspense", 10: "Reference"}
-book_type = {1: "Fiction", 2: "Nonfiction"}
-def find_all_books(category, book_type):
-
-    random_category = random.randrange(1, 10)
-    random_book_type = random.randrange(1, 2)
-    search = {
-        'book_type': book_type[random_book_type],
-        'results_per_page': '100',
-        'page': '1',
-        'categories': category[random_category]
-    }
-
-    requirement = {
+class BookFinderAPICalls:
+    def __init__(self):
+        self.endpoint = 'https://book-finder1.p.rapidapi.com/api/search'
+        self.requirement = {
     'X-RapidAPI-Key': 'e42255e58dmsh896e188a4c3b74dp12368fjsn273ec0f1d7ca',
     'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com'
-    }
+}
+        self.relevant_keys = ['authors', 'title', 'categories', 'summary']
 
-    response = requests.get(endpoint, params=search, headers=requirement)
-    records = response.json()
-    list_records = []
-
-    for page in range(records['total_pages']):
-        search["page"] = page + 1
-        response = requests.get(endpoint, params=search, headers=requirement)
-        list_records.append(response.json())
-
-    # pick pages which have records in them (bypassing the limitations)
-    list_records_valid = takewhile(lambda x: x != {'message': 'You have exceeded the rate limit per second for your plan, BASIC, by the API provider'}, list_records)
-
-    list_records_valid = list(list_records_valid)
-
-    output_list = []
-
-    # combine all records from the available pages into a single list
-    for i in range(len(list_records_valid)):
-        output_list.extend(list_records_valid[i]['results'])
-
-    return output_list
+    def make_api_request(self, user_input):
+        try:
+            response = requests.get(self.endpoint, params=user_input, headers=self.requirement)
+            records = response.json()
+        except HTTPError as error:
+            print(error.status, error.reason)
+            exit(1)
+        except URLError as error:
+            print(error.reason)
+            exit(1)
+        except TimeoutError:
+            print("Request timed out")
+            exit(1)
+        else:
+            return records
 
 
-# API filtering function
+    def get_filtered_results(self, user_input):
+        try:
+            books = int(user_input['book_num'])
+            records = self.make_api_request(user_input)
+            if records['total_results'] < books:
+                raise ValueError
+                exit(1)
+        except:
+            print("The requested number of books to be returned exceeds the number of matching records! Please, try again!")
+        else:
+            random_sample = random.sample(records['results'], books)
+            random_sample_reduced = [{key: d[key] for key in self.relevant_keys} for d in random_sample]
+            return random_sample_reduced
 
-"""
-I think the reason this code is taking a while to give a response is because you're generating all the responses and then randomly selecting from them. That's going through a lot of selections. 
-Rather, just using random, generate a random number from the range(number of pages of responses), then get it to load x responses per page. 
-If we get this function to get x number of random responses, that means we can change it via the API we make later, to get it to give 10 responses if we so wanted later. Or 1 response, or 3. The function works for everything. 
-x would just be a variable in the function. 
-"""
-
-def book_filtering_function(category, book_type):
-    category_input = input("\nWhat category books are you interested in? Please, select the number of the option:\n1. Animals, Bugs & Pets,\n2. Art,Creativity & Music,\n3. General Literature,\n4. Hobbies,\n5. Sports & Outdoors,\n6. Science Fiction & Fantasy,\n7. Real Life,\n8. Science & Technology,\n9. Mystery & Suspense,\n10. Reference\n> ")
-    book_type_input = input("\nWhat type of books are you interested in? Please, select the number of the option:\n1. Fiction,\n2. Nonfiction\n> ")
-    # could add more filters ...
-
-    search = {
-        # 'series': "Wings of fire",
-        # 'author': 'J. K. Rowling',
-        # 'lexile_min': '600',
-        'book_type': book_type[int(book_type_input)],
-        # 'lexile_max': '800',
-        'results_per_page': '100',
-        'page': '1',
-        'categories': category[int(category_input)]
-    }
-
-    requirement = {
-    'X-RapidAPI-Key': 'e42255e58dmsh896e188a4c3b74dp12368fjsn273ec0f1d7ca',
-    'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com'
-    }
-
-    response = requests.get(endpoint, params=search, headers=requirement)
-    records = response.json()
-    list_records = []
+    def get_random_result(self, user_input):
+        records = self.make_api_request(user_input)
+        random_number = random.randrange(0, len(records['results']))
+        random_record = records['results'][random_number]
+        random_record_reduced = {key: random_record[key] for key in self.relevant_keys}
+        return random_record_reduced
 
 
-    for page in range(records['total_pages']):
-        search["page"] = page + 1
-        response = requests.get(endpoint, params=search, headers=requirement)
-        list_records.append(response.json())
+    def get_records(self, user_input):
 
-    # pick pages which have records in them (bypassing the limitations)
-    list_records_valid = takewhile(lambda x: x != {'message': 'You have exceeded the rate limit per second for your plan, BASIC, by the API provider'}, list_records)
+        if user_input['filtered_choice']:
+            return self.get_filtered_results()
 
-    list_records_valid = list(list_records_valid)
+        elif user_input['random_choice']:
+            return self.get_random_result()
 
-    output_list = []
+# # dictionary passed from UserInteractions class
+# user_input = {
+#     'author': None,
+#     'book_type': 'Fiction',
+#     'results_per_page': '100',
+#     'page': '1',
+#     'lexile-min': 1000,
+#     'lexile-max':2000,
+#     'categories': "Mystery & Suspense",
+#     'book_num': 5,
+#     'random_choice': False,
+#     'filtered_choice': True
+# }
 
-    # combine all records from the available pages into a single list
-    for i in range(len(list_records_valid)):
-        output_list.extend(list_records_valid[i]['results'])
-
-    # 10 random options from the list
-    random_sample = random.sample(output_list, 10)
-
-    return random_sample
-
-
-if choice == 'I know':
-    print("Good for you!")
-    filtered_output = book_filtering_function(category, book_type)
-    print("\nHere you go:")
-    for i in range(len(filtered_output)):
-        print(f"Option {i+1}: Author: {filtered_output[i]['authors'][0]}, Title: {filtered_output[i]['title']}, Summary: {filtered_output[i]['summary']}")
-else:
-    print("Wait, brb")
-    all_the_books = find_all_books(category, book_type)
-    random_num = random.randrange(0, (len(all_the_books) -1))
-    print(f"The book I've picked for you:\nAuthor: {all_the_books[random_num]['authors'][0]},\nTitle: {all_the_books[random_num]['title']},\nSummary: {all_the_books[random_num]['summary']}")
-
-
-
+# book_finder = BookFinderAPICalls(user_input)
+# pprint(book_finder.get_records())
