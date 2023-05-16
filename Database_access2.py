@@ -22,7 +22,7 @@ def _connect_to_db(db_name):
     except Exception as e:
         print(f'failed to connect + {str(e)}')
 
-#combined function to view entries in the tables this version just prints results
+#combined function to view entries in the tables, this version just prints results
 # def get_all_books(table):
 #     try:
 #         db_name = 'Bookapp'
@@ -67,7 +67,7 @@ def get_all_books(table):
                             FROM {table}
                             ORDER BY title;"""
         else:
-            query = f"""SELECT title, author, category, star_rating
+            query = f"""SELECT title, author, category,review, star_rating
                 FROM {table}
                 ORDER BY title;"""
         cur.execute(query)
@@ -79,6 +79,7 @@ def get_all_books(table):
         # Print the table
         headers = ["Title", "Author", "Category"]
         if table != 'to_read_books':
+            headers.append("Review")
             headers.append("Star Rating")
         print(tabulate(data, headers, tablefmt="grid"))
 
@@ -91,7 +92,7 @@ def get_all_books(table):
         if db_connection:
             db_connection.close()
             print("DB connection is closed")
-get_all_books('read_books')
+
 # can get table results as separate functions rather than by inputting the table into the function
 # def get_all_read():
 #     try:
@@ -144,8 +145,7 @@ def insert_book(table, title, author, category):
     print(f"{title} has been added to {table}.")
 
 
-# insert_new_record('to_read_books', 'The Great Gatsby', 'F.Scott Fitzgerald', 'Literary Fiction')
-# get_all_entries('to_read_books')
+# for the following functions, if there are duplicate entries the function will apply to all
 # function to add a review to read books
 def update_rating(book_title, rating):
     try:
@@ -169,7 +169,7 @@ def update_rating(book_title, rating):
         print(f"Error raised = {str(e)}")
 
 
-def update_review(book_title, review):
+def update_review(book_title, review):  # review can be max 16,777,215 characters
     try:
         db_name = 'Bookapp'
         db_connection = _connect_to_db(db_name)
@@ -211,8 +211,8 @@ def delete_book(table, book_title):
     except Exception as e:
         print(f"Error raised = {str(e)}")
 # insert_book('read_books', 'The Great Gatsby', 'F.Scott Fitzgerald', 'Literary Fiction')
-# update_review('The Great Gatsby', '5')
-# get_all_entries('read_books')
+#update_review('The Great Gatsby', 'It was great.')
+
 
 def move_book(book_title): # doesn't take it off the to-read table
     try:
@@ -235,10 +235,10 @@ def move_book(book_title): # doesn't take it off the to-read table
     except Exception as e:
         print(f"Error raised = {str(e)}")
 
-move_book('The Hobbit')
-get_all_books('read_books')
+# move_book('The Hobbit')
+# get_all_books('read_books')
 
-def move_book2(book_title): # does remove the book from the to read table
+def move_book2(book_title): # does remove the book from the to-read table
     try:
         db_name = 'Bookapp'
         db_connection = _connect_to_db(db_name)
@@ -266,3 +266,8 @@ def move_book2(book_title): # does remove the book from the to read table
 
     except Exception as e:
         print(f"Error raised = {str(e)}")
+
+# update_review('The Great Gatsby', "The plot itself is slow.\n In a time before authors cared more plot\n and cared more about how their book was written")
+# update_rating('The Hobbit', '4')
+# delete_book('read_books', 'The Hobbit')
+# get_all_books('read_books')
