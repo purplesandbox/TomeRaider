@@ -147,7 +147,7 @@ def insert_book(table, title, author, category):
 # insert_new_record('to_read_books', 'The Great Gatsby', 'F.Scott Fitzgerald', 'Literary Fiction')
 # get_all_entries('to_read_books')
 # function to add a review to read books
-def update_review(book_title, rating):
+def update_rating(book_title, rating):
     try:
         db_name = 'Bookapp'
         db_connection = _connect_to_db(db_name)
@@ -167,6 +167,29 @@ def update_review(book_title, rating):
 
     except Exception as e:
         print(f"Error raised = {str(e)}")
+
+
+def update_review(book_title, review):
+    try:
+        db_name = 'Bookapp'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+        print(f"Connected to DB: {db_name}")
+
+        query = f"""
+                UPDATE read_books
+                SET review = '{review}'
+                WHERE title = '{book_title}'
+        """
+        cur.execute(query)
+        db_connection.commit()
+
+        cur.close()
+        print(f'Your review has been added to {book_title}')
+
+    except Exception as e:
+        print(f"Error raised = {str(e)}")
+
 
 def delete_book(table, book_title):
     try:
