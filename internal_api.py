@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from API_results import BookFinderAPICalls
+import Database_access2
 from pprint import pp
 
 app = Flask(__name__)
@@ -42,16 +43,16 @@ class BookAppAPI:
         return ({'Random Book': random_book})
 #
 #
-# # Endpoint to add a book to the reading list
-# @app.route('/books/reading_list', methods=['POST'])
-# def add_to_reading_list(book_title):
-#
-#
-#     # Call function to add book to reading list
-#     add_book_to_to_read_list(book_title)
-#
-#     # Return success message
-#     return ({'message': 'Book added to reading list'})
+    # Endpoint to add a book to the reading list
+    @app.route('/books/reading_list', methods=['POST'])
+    def add_to_reading_list(self, to_read):
+        #to_read should be a dictionay coming from the user interactions where it gives the author, title, etc
+
+        # Call function to add book to reading list
+        Database_access2.insert_book(table='to_read_books', title=to_read['title'], author = to_read['author'], category= to_read['category'])
+
+        # Return success message
+        return ({'message': 'Book added to reading list'})
 #
 #
 # # Endpoint to add a book to the list of books already read
