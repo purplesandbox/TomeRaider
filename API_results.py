@@ -69,19 +69,5 @@ class BookAppAPI:
         random_record_reduced = {key: random_record[key] for key in self.relevant_keys}
         return random_record_reduced
 
-    # """
-    # get_records method, based on the user's choice, captured in the user_input dictionary passed into the class,
-    # calls either get_filtered_results or
-    # get_random_result.
-    #
-    # @Maryam - maybe this method could be handled by the internal API??? It doesn't make sense to leave it here if it isn't ever used!
-    # """
 
-    def get_records(self, user_input):
-
-        if user_input['filtered_choice']:
-            return self.get_filtered_results(user_input)
-
-        elif user_input['random_choice']:
-            return self.get_random_result(user_input)
 
