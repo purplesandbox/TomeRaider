@@ -53,7 +53,7 @@ class InternalAPI:
                                      category=to_read['category'])
 
         # Return success message
-        return {'message': 'Book added to reading list'}
+        return f"{to_read['title']} has been added to reading list"
 
     # Endpoint to get the to read list
     # @app.route('/books/reading_list', methods=['GET'])
