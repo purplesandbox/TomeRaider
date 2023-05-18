@@ -8,6 +8,14 @@ app = Flask(__name__)
 # Note: For category, the user has to input each word starting with a capital letter. The API will return an error
 # as it is case-sensitive
 
+class BookAlreadyOnTable(Exception):
+    pass
+
+
+class BookNotFound(Exception):
+    pass
+
+
 class InternalAPI:
     def __init__(self):
         self.book_app_api = BookAppAPI()
@@ -24,8 +32,11 @@ class InternalAPI:
         book_suggestions = self.book_app_api.get_filtered_results(user_input)
         # Write code here to say if the suggestions are in the already_read_list, generate another set of suggestions
         # for suggestion in book_suggestions:
-        #     if suggestion == "xxx": #need to write code to get list of books in database
-        #         book_suggestions = BookFinderAPICalls.get_filtered_results(user_input) #check this
+        #list of book titles in table
+        # titles_in_read_table = db_utils.get_all_books('read_books')
+        # for book_suggestion in book_suggestions['title']:
+        #     for
+
         # Return book suggestion
         return {'Suggestions': book_suggestions}
         # print this in user interactions class
@@ -50,7 +61,7 @@ class InternalAPI:
 
         # Call function to add book to reading list
         db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['author'],
-                                     category=to_read['category'])
+                             category=to_read['category'])
 
         # Return success message
         return f"{to_read['title']} has been added to reading list"
@@ -61,7 +72,7 @@ class InternalAPI:
         to_read_list = db_utils.get_all_books(table='to_read_books')
 
         # Return reading list
-        return {'reading_list': to_read_list}
+        return to_read_list
 
     # Endpoint to add a book to the read list
     # @app.route('/books/already_read', methods=['POST'])
@@ -69,19 +80,33 @@ class InternalAPI:
         # read should be a dictionary for the book from the user interaction
         # Call function to add book to list of books already read
         db_utils.insert_book(table='read_books', title=read['title'], author=read['author'],
-                                     category=read['category'])
+                             category=read['category'])
 
         # Return success message
-        return {'message': 'Book added to list of books read'}
+        return f"{read['title']} has been added to books read list"
 
         # Endpoint to get the read books list
         # @app.route('/books/read', methods=['GET'])
 
     def get_read_list(self):
         # Call function to get list of books already read
-        read_list = db_utils.get_all_books(table='to_read_books')
+        read_list = db_utils.get_all_books(table='read_books')
 
         # Return list of books already read
-        return ({'read_list': read_list})
+        return (read_list)
+
+    def add_a_review(self, read, user_review):
+        # logic here for if the book is not in the list
+        return db_utils.update_review(read['title'], user_review)
+
+    def add_star_rating(self, read, user_rating):
+        # logic here for if the book is not in the list
+        return db_utils.update_rating(read['title'], user_rating)
+
+
 #
 #
+
+internal_api = InternalAPI()
+to_read_list = internal_api.get_to_read_list()
+read_list = internal_api.get_read_list()

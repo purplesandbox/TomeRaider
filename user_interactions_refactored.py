@@ -1,7 +1,9 @@
+from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
+from pprint import pp
 class UserInteractions:
     def __init__(self):
         self.book_criteria = {
-            'authors': '',
+            'author': '',
             'categories': '',
             'book_type': '',
             'lexile_min': '',
@@ -10,6 +12,7 @@ class UserInteractions:
             'random_choice': False,
             'filtered_choice': False
         }
+        self.internal_api = InternalAPI()
 
     def welcome(self):
         while True:
@@ -60,13 +63,13 @@ class UserInteractions:
         lexile_min = input('Lexile min: ')
         lexile_max = input('Lexile max: ')
 
-        self.book_criteria['authors'] = author
+        self.book_criteria['author'] = author
         self.book_criteria['categories'] = genre
         self.book_criteria['book_type'] = fiction
         self.book_criteria['lexile_min'] = lexile_min
         self.book_criteria['lexile_max'] = lexile_max
 
-        print(self.book_criteria)
+        pp(self.internal_api.search_book_suggestions(user_input = self.book_criteria))
 
     def random_choice(self):
         chosen_genre = input('What genre are you looking for? ')
@@ -74,7 +77,7 @@ class UserInteractions:
         self.book_criteria['categories'] = chosen_genre
         self.book_criteria['random_choice'] = True
 
-        print(self.book_criteria)
+        pp(self.internal_api.random_book_suggestion(user_input = self.book_criteria))
 
     def add_book_to_list_or_not(self):
         while True:
