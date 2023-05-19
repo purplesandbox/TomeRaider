@@ -31,11 +31,11 @@ class InternalAPI:
         # Call function to get a book suggestions
         book_suggestions = self.book_app_api.get_filtered_results(user_input)
 
-        #check for duplicates from to_read_list
-        self.check_for_duplicates_from_to_read_list(user_input, book_suggestions)
+        # check for duplicates from to_read_list
+        book_suggestions = self.check_for_duplicates_from_to_read_list(user_input, book_suggestions)
 
-        #check for duplicates from read_list
-        self.check_for_duplicates_from_read_list(user_input, book_suggestions)
+        # check for duplicates from read_list
+        book_suggestions = self.check_for_duplicates_from_read_list(user_input, book_suggestions)
 
         # Return book suggestion
         return {'Suggestions': book_suggestions}
@@ -99,15 +99,21 @@ class InternalAPI:
 
         return book_suggestions
 
-# Endpoint to get 1 random book suggestion
-# @app.route('/books/random_suggestion', methods=['GET'])
+    # Endpoint to get 1 random book suggestion
+    # @app.route('/books/random_suggestion', methods=['GET'])
     def random_book_suggestion(self, user_input):
         user_input = self.clean_user_input(user_input)
         random_book = self.book_app_api.get_random_result(user_input)
 
         # Write code here to say if the suggestion is in the already_read_list, randomly generate another suggestion
 
-        # Return book suggestion
+        # check for duplicates from to_read_list
+        random_book = self.check_for_duplicates_from_to_read_list(user_input, random_book)
+
+        # check for duplicates from read_list
+        random_book = self.check_for_duplicates_from_read_list(user_input, random_book)
+
+        # Return random_book
         return ({'Random Book': random_book})
 
     #
@@ -116,6 +122,11 @@ class InternalAPI:
     # @app.route('/books/reading_list', methods=['POST'])
     def add_to_to_read_list(self, to_read):
         # to_read should be a dictionay coming from the user interactions where it gives the author, title, etc
+        #check if book is already on the list. If it is an exception is raised
+        book_list = db_utils.get_all_books('to_read_books')
+        titles_in_to_read_list = (book[0] for book in book_list)
+        if to_read['title'] in titles_in_to_read_list:
+            raise BookAlreadyOnTable('This book is already on the to read list')
 
         # Call function to add book to reading list
         db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['author'],
@@ -136,6 +147,11 @@ class InternalAPI:
     # @app.route('/books/already_read', methods=['POST'])
     def add_to_read_list(self, read):
         # read should be a dictionary for the book from the user interaction
+        # check if book already in the to_read list
+        book_list = db_utils.get_all_books('read_books')
+        titles_in_read_list = (book[0] for book in book_list)
+        if read['title'] in titles_in_read_list:
+            raise BookAlreadyOnTable('This book is already on the read list')
         # Call function to add book to list of books already read
         db_utils.insert_book(table='read_books', title=read['title'], author=read['author'],
                              category=read['category'])
@@ -154,16 +170,28 @@ class InternalAPI:
         return (read_list)
 
     def add_a_review(self, read, user_review):
-        # logic here for if the book is not in the list
+        # logic here for if the book is not in the list an error is raised
+        book_list = db_utils.get_all_books('read_books')
+        titles_in_to_read_list = (book[0] for book in book_list)
+        if read['title'] not in titles_in_to_read_list:
+            raise BookNotFound('Book not found on read_books list')
+        #else user_review is added
         return db_utils.update_review(read['title'], user_review)
 
     def add_star_rating(self, read, user_rating):
-        # logic here for if the book is not in the list
+        # logic here for if the book is not in the list an error is raised
+        book_list = db_utils.get_all_books('read_books')
+        titles_in_to_read_list = (book[0] for book in book_list)
+        if read['title'] not in titles_in_to_read_list:
+            raise BookNotFound('Book not found on read_books list')
+        #else user_rating is added
         return db_utils.update_rating(read['title'], user_rating)
 
 
 internal_api = InternalAPI()
-print(internal_api.check_for_duplicates_from_to_read_list(user_input= {'book_num': 1, 'book_type': 'fiction'}, book_suggestions = [{'title': 'The B.F.G', 'authors': 'Rhoal Dahl'}]))
+print(internal_api.check_for_duplicates_from_to_read_list(user_input={'book_num': 1, 'book_type': 'fiction'},
+                                                          book_suggestions=[
+                                                              {'title': 'The B.F.G', 'authors': 'Rhoal Dahl'}]))
 
 # internal_api = InternalAPI()
 # to_read_list = internal_api.get_to_read_list()
