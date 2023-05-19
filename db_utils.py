@@ -3,7 +3,7 @@ from tabulate import tabulate
 # from config import USER, PASSWORD, HOST - this keeps not picking up the separate file with my details
 HOST = "localhost"
 USER = "root"
-PASSWORD = "Password"
+PASSWORD = "password"
 
 class DbConnectionError(Exception):
     pass
@@ -41,10 +41,12 @@ def get_all_books(table):
                 ORDER BY title;"""
         cur.execute(query)
         result = cur.fetchall()
+        read_books = []
 
         for i in result:
-            return i
+            read_books.append(i)
         cur.close()
+        return read_books
 
     except Exception:
         raise DbConnectionError("Failed to read data from DB")
