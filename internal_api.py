@@ -33,9 +33,15 @@ class InternalAPI:
         # Write code here to say if the suggestions are in the already_read_list, generate another set of suggestions
         # for suggestion in book_suggestions:
         #list of book titles in table
-        # titles_in_read_table = db_utils.get_all_books('read_books')
-        # for book_suggestion in book_suggestions['title']:
-        #     for
+        count = 0
+        for book_suggestion in book_suggestions['title']:
+            for titles in db_utils.get_all_books('read_books')[0]:
+                if book_suggestion == titles:
+                    count += 1
+                    indx = book_suggestions.index(book_suggestion)
+                    book_suggestions.remove(indx)
+#put titles for read books into a set
+        #filter out of book suggestions if title in set
 
         # Return book suggestion
         return {'Suggestions': book_suggestions}
