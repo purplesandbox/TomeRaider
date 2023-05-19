@@ -42,8 +42,8 @@ class InternalAPI:
         # print this in user interactions class
 
     # function to check where the books that have been searched for are already in the to_read_list. If they are,
-    # those books are replaced by a new search.
-    # Need to still add a break clause in case it gets stuck in an infinite loop
+    # those books are replaced by a new search. If it goes through 3 searches and still can't find new books, it
+    # returns however many new books it can.
     def check_for_duplicates_from_to_read_list(self, user_input, book_suggestions):
         # Write code here to say if the suggestions are in the to_read_list, generate suggestions to replace
         book_list = db_utils.get_all_books('to_read_books')
@@ -57,22 +57,35 @@ class InternalAPI:
 
         # how many more books are needed to satisfy the users request given some have been removed as repeats?
         number_to_replace = user_input['book_num'] - len(book_suggestions)
-        # call the external API to generate number_to_replace new responses
-        if number_to_replace > 0:
+
+        if number_to_replace == 0:
+            return book_suggestions  # No more replacements needed, return the suggestions
+
+        count = 0
+        while count < 3:
+            # call the external API to generate number_to_replace new responses
             user_input['book_num'] = number_to_replace
             new_book_suggestions = self.book_app_api.get_filtered_results(user_input)
 
+            if len(new_book_suggestions) == 0:
+                return {f"For your given criteria, it's only possible to return {len(book_suggestions)} books.": book_suggestions}
+
             if len(book_suggestions) == 0:
                 book_suggestions = new_book_suggestions
+
             # add the new_book_suggestions to the list of book_suggestions
-            book_suggestions = book_suggestions + new_book_suggestions
-            self.check_for_duplicates_from_to_read_list(user_input, book_suggestions)
+            book_suggestions += new_book_suggestions
+
+            count += 1
+
+        if count == 3:
+            return {f"For your given criteria, it's only possible to return {len(book_suggestions)} books.": book_suggestions}
 
         return book_suggestions
 
     # function to check whether the books that have been searched for are already in the read_list. If they are,
-    # those books are replaced by a new search.
-    # Need to still add a break clause in case it gets stuck in an infinite loop
+    # those books are replaced by a new search. If it goes through 3 searches and still can't find new books, it
+    # returns however many new books it can.
     def check_for_duplicates_from_read_list(self, user_input, book_suggestions):
         # Write code here to say if the suggestions are in the to_read_list, generate suggestions to replace
         book_list = db_utils.get_all_books('read_books')
@@ -87,15 +100,30 @@ class InternalAPI:
         # how many more books are needed to satisfy the users request given some have been removed as repeats?
         number_to_replace = user_input['book_num'] - len(book_suggestions)
         # call the external API to generate number_to_replace new responses
-        if number_to_replace > 0:
+        if number_to_replace == 0:
+            return book_suggestions  # No more replacements needed, return the suggestions
+
+        count = 0
+        while count < 3:
+
             user_input['book_num'] = number_to_replace
             new_book_suggestions = self.book_app_api.get_filtered_results(user_input)
 
+            if len(new_book_suggestions) == 0:
+                return {
+                    f"For your given criteria, it's only possible to return {len(book_suggestions)} books.": book_suggestions}
+
             if len(book_suggestions) == 0:
                 book_suggestions = new_book_suggestions
+
             # add the new_book_suggestions to the list of book_suggestions
-            book_suggestions = book_suggestions + new_book_suggestions
-            self.check_for_duplicates_from_to_read_list(user_input, book_suggestions)
+            book_suggestions += new_book_suggestions
+
+            count += 1
+
+        if count == 3:
+            return {
+                f"For your given criteria, it's only possible to return {len(book_suggestions)} books.": book_suggestions}
 
         return book_suggestions
 
