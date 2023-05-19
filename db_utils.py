@@ -3,7 +3,7 @@ from tabulate import tabulate
 # from config import USER, PASSWORD, HOST - this keeps not picking up the separate file with my details
 HOST = "localhost"
 USER = "root"
-PASSWORD = "Marypary786!"
+PASSWORD = "Password"
 
 class DbConnectionError(Exception):
     pass
