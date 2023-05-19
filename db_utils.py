@@ -3,7 +3,7 @@ from tabulate import tabulate
 # from config import USER, PASSWORD, HOST - this keeps not picking up the separate file with my details
 HOST = "localhost"
 USER = "root"
-PASSWORD = "ConservationSensation2"
+PASSWORD = "Marypary786!"
 
 class DbConnectionError(Exception):
     pass
@@ -23,43 +23,12 @@ def _connect_to_db(db_name):
         print(f'failed to connect + {str(e)}')
 
 #combined function to view entries in the tables, this version just prints results
-# def get_all_books(table):
-#     try:
-#         db_name = 'Bookapp'
-#         db_connection = _connect_to_db(db_name)
-#         cur = db_connection.cursor()
-#         # probably want to remove this print and the DB closed print in the end but handy at the mo to check it works
-#         print(f"Connected to DB: {db_name}")
-#
-#         if table == 'to_read_books':
-#             query = f"""SELECT title, author, category
-#                             FROM {table}
-#                             ORDER BY title;"""
-#         else:
-#             query = f"""SELECT title, author, category, star_rating
-#                 FROM {table}
-#                 ORDER BY title;"""
-#         cur.execute(query)
-#         result = cur.fetchall()
-#
-#         for i in result:
-#             print(i)
-#         cur.close()
-#
-#     except Exception:
-#         raise DbConnectionError("Failed to read data from DB")
-#
-#     finally:
-#         if db_connection:
-#             db_connection.close()
-#             print("DB connection is closed")
-
-#this version of get_all_books function prints results in a table
 def get_all_books(table):
     try:
         db_name = 'Bookapp'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
+        # probably want to remove this print and the DB closed print in the end but handy at the mo to check it works
         print(f"Connected to DB: {db_name}")
 
         if table == 'to_read_books':
@@ -67,22 +36,14 @@ def get_all_books(table):
                             FROM {table}
                             ORDER BY title;"""
         else:
-            query = f"""SELECT title, author, category,review, star_rating
+            query = f"""SELECT title, author, category, star_rating
                 FROM {table}
                 ORDER BY title;"""
         cur.execute(query)
         result = cur.fetchall()
 
-        # Convert the result to a list of lists
-        data = [list(row) for row in result]
-
-        # Print the table
-        headers = ["Title", "Author", "Category"]
-        if table != 'to_read_books':
-            headers.append("Review")
-            headers.append("Star Rating")
-        print(tabulate(data, headers, tablefmt="grid"))
-
+        for i in result:
+            return i
         cur.close()
 
     except Exception:
@@ -92,6 +53,47 @@ def get_all_books(table):
         if db_connection:
             db_connection.close()
             print("DB connection is closed")
+
+print(get_all_books('to_read_books'))
+
+#this version of get_all_books function prints results in a table
+# def get_all_books(table):
+#     try:
+#         db_name = 'Bookapp'
+#         db_connection = _connect_to_db(db_name)
+#         cur = db_connection.cursor()
+#         print(f"Connected to DB: {db_name}")
+#
+#         if table == 'to_read_books':
+#             query = f"""SELECT title, author, category
+#                             FROM {table}
+#                             ORDER BY title;"""
+#         else:
+#             query = f"""SELECT title, author, category,review, star_rating
+#                 FROM {table}
+#                 ORDER BY title;"""
+#         cur.execute(query)
+#         result = cur.fetchall()
+#
+#         # Convert the result to a list of lists
+#         data = [list(row) for row in result]
+#
+#         # Print the table
+#         headers = ["Title", "Author", "Category"]
+#         if table != 'to_read_books':
+#             headers.append("Review")
+#             headers.append("Star Rating")
+#         return tabulate(data, headers, tablefmt="grid")
+#
+#         cur.close()
+#
+#     except Exception:
+#         raise DbConnectionError("Failed to read data from DB")
+#
+#     finally:
+#         if db_connection:
+#             db_connection.close()
+#             print("DB connection is closed")
 
 # can get table results as separate functions rather than by inputting the table into the function
 # def get_all_read():
