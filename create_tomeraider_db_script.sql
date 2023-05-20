@@ -1,6 +1,6 @@
-CREATE DATABASE Bookapp;
+CREATE DATABASE TomeRaider;
 
-USE Bookapp;
+USE TomeRaider;
 
 
 CREATE TABLE read_books( 
