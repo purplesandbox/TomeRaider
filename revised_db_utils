@@ -1,5 +1,4 @@
 import mysql.connector
-from tabulate import tabulate
 from config import USER, PASSWORD, HOST
 
 
@@ -79,7 +78,6 @@ def insert_book(table, title, author, category):
         db_connection.commit()
 
         cur.close()
-        return True
 
     except Exception as e:
         raise DbConnectionError(f"Failed to insert book: {str(e)}")
@@ -90,6 +88,7 @@ def insert_book(table, title, author, category):
             print("DB connection is closed")
 
     print(f"{title} has been added to {table}.")
+    return True
 
 
 def close_db_connection(db_connection):
@@ -114,6 +113,7 @@ def update_rating(book_title, rating):
 
         cur.close()
         print(f'Your rating has been added to {book_title}')
+        return True
 
 
     except Exception as e:
@@ -194,6 +194,7 @@ def move_book(book_title):
 
         cur.close()
         print(f'{book_title} has been moved to your Read Books!')
+        return True
 
 
     except Exception as e:
