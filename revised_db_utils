@@ -1,0 +1,203 @@
+import mysql.connector
+from tabulate import tabulate
+from config import USER, PASSWORD, HOST
+
+
+class DbConnectionError(Exception):
+    pass
+
+
+def _connect_to_db(db_name):
+    try:
+        cnx = mysql.connector.connect(
+            host=HOST,
+            user=USER,
+            password=PASSWORD,
+            auth_plugin='mysql_native_password',
+            database=db_name
+        )
+        return cnx
+    except Exception as e:
+        raise DbConnectionError(f'Failed to connect to DB: {str(e)}')
+
+
+# def close_db_connection(connection):
+#     if connection:
+#         connection.close()
+
+def get_all_books(table):
+
+    global db_connection
+
+    try:
+        db_name = 'TomeRaider'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+        print(f"Connected to DB: {db_name}")
+
+        if table == 'to_read_books':
+            query = f"""SELECT title, author, category
+                        FROM {table}
+                        ORDER BY title;"""
+        else:
+            query = f"""SELECT title, author, category, star_rating
+                        FROM {table}
+                        ORDER BY title;"""
+
+        cur.execute(query)
+        result = cur.fetchall()
+        read_books = []
+
+        cur.close()
+
+        for i in result:
+            read_books.append(i)
+        cur.close()
+        return read_books
+
+    except Exception:
+        raise DbConnectionError("Failed to read data from DB")
+
+    finally:
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
+
+
+print(get_all_books('to_read_books'))
+
+
+def insert_book(table, title, author, category):
+    try:
+        db_name = 'TomeRaider'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+
+        query = f"""INSERT INTO {table} (title, author, category)
+                    VALUES ('{title}', '{author}', '{category}')"""
+        cur.execute(query)
+        db_connection.commit()
+
+        cur.close()
+        return True
+
+    except Exception as e:
+        raise DbConnectionError(f"Failed to insert book: {str(e)}")
+
+    finally:
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
+
+    print(f"{title} has been added to {table}.")
+
+
+def close_db_connection(db_connection):
+    pass
+
+
+def update_rating(book_title, rating):
+    try:
+        db_name = 'TomeRaider'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+        print(f"Connected to DB: {db_name}")
+
+
+        query = f"""
+                UPDATE read_books
+                SET star_rating = '{rating}'
+                WHERE title = '{book_title}'
+        """
+        cur.execute(query)
+        db_connection.commit()
+
+        cur.close()
+        print(f'Your rating has been added to {book_title}')
+
+
+    except Exception as e:
+        raise DbConnectionError(f"Failed to update rating: {str(e)}")
+
+    finally:
+        close_db_connection(db_connection)
+
+
+def update_review(book_title, review):
+    try:
+        db_name = 'TomeRaider'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+
+        query = f"""
+                UPDATE read_books
+                SET review = '{review}'
+                WHERE title = '{book_title}'
+        """
+        cur.execute(query)
+        db_connection.commit()
+
+        cur.close()
+        print(f'Your review has been added to {book_title}')
+        return True
+
+    except Exception as e:
+        raise DbConnectionError(f"Failed to update review: {str(e)}")
+
+    finally:
+        close_db_connection(db_connection)
+
+
+def delete_book(table, book_title):
+    try:
+        db_name = 'TomeRaider'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+
+        query = f"""
+                DELETE FROM {table}
+                WHERE title = '{book_title}'      
+        """
+        cur.execute(query)
+        db_connection.commit()
+
+        cur.close()
+        print(f'{book_title} has been deleted from {table}')
+        return True
+
+    except Exception as e:
+        raise DbConnectionError(f"Failed to delete book: {str(e)}")
+
+    finally:
+        close_db_connection(db_connection)
+
+
+def move_book(book_title):
+    try:
+        db_name = 'TomeRaider'
+        db_connection = _connect_to_db(db_name)
+        cur = db_connection.cursor()
+
+        query_insert = f"""
+            INSERT INTO read_books (title, author, category)
+            SELECT title, author, category
+            FROM to_read_books
+            WHERE title = '{book_title}';"""
+        cur.execute(query_insert)
+        db_connection.commit()
+
+        query_delete = f"""
+            DELETE FROM to_read_books
+            WHERE title = '{book_title}';"""
+        cur.execute(query_delete)
+        db_connection.commit()
+
+        cur.close()
+        print(f'{book_title} has been moved to your Read Books!')
+
+
+    except Exception as e:
+        raise DbConnectionError(f"Failed to move book: {str(e)}")
+
+    finally:
+        close_db_connection(db_connection)
