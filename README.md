@@ -1,14 +1,14 @@
-# CFG_S3_Group4_Project
-Ths is a private repo for Group 4 members to collaborate on their ace project.
+***TomeRaider***
 
+Introducing TomeRaider, the ultimate solution to relieve you from the overwhelming burden of decision fatigue when choosing your next book to read. With TomeRaider, all your bookworm needs will be fulfilled effortlessly and magically! Simply let TomeRaider work its magic and discover the perfect book for you. Say goodbye to the endless search and let TomeRaider guide you on your literary adventures!
 - First you need to run create_tomeraider_db_script.sql 
 - in order to see all the entries in the database use populate db
 - add your details to config.py
 - run app - connect databse, ui, api
 
 Installing / Getting started: 
-A quick introduction of the minimal setup you need to get Feels up & running.
 
+Minimal setup:
 pip3 install flask 
 pip3 install flask 
 pip3 install flask 
