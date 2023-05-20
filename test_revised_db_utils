@@ -1,0 +1,34 @@
+import unittest
+from db_utils_2 import get_all_books, insert_book, delete_book, update_rating, update_review, move_book
+
+
+class TestDbUtils2(unittest.TestCase):
+
+    def test_get_all_books(self):
+        result = get_all_books('to_read_books')
+        self.assertEqual(result, [])
+
+    def test_insert_book(self):
+        # insert_book('to_read_books', 'The Great Gatsby', 'F. Scott Fitzgerald', 'Literary Fiction')
+        result = insert_book('to_read_books', 'The Great Unit Tests Book', 'Tome Raider Dev Team', 'Programming')
+        self.assertEqual(result, True)
+
+    def test_delete_book(self):
+        result = delete_book('to_read_books', 'The Great Unit Tests Book')
+        self.assertEqual(result, True)
+
+    def test_update_rating(self):
+        result = update_rating('The Great Gatsby', 4)
+        self.assertEqual(result, True)
+
+    def test_update_review(self):
+        result = update_review("The Great Gatsby", "A great classic that I love")
+        self.assertEqual(result, True)
+
+    def test_move_book(self):
+        result = move_book('The Great Gatsby')
+        self.assertEqual(result,True)
+
+
+if __name__ == '__main__':
+    unittest.main()
