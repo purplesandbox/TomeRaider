@@ -1,10 +1,10 @@
 import mysql.connector
 from tabulate import tabulate
-from config import USER, PASSWORD, HOST
+# from config import USER, PASSWORD, HOST
 
-HOST = HOST
-USER = USER
-PASSWORD = PASSWORD
+HOST = "localhost"
+USER = "root"
+PASSWORD = "yellowdolphin22!!"
 
 
 class DbConnectionError(Exception):
@@ -170,7 +170,7 @@ def update_rating(book_title, rating):
         db_connection.commit()
 
         cur.close()
-        print(f'Your rating has been added to {book_title}')
+        print(f'Your Star rating has been added to {book_title}')
 
     except Exception as e:
         print(f"Error raised = {str(e)}")
