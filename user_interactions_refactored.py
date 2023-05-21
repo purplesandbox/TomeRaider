@@ -105,13 +105,25 @@ class UserInteractions:
         else:
             table = []
             for book in to_read_list:
-                table.append([book['title'], book['author'], book['categories'], book['summary']])
+                table.append([book['title'], book['author'], book['category']])
 
-            headers = ['Title', 'Author', 'Categories', 'Summary']
+            headers = ['Title', 'Author', 'Category']
             print(tabulate(table, headers, tablefmt='grid'))
 
     def view_read_list(self):
-        return True
+        read_list = db_utils.get_all_books(table='read_books')
+
+        if not read_list:
+            print("Your Read list is empty.")
+        else:
+            table = []
+            for book in read_list:
+                table.append([book['title'], book['author'], book['category']])
+
+            headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
+            print(tabulate(table, headers, tablefmt='grid'))
+
+
 
     def regenerate_results(self):
         while True:
