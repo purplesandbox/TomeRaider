@@ -64,7 +64,8 @@ class UserInteractions:
             else:
                 print('Invalid choice. Please try again.')
 
-    """Function which allows user to input book selection criteria and calls API"""
+    """function to ask user to enter the number of books they want to return
+        this continues to loop until a valid response is given"""
 
     def get_number_of_books(self):
         while True:
@@ -78,6 +79,8 @@ class UserInteractions:
             except ValueError:
                 print('Invalid input. Please try again.')
 
+    """function to return the search criteria messages for filtered_choice book(s)"""
+
     def print_search_criteria_message(self):
         print('What would you like to search by? (Press enter if you would like to leave blank):')
 
@@ -88,8 +91,11 @@ class UserInteractions:
 
         self.print_search_criteria_message()
         author_input = input('Author: ')
-        genre_input = input('Genre: ')
-        fiction_input = input('Fiction or Non-Fiction: ')
+
+        self.print_book_genre_dictionary()
+        genre_input = self.get_valid_genre_choice()
+
+        fiction_input = input('Fiction or NonFiction: ')
         lexile_min_input = input('Lexile min: ')
         lexile_max_input = input('Lexile max: ')
 
@@ -103,39 +109,48 @@ class UserInteractions:
         pp(filtered_books)
         self.add_filtered_book_to_to_read_list(filtered_books)
 
-    # def filtered_choice(self):
-    #     while True:
-    #         try:
-    #             number_of_books = int(
-    #                 input('How many books would you like to search for? (Enter a number between 1 and 10) '))
-    #             if number_of_books < 1 or number_of_books > 10:
-    #                 raise ValueError('Invalid input. Please enter a number between 1 and 10.')
-    #             break
-    #         except ValueError as e:
-    #             print(str(e))
-    #             continue
-    #
-    #     self.book_criteria['book_num'] = number_of_books
-    #     self.book_criteria['filtered_choice'] = True
-    #
-    #     print('What would you like to search by? (Press enter if you would like to leave blank):')
-    #     author = input('Author: ')
-    #     genre = input('Genre: ')
-    #     fiction = input('Fiction or Non-Fiction: ')
-    #     lexile_min = input('Lexile min: ')
-    #     lexile_max = input('Lexile max: ')
-    #
-    #     self.book_criteria['author'] = author
-    #     self.book_criteria['categories'] = genre
-    #     self.book_criteria['book_type'] = fiction
-    #     self.book_criteria['lexile_min'] = lexile_min
-    #     self.book_criteria['lexile_max'] = lexile_max
-    #
-    #     filtered_books = self.internal_api.search_book_suggestions(user_input=self.book_criteria)
-    #     pp(filtered_books)
-    #     self.add_filtered_book_to_to_read_list(filtered_books)
+    """function to display genre choices to user"""
+    def print_book_genre_dictionary(self):
+        genre_choices = {
+            '1': ['Animals, Bugs & Pets'],
+            '2': ['Art, Creativity & Music'],
+            '3': ['General Literature'],
+            '4': ['General Literature'],
+            '5': ['Hobbies, Sports & Outdoors'],
+            '6': ['Science Fiction & Fantasy'],
+            '7': ['Real Life'],
+            '8': ['Science & Technology'],
+            '9': ['Mystery & Suspense']
+        }
+        print('You can choose from the following categories: ')
+        for key, value in genre_choices.items():
+            print(f"{key}: {value[0]}")
+
+    """function to validate the genre choice user input"""
+    def get_valid_genre_choice(self):
+        genre_choices = {
+            '1': ['Animals, Bugs & Pets'],
+            '2': ['Art, Creativity & Music'],
+            '3': ['General Literature'],
+            '4': ['General Literature'],
+            '5': ['Hobbies, Sports & Outdoors'],
+            '6': ['Science Fiction & Fantasy'],
+            '7': ['Real Life'],
+            '8': ['Science & Technology'],
+            '9': ['Mystery & Suspense']
+        }
+
+        while True:
+            genre_input = input('Please enter the number that corresponds with your genre choice: ')
+            if genre_input in genre_choices.keys():
+                return genre_choices[genre_input][0]
+            else:
+                print('Invalid genre choice. Please choose a valid number from the genre choices.')
+
+
 
     """Function which allows user to choose a book genre to generate a random book"""
+
 
     def random_choice(self):
         chosen_genre = input('What genre are you looking for? (Press enter if you do not have a preference)')
@@ -146,6 +161,7 @@ class UserInteractions:
         random_book = self.internal_api.random_book_suggestion(user_input=self.book_criteria)
         pp(random_book)
         self.add_random_book_to_to_read_list(random_book)
+
 
     def add_random_book_to_to_read_list(self, random_book):
         while True:
@@ -159,6 +175,7 @@ class UserInteractions:
             else:
                 print("Invalid input. Please enter 'y' or 'n'")
                 continue
+
 
     def add_filtered_book_to_to_read_list(self, filtered_book):
         while True:
@@ -192,6 +209,7 @@ class UserInteractions:
                 print("Invalid input. Please enter 'y' or 'n'")
                 continue
 
+
     def add_book_to_read_list(self):
         while True:
             book_to_add_title = input("What's the title of the book you would like to add? ")
@@ -212,6 +230,7 @@ class UserInteractions:
             finally:
                 self.user_review_and_call_star_rating(read=self.read_book_dict)
 
+
     def star_rating(self, read):
         while True:
             star_rating = input('Would you like to add a star rating for the book? (y/n) ')
@@ -231,6 +250,7 @@ class UserInteractions:
             if star_rating == 'n':
                 break
 
+
     def user_review_and_call_star_rating(self, read):
         while True:
             review = input('Would you like to add a review for this book? (y/n) ')
@@ -243,6 +263,7 @@ class UserInteractions:
                 self.star_rating(read)
                 break
 
+
     def view_to_read_list(self):
         to_read_list = self.internal_api.view_to_read_list()
         if not to_read_list:
@@ -254,6 +275,7 @@ class UserInteractions:
 
             headers = ['Title', 'Author', 'Category']
             pp(tabulate(table, headers, tablefmt='grid'))
+
 
     def view_read_list(self):
         read_list = self.internal_api.get_read_list()
@@ -268,6 +290,7 @@ class UserInteractions:
             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
             pp(tabulate(table, headers, tablefmt='grid'))
 
+
     def regenerate_results(self):
         while True:
             happy_with_results = input('Would you like to generate different books? (y/n)')
@@ -278,8 +301,8 @@ class UserInteractions:
             else:
                 print('Invalid choice. Please try again.')
 
-    #
-    #
+#
+#
 
 
 user1 = UserInteractions()
