@@ -66,37 +66,74 @@ class UserInteractions:
 
     """Function which allows user to input book selection criteria and calls API"""
 
-    def filtered_choice(self):
+    def get_number_of_books(self):
         while True:
             try:
                 number_of_books = int(
-                    input('How many books would you like to search for? (Enter a number between 1 and 10) '))
+                    input('How many books would you like to search for? (Enter a number between 1 and 10): '))
                 if number_of_books < 1 or number_of_books > 10:
-                    raise ValueError('Invalid input. Please enter a number between 1 and 10.')
-                break
-            except ValueError as e:
-                print(str(e))
-                continue
+                    print('Invalid input. Please enter a number between 1 and 10.')
+                else:
+                    return number_of_books
+            except ValueError:
+                print('Invalid input. Please try again.')
 
+    def print_search_criteria_message(self):
+        print('What would you like to search by? (Press enter if you would like to leave blank):')
+
+    def filtered_choice(self):
+        number_of_books = self.get_number_of_books()
         self.book_criteria['book_num'] = number_of_books
         self.book_criteria['filtered_choice'] = True
 
-        print('What would you like to search by? (Press enter if you would like to leave blank):')
-        author = input('Author: ')
-        genre = input('Genre: ')
-        fiction = input('Fiction or Non-Fiction: ')
-        lexile_min = input('Lexile min: ')
-        lexile_max = input('Lexile max: ')
+        self.print_search_criteria_message()
+        author_input = input('Author: ')
+        genre_input = input('Genre: ')
+        fiction_input = input('Fiction or Non-Fiction: ')
+        lexile_min_input = input('Lexile min: ')
+        lexile_max_input = input('Lexile max: ')
 
-        self.book_criteria['author'] = author
-        self.book_criteria['categories'] = genre
-        self.book_criteria['book_type'] = fiction
-        self.book_criteria['lexile_min'] = lexile_min
-        self.book_criteria['lexile_max'] = lexile_max
+        self.book_criteria['author'] = author_input
+        self.book_criteria['categories'] = genre_input
+        self.book_criteria['book_type'] = fiction_input
+        self.book_criteria['lexile_min'] = lexile_min_input
+        self.book_criteria['lexile_max'] = lexile_max_input
 
         filtered_books = self.internal_api.search_book_suggestions(user_input=self.book_criteria)
         pp(filtered_books)
         self.add_filtered_book_to_to_read_list(filtered_books)
+
+    # def filtered_choice(self):
+    #     while True:
+    #         try:
+    #             number_of_books = int(
+    #                 input('How many books would you like to search for? (Enter a number between 1 and 10) '))
+    #             if number_of_books < 1 or number_of_books > 10:
+    #                 raise ValueError('Invalid input. Please enter a number between 1 and 10.')
+    #             break
+    #         except ValueError as e:
+    #             print(str(e))
+    #             continue
+    #
+    #     self.book_criteria['book_num'] = number_of_books
+    #     self.book_criteria['filtered_choice'] = True
+    #
+    #     print('What would you like to search by? (Press enter if you would like to leave blank):')
+    #     author = input('Author: ')
+    #     genre = input('Genre: ')
+    #     fiction = input('Fiction or Non-Fiction: ')
+    #     lexile_min = input('Lexile min: ')
+    #     lexile_max = input('Lexile max: ')
+    #
+    #     self.book_criteria['author'] = author
+    #     self.book_criteria['categories'] = genre
+    #     self.book_criteria['book_type'] = fiction
+    #     self.book_criteria['lexile_min'] = lexile_min
+    #     self.book_criteria['lexile_max'] = lexile_max
+    #
+    #     filtered_books = self.internal_api.search_book_suggestions(user_input=self.book_criteria)
+    #     pp(filtered_books)
+    #     self.add_filtered_book_to_to_read_list(filtered_books)
 
     """Function which allows user to choose a book genre to generate a random book"""
 
