@@ -27,6 +27,11 @@ class BookAppAPI:
             user_input.update(self.request_params)
             response = requests.get(self.endpoint, params=user_input, headers=self.requirement)
             records = response.json()
+            if records['total_results'] == 0:
+                raise ValueError("No records found for your search criteria. Please, try again!")
+        except ValueError as e:
+            print(str(e))
+            exit(1)
         except HTTPError as error:
             print(error.status, error.reason)
             exit(1)
@@ -45,18 +50,28 @@ class BookAppAPI:
     #
     # """
     def get_filtered_results(self, user_input):
-        try:
-            books = int(user_input['book_num'])
-            records = self.make_api_request(user_input)
-            if records['total_results'] < books:
-                raise ValueError
-                exit(1)
-        except:
-            print("The requested number of books to be returned exceeds the number of matching records! Please, try again!")
-        else:
-            random_sample = random.sample(records['results'], books)
-            random_sample_reduced = [{key: d[key] for key in self.relevant_keys} for d in random_sample]
-            return random_sample_reduced
+        books = int(user_input['book_num'])
+        records = self.make_api_request(user_input)
+        if records['total_results'] < books:
+            print(f"There are only {records['total_results']} available for your search criteria")
+            users_choice = input("Would you like to return those results or would you like to start a new search? Enter ('return' or 'search') \n>" )
+            user_choice_flag = False
+            while user_choice_flag == False:
+                if users_choice == 'return':
+                    user_choice_flag = True
+                    return [{key: d[key] for key in self.relevant_keys} for d in records['results']]
+                elif users_choice == 'search':
+                    user_choice_flag = True
+                    exit(0)
+                else:
+                    user_choice_flag = False
+                    print("Your entry was incorrect, please try again!")
+                    users_choice = input("Would you like to return those results or would you like to start a new search? Enter ('return' or 'search') \n>" )
+
+
+        random_sample = random.sample(records['results'], books)
+        random_sample_reduced = [{key: d[key] for key in self.relevant_keys} for d in random_sample]
+        return random_sample_reduced
 
     # """
     # get_random_result method uses make_apy_request method to get the API request results,
@@ -68,6 +83,27 @@ class BookAppAPI:
         random_record = records['results'][random_number]
         random_record_reduced = {key: random_record[key] for key in self.relevant_keys}
         return random_record_reduced
+
+
+
+# """
+# Commented out - this part is only for the class method testing
+
+# """
+
+# user_input = {
+#     'author': 'J. K. Rowling',
+#     'book_type': 'Fiction',
+#     'lexile-min': 1000,
+#     'lexile-max':2000,
+#     'categories': None,
+#     'book_num': 20,
+#     'random_choice': True,
+#     'filtered_choice': False
+# }
+
+# book_finder = BookAppAPI()
+# pprint(book_finder.get_filtered_results(user_input))
 
 
 
