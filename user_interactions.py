@@ -132,14 +132,13 @@ class UserInteractions:
             '1': ['Animals, Bugs & Pets'],
             '2': ['Art, Creativity & Music'],
             '3': ['General Literature'],
-            '4': ['General Literature'],
-            '5': ['Hobbies, Sports & Outdoors'],
-            '6': ['Science Fiction & Fantasy'],
-            '7': ['Real Life'],
-            '8': ['Science & Technology'],
-            '9': ['Mystery & Suspense']
+            '4': ['Hobbies, Sports & Outdoors'],
+            '5': ['Science Fiction & Fantasy'],
+            '6': ['Real Life'],
+            '7': ['Science & Technology'],
+            '8': ['Mystery & Suspense'],
+            '9': ['Reference']
         }
-
         while True:
             genre_input = input('Please enter the number that corresponds with your genre choice: ')
             if genre_input in genre_choices.keys():
@@ -151,9 +150,9 @@ class UserInteractions:
 
     """Function which allows user to choose a book genre to generate a random book"""
 
-
     def random_choice(self):
-        chosen_genre = input('What genre are you looking for? (Press enter if you do not have a preference)')
+        self.print_book_genre_dictionary()
+        chosen_genre = self.get_valid_genre_choice()
 
         self.book_criteria['categories'] = chosen_genre
         self.book_criteria['random_choice'] = True
