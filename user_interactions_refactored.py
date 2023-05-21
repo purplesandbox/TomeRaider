@@ -93,9 +93,43 @@ class UserInteractions:
             else:
                 print('Invalid choice. Please try again.')
 
+    def add_star_rating(self, read):
+        book_list = db_utils.get_all_books('read_books')
+        titles_in_to_read_list = [book['title'] for book in book_list]
+
+        if read['title'] not in titles_in_to_read_list:
+            raise BookNotFound('Book not found on read_books list')
+
+        user_rating = self.star_rating()
+        db_utils.update_rating(read['title'], user_rating)
+        return user_rating
+
     def star_rating(self):
-        user_rating = input('How many stars would you like to rate this book? (Enter a number between 1 and 5)')
-        return int(user_rating)
+        while True:
+            user_rating = input('How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
+            try:
+                rating = int(user_rating)
+                if 1 <= rating <= 5:
+                    return rating
+                else:
+                    print("Please enter a number between 1 and 5.")
+            except ValueError:
+                print("Please enter a valid number.")
+
+    def add_a_review(self, read):
+        book_list = db_utils.get_all_books('read_books')
+        titles_in_to_read_list = [book['title'] for book in book_list]
+
+        if read['title'] not in titles_in_to_read_list:
+            raise BookNotFound('Book not found on read_books list')
+
+        user_review = self.user_review()
+        db_utils.update_review(read['title'], user_review)
+        return user_review
+
+    def user_review(self):
+        user_review = input('Please enter your review for this book: ')
+        return user_review
 
     def view_to_read_list(self):
         to_read_list = db_utils.get_all_books(table='to_read_books')
@@ -122,8 +156,6 @@ class UserInteractions:
 
             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
             return tabulate(table, headers, tablefmt='grid')
-
-
 
     def regenerate_results(self):
         while True:
