@@ -3,7 +3,7 @@ from tabulate import tabulate
 # from config import USER, PASSWORD, HOST - this keeps not picking up the separate file with my details
 HOST = "localhost"
 USER = "root"
-PASSWORD = "password"
+PASSWORD = "Marypary786!"
 
 class DbConnectionError(Exception):
     pass
@@ -36,7 +36,7 @@ def get_all_books(table):
                             FROM {table}
                             ORDER BY title;"""
         else:
-            query = f"""SELECT title, author, category, star_rating
+            query = f"""SELECT title, author, category, review, star_rating
                 FROM {table}
                 ORDER BY title;"""
         cur.execute(query)
@@ -56,7 +56,7 @@ def get_all_books(table):
             db_connection.close()
             print("DB connection is closed")
 
-print(get_all_books('to_read_books'))
+# print(get_all_books('to_read_books'))
 
 #this version of get_all_books function prints results in a table
 # def get_all_books(table):
