@@ -28,11 +28,10 @@ class InternalAPI:
     def clean_user_input(self, user_input):
         return {k: v for k, v in user_input.items() if v != ''}
 
-    # Endpoint to get 1-10 book suggestions after user inputs search
-    # @app.route('/books/search', methods=['GET'])
+
     def search_book_suggestions(self, user_input):
         x = user_input['book_num']
-        user_input['book_num'] = 15
+        user_input['book_num'] = 50
         user_input = self.clean_user_input(user_input)
         book_suggestions = self.book_app_api.get_filtered_results(user_input)
 
@@ -40,7 +39,7 @@ class InternalAPI:
             raise NoSearchResultsWithGivenCriteria('No search results, ask user to try again with different parameters')
 
         # check for duplicates from read_list and return the number the person wanted
-        unique_book_suggestions = self.check_for_duplicates_from_read_list(15, book_suggestions)
+        unique_book_suggestions = self.check_for_duplicates_from_read_list(book_suggestions)
 
         unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
 
@@ -49,7 +48,7 @@ class InternalAPI:
         # print this in user interactions class
 
     # function to give out a list of books with none of them being in the read_books section
-    def check_for_duplicates_from_read_list(self, x, book_suggestions):
+    def check_for_duplicates_from_read_list(self, book_suggestions):
         book_list = db_utils.get_all_books('read_books')
         # a list of all the titles in the to_read_books list
         titles_in_read_list = [book[0] for book in book_list]
@@ -57,7 +56,7 @@ class InternalAPI:
         book_suggestions = [book_suggestion for book_suggestion in book_suggestions if
                             book_suggestion['title'] not in titles_in_read_list]
 
-        return book_suggestions[:x]
+        return book_suggestions
 
     def check_for_duplicates_from_to_read_list(self, x, book_suggestions):
         book_list = db_utils.get_all_books('to_read_books')
@@ -69,8 +68,7 @@ class InternalAPI:
 
         return book_suggestions[:x]
 
-    # Endpoint to get 1 random book suggestion
-    # @app.route('/books/random_suggestion', methods=['GET'])
+
     def random_book_suggestion(self, user_input):
         user_input = self.clean_user_input(user_input)
         random_book = self.book_app_api.get_random_result(user_input)
