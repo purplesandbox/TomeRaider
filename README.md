@@ -10,6 +10,7 @@ Introducing TomeRaider, the ultimate solution to relieve you from the overwhelmi
 Installing / Getting started: 
 
 Minimal setup:
+
 pip3 install flask  
 
 pip3 install pprint 
