@@ -213,9 +213,8 @@ class UserInteractions:
         while True:
             book_to_add_title = input("What's the title of the book you would like to add? ")
             book_to_add_author = input('Author: ')
-            book_to_add_category = input('Category: ')
-
-            # add logic to say if error of BookAlreadyOnTable raised then message user to say the book is already on the list
+            self.print_book_genre_dictionary()
+            book_to_add_category = self.get_valid_genre_choice()
 
             self.read_book_dict['title'] = book_to_add_title
             self.read_book_dict['author'] = book_to_add_author
@@ -225,28 +224,34 @@ class UserInteractions:
                 self.internal_api.add_to_read_list(self.read_book_dict)
                 break
             except BookAlreadyOnTable:
-                print("This book is already on the to_read list! Please try again.")
+                print("This book is already on the to-read list! Please try again.")
             finally:
                 self.user_review_and_call_star_rating(read=self.read_book_dict)
 
     def star_rating(self, read):
         while True:
-            star_rating = input('Would you like to add a star rating for the book? (y/n) ')
-            if star_rating == 'y':
-                while True:
-                    rating = input(
-                        'How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
-                    try:
-                        user_rating = int(rating)
-                        if 1 <= user_rating <= 5:
-                            self.internal_api.add_star_rating(read, user_rating)
-                            break
-                        else:
-                            print("Please enter a number between 1 and 5.")
-                    except ValueError:
-                        print("Please enter a valid number.")
-            if star_rating == 'n':
+            add_star_rating = input('Would you like to add a star rating for the book? (y/n) ')
+            if add_star_rating == 'y':
+                user_rating = self.get_valid_star_rating()
+                self.internal_api.add_star_rating(read, user_rating)
                 break
+            elif add_star_rating == 'n':
+                break
+            else:
+                print("Invalid input. Please enter 'y' or 'n'")
+
+    def get_valid_star_rating(self):
+        while True:
+            rating = input('How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
+            try:
+                user_rating = int(rating)
+                if 1 <= user_rating <= 5:
+                    return user_rating
+                else:
+                    print("Please enter a number between 1 and 5.")
+            except ValueError:
+                print("Please enter a valid number.")
+
 
     def user_review_and_call_star_rating(self, read):
         while True:
