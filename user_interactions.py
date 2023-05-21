@@ -110,6 +110,7 @@ class UserInteractions:
         self.add_filtered_book_to_to_read_list(filtered_books)
 
     """function to display genre choices to user"""
+
     def print_book_genre_dictionary(self):
         genre_choices = {
             '1': ['Animals, Bugs & Pets'],
@@ -127,6 +128,7 @@ class UserInteractions:
             print(f"{key}: {value[0]}")
 
     """function to validate the genre choice user input"""
+
     def get_valid_genre_choice(self):
         genre_choices = {
             '1': ['Animals, Bugs & Pets'],
@@ -146,8 +148,6 @@ class UserInteractions:
             else:
                 print('Invalid genre choice. Please choose a valid number from the genre choices.')
 
-
-
     """Function which allows user to choose a book genre to generate a random book"""
 
     def random_choice(self):
@@ -161,7 +161,6 @@ class UserInteractions:
         pp(random_book)
         self.add_random_book_to_to_read_list(random_book)
 
-
     def add_random_book_to_to_read_list(self, random_book):
         while True:
             add_or_not = input('Would you like you add to your to-read list? (y/n)')
@@ -174,7 +173,6 @@ class UserInteractions:
             else:
                 print("Invalid input. Please enter 'y' or 'n'")
                 continue
-
 
     def add_filtered_book_to_to_read_list(self, filtered_book):
         while True:
@@ -208,7 +206,6 @@ class UserInteractions:
                 print("Invalid input. Please enter 'y' or 'n'")
                 continue
 
-
     def add_book_to_read_list(self):
         while True:
             book_to_add_title = input("What's the title of the book you would like to add? ")
@@ -229,7 +226,6 @@ class UserInteractions:
             finally:
                 self.user_review_and_call_star_rating(read=self.read_book_dict)
 
-
     def star_rating(self, read):
         while True:
             star_rating = input('Would you like to add a star rating for the book? (y/n) ')
@@ -249,7 +245,6 @@ class UserInteractions:
             if star_rating == 'n':
                 break
 
-
     def user_review_and_call_star_rating(self, read):
         while True:
             review = input('Would you like to add a review for this book? (y/n) ')
@@ -262,19 +257,14 @@ class UserInteractions:
                 self.star_rating(read)
                 break
 
-
     def view_to_read_list(self):
-        to_read_list = self.internal_api.view_to_read_list()
+        to_read_list = self.internal_api.get_to_read_list()
+
         if not to_read_list:
-            return "Your to-read list is empty."
+            return "Your To-Read list is empty."
         else:
-            table = []
-            for book in to_read_list:
-                table.append([book[0], book[1], book[2]])
-
             headers = ['Title', 'Author', 'Category']
-            pp(tabulate(table, headers, tablefmt='grid'))
-
+            print(tabulate(to_read_list, headers, tablefmt='grid'))
 
     def view_read_list(self):
         read_list = self.internal_api.get_read_list()
@@ -282,13 +272,8 @@ class UserInteractions:
         if not read_list:
             return "Your Read list is empty."
         else:
-            table = []
-            for book in read_list:
-                table.append([book[0], book[1], book[2], book[3]])
-
             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
-            pp(tabulate(table, headers, tablefmt='grid'))
-
+            print(tabulate(read_list, headers, tablefmt='grid'))
 
     def regenerate_results(self):
         while True:
@@ -299,6 +284,7 @@ class UserInteractions:
                 return False
             else:
                 print('Invalid choice. Please try again.')
+
 
 #
 #
