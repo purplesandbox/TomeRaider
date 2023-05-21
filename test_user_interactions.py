@@ -8,9 +8,6 @@ class TestNumberOfBooks(unittest.TestCase):
     def setUp(self):
         self.userinteractions = UserInteractions()
 
-    def tearDown(self):
-        pass
-
     def test_get_number_of_books_valid_input(self):
         with patch('builtins.input', return_value='5'):
             result = self.userinteractions.get_number_of_books()
