@@ -200,7 +200,7 @@ class UserInteractions:
                 break
 
     def view_to_read_list(self):
-        to_read_list = self.internal_api.view_to_read_list()
+        to_read_list = self.internal_api.get_to_read_list()
         if not to_read_list:
             return "Your to-read list is empty."
         else:
