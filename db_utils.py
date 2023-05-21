@@ -1,9 +1,11 @@
 import mysql.connector
 from tabulate import tabulate
-# from config import USER, PASSWORD, HOST - this keeps not picking up the separate file with my details
-HOST = "localhost"
-USER = "root"
-PASSWORD = "Marypary786!"
+from config import USER, PASSWORD, HOST
+
+HOST = HOST
+USER = USER
+PASSWORD = PASSWORD
+
 
 class DbConnectionError(Exception):
     pass
@@ -11,21 +13,22 @@ class DbConnectionError(Exception):
 
 def _connect_to_db(db_name):
     try:
-       cnx = mysql.connector.connect(
-           host=HOST,
-           user=USER,
-           password=PASSWORD,
-           auth_plugin='mysql_native_password',
-           database=db_name
-       )
-       return cnx
+        cnx = mysql.connector.connect(
+            host=HOST,
+            user=USER,
+            password=PASSWORD,
+            auth_plugin='mysql_native_password',
+            database=db_name
+        )
+        return cnx
     except Exception as e:
         print(f'failed to connect + {str(e)}')
 
-#combined function to view entries in the tables, this version just prints results
+
+# combined function to view entries in the tables, this version just prints results
 def get_all_books(table):
     try:
-        db_name = 'Bookapp'
+        db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         # probably want to remove this print and the DB closed print in the end but handy at the mo to check it works
@@ -56,9 +59,10 @@ def get_all_books(table):
             db_connection.close()
             print("DB connection is closed")
 
+
 # print(get_all_books('to_read_books'))
 
-#this version of get_all_books function prints results in a table
+# this version of get_all_books function prints results in a table
 # def get_all_books(table):
 #     try:
 #         db_name = 'Bookapp'
@@ -124,10 +128,9 @@ def get_all_books(table):
 #             print("DB connection is closed")
 
 
-
 def insert_book(table, title, author, category):
     try:
-        db_name = 'Bookapp'
+        db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
@@ -153,7 +156,7 @@ def insert_book(table, title, author, category):
 # function to add a review to read books
 def update_rating(book_title, rating):
     try:
-        db_name = 'Bookapp'
+        db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
@@ -175,7 +178,7 @@ def update_rating(book_title, rating):
 
 def update_review(book_title, review):  # review can be max 16,777,215 characters
     try:
-        db_name = 'Bookapp'
+        db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
@@ -197,7 +200,7 @@ def update_review(book_title, review):  # review can be max 16,777,215 character
 
 def delete_book(table, book_title):
     try:
-        db_name = 'Bookapp'
+        db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
@@ -214,13 +217,15 @@ def delete_book(table, book_title):
 
     except Exception as e:
         print(f"Error raised = {str(e)}")
+
+
 # insert_book('read_books', 'The Great Gatsby', 'F.Scott Fitzgerald', 'Literary Fiction')
-#update_review('The Great Gatsby', 'It was great.')
+# update_review('The Great Gatsby', 'It was great.')
 
 
-def move_book(book_title): # doesn't take it off the to-read table
+def move_book(book_title):  # doesn't take it off the to-read table
     try:
-        db_name = 'Bookapp'
+        db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
@@ -239,12 +244,13 @@ def move_book(book_title): # doesn't take it off the to-read table
     except Exception as e:
         print(f"Error raised = {str(e)}")
 
+
 # move_book('The Hobbit')
 # get_all_books('read_books')
 
-def move_book2(book_title): # does remove the book from the to-read table
+def move_book2(book_title):  # does remove the book from the to-read table
     try:
-        db_name = 'Bookapp'
+        db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
