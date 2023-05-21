@@ -5,10 +5,8 @@ from tabulate import tabulate
 
 """User interactions class containing internal API, and default values for book criteria"""
 
-
 class BookNotFound(Exception):
     pass
-
 
 class UserInteractions:
     def __init__(self):
@@ -104,44 +102,24 @@ class UserInteractions:
         self.book_criteria['categories'] = chosen_genre
         self.book_criteria['random_choice'] = True
 
-        random_book = self.internal_api.random_book_suggestion(user_input=self.book_criteria)
-        pp(random_book)
-        self.add_book_to_to_read_list(random_book)
-
-    def add_book_to_to_read_list(self, to_read):
-        while True:
-            add_or_not = input('Would you like you add to your to-read list? (y/n)')
-            if add_or_not == 'y':
-                self.internal_api.add_to_to_read_list(to_read)
-                break
-            elif add_or_not == 'n':
-                print("Nothing has been added to your to-read list.")
-                break
-            else:
-                print("Invalid input. Please enter 'y' or 'n'")
+        pp(self.internal_api.random_book_suggestion(user_input=self.book_criteria))
 
     def add_book_to_read_list(self):
         book_to_add_title = input("What's the title of the book you would like to add? ")
         book_to_add_author = input('Author: ')
         book_to_add_category = input('Category: ')
 
-        # add logic to say if error of BookAlreadyOnTable raised then message user to say the book is already on the list
+        #add logic to say if error of BookAlreadyOnTable raised then message user to say the book is already on the list
 
         self.read_book_dict['title'] = book_to_add_title
         self.read_book_dict['author'] = book_to_add_author
         self.read_book_dict['categories'] = book_to_add_category
 
         self.internal_api.add_to_read_list(self.read_book_dict)
-        self.user_review_and_call_star_rating(read=self.read_book_dict)
+        self.user_review_and_call_star_rating(read = self.read_book_dict)
 
-        # while True:
-        #     add_to_list_or_not = input('Would you like to add this book to a list? (y/n): ')
-        #     if add_to_list_or_not.lower() == 'y':
-        #         return True
-        #     elif add_to_list_or_not.lower() == 'n':
-        #         return False
-        #     else:
-        #         print('Invalid choice. Please try again.')
+
+
 
     def star_rating(self, read):
         while True:
@@ -159,8 +137,11 @@ class UserInteractions:
                             print("Please enter a number between 1 and 5.")
                     except ValueError:
                         print("Please enter a valid number.")
+                break
             if star_rating == 'n':
                 break
+
+
 
     def user_review_and_call_star_rating(self, read):
         while True:
@@ -174,6 +155,8 @@ class UserInteractions:
                 self.star_rating(read)
                 break
 
+
+
     def view_to_read_list(self):
         to_read_list = self.internal_api.view_to_read_list()
         if not to_read_list:
@@ -184,7 +167,9 @@ class UserInteractions:
                 table.append([book[0], book[1], book[2]])
 
             headers = ['Title', 'Author', 'Category']
-            pp(tabulate(table, headers, tablefmt='grid'))
+            pp (tabulate(table, headers, tablefmt='grid'))
+
+
 
     def view_read_list(self):
         read_list = self.internal_api.get_read_list()
@@ -194,7 +179,7 @@ class UserInteractions:
         else:
             table = []
             for book in read_list:
-                table.append([book[0], book[1], book[2], book[3]])
+                table.append([book[0], book[1], book[2], book[3], book[4]])
 
             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
             pp(tabulate(table, headers, tablefmt='grid'))
