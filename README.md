@@ -10,14 +10,22 @@ Introducing TomeRaider, the ultimate solution to relieve you from the overwhelmi
 Installing / Getting started: 
 
 Minimal setup:
-pip3 install flask 
+pip3 install flask  
+
 pip3 install pprint 
+
 pip3 install tabulate 
-pip3 install random 
+
+pip3 install random
+
 pip3 install requests 
+
 pip3 install jsonify 
+
 pip3 install unittest 
+
 pip3 install TestCase
+
 
 
 Lexile Chart:
