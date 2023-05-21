@@ -176,34 +176,37 @@ class UserInteractions:
 
     def add_filtered_book_to_to_read_list(self, filtered_book):
         while True:
-            add_or_not = input('Would you like to add a book to your to-read list? (y/n)')
+            add_or_not = input('Would you like to add a book to your to-read list? (y/n) ')
             if add_or_not == 'y':
                 book_to_add = {
                     'authors': input("Please enter the author(s) of the book: "),
-                    'title': input("Please enter the title of the book: "),
-                    'categories': input("Please enter the category of the book: "),
+                    'title': input("Please enter the title of the book: ")
                 }
+                self.print_book_genre_dictionary()
+                book_to_add['categories'] = self.get_valid_genre_choice()
+
                 self.internal_api.add_to_to_read_list(book_to_add)
+
                 while True:
-                    add_another_book = input("Would you like to add another book to your to-read list? (y/n)")
+                    add_another_book = input("Would you like to add another book to your to-read list? (y/n) ")
                     if add_another_book == 'y':
                         another_book_to_add = {
                             'authors': input("Please enter the author(s) of the book: "),
                             'title': input("Please enter the title of the book: "),
-                            'categories': input("Please enter the category of the book: "),
+                            'categories': self.get_valid_genre_choice()
                         }
                         self.internal_api.add_to_to_read_list(another_book_to_add)
                     elif add_another_book == 'n':
                         print("Nothing has been added to your to-read list.")
                         break
                     else:
-                        print("Invalid input. Please enter 'y' or 'n'")
+                        print("Invalid input. Please enter 'y' or 'n'.")
                         continue
             elif add_or_not == 'n':
                 print("Nothing has been added to your to-read list.")
                 break
             else:
-                print("Invalid input. Please enter 'y' or 'n'")
+                print("Invalid input. Please enter 'y' or 'n'.")
                 continue
 
     def add_book_to_read_list(self):
