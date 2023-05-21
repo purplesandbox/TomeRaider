@@ -4,7 +4,7 @@ from tabulate import tabulate
 
 HOST = "localhost"
 USER = "root"
-PASSWORD = "yellowdolphin22!!"
+PASSWORD = "password"
 
 
 class DbConnectionError(Exception):
