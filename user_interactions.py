@@ -22,6 +22,12 @@ class UserInteractions:
         }
         self.internal_api = InternalAPI()
 
+        self.read_book_dict = {
+            'title': '',
+            'author': '',
+            'categories': ''
+        }
+
     """Welcome function which contains the options for user to select, directs user to the relevant function"""
 
     def welcome(self):
@@ -31,6 +37,7 @@ class UserInteractions:
             If you would like to generate a random book, enter 'random'.
             If you would like to look at your to-read list, enter 'to-read'.
             If you would like to look at your read list, enter 'read'.
+            To add a book to your read list, enter 'add'
             To exit the program, enter 'exit'.\nPlease enter: """)
             lowercase_choice = user_choice.lower()
             if lowercase_choice == 'search':
@@ -48,6 +55,10 @@ class UserInteractions:
             elif lowercase_choice == 'exit':
                 print('Goodbye!')
                 break
+            elif lowercase_choice == 'add':
+                self.add_book_to_read_list()
+                break
+
             else:
                 print('Invalid choice. Please try again.')
 
@@ -93,15 +104,27 @@ class UserInteractions:
 
         pp(self.internal_api.random_book_suggestion(user_input=self.book_criteria))
 
-    def add_book_to_list_or_not(self):
-        while True:
-            add_to_list_or_not = input('Would you like to add this book to a list? (y/n): ')
-            if add_to_list_or_not.lower() == 'y':
-                return True
-            elif add_to_list_or_not.lower() == 'n':
-                return False
-            else:
-                print('Invalid choice. Please try again.')
+    def add_book_to_read_list(self):
+        book_to_add_title = input("What's the title of the book you would like to add? ")
+        book_to_add_author = input('Author: ')
+        book_to_add_category = input('Category: ')
+
+        #add logic to say if error of BookAlreadyOnTable raised then message user to say the book is already on the list
+
+        self.read_book_dict['title'] = book_to_add_title
+        self.read_book_dict['author'] = book_to_add_author
+        self.read_book_dict['categories'] = book_to_add_category
+
+        self.internal_api.add_to_read_list(self.read_book_dict)
+
+        # while True:
+        #     add_to_list_or_not = input('Would you like to add this book to a list? (y/n): ')
+        #     if add_to_list_or_not.lower() == 'y':
+        #         return True
+        #     elif add_to_list_or_not.lower() == 'n':
+        #         return False
+        #     else:
+        #         print('Invalid choice. Please try again.')
 
     def add_star_rating(self, read):
         book_list = db_utils.get_all_books('read_books')
