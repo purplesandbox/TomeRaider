@@ -3,8 +3,9 @@ from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
 from pprint import pp
 from tabulate import tabulate
 
-
 """User interactions class containing internal API, and default values for book criteria"""
+
+
 class UserInteractions:
     def __init__(self):
         self.book_criteria = {
@@ -14,37 +15,13 @@ class UserInteractions:
             'lexile_min': '',
             'lexile_max': '',
             'book_num': '',
-            'random_choice': False,   def welcome(self):
-        while True:
-            user_choice = input("""Welcome to {APP NAME}!\nWhat would you like to do?
-            If you would like to search for a book, enter 'search'.
-            If you would like to generate a random book, enter 'random'.
-            If you would like to look at your to-read list, enter 'to-read'.
-            If you would like to look at your read list, enter 'read'.
-            To exit the program, enter 'exit'.\nPlease enter: """)
-            lowercase_choice = user_choice.lower()
-            if lowercase_choice == 'search':
-                self.filtered_choice()
-                break
-            elif lowercase_choice == 'random':
-                self.random_choice()
-                break
-            elif lowercase_choice == 'to-read':
-                self.view_to_read_list()
-                break
-            elif lowercase_choice == 'read':
-                self.view_read_list()
-                break
-            elif lowercase_choice == 'exit':
-                print('Goodbye!')
-                break
-            else:
-                print('Invalid choice. Please try again.')
+            'random_choice': False,
             'filtered_choice': False
         }
         self.internal_api = InternalAPI()
 
-"""Welcome function which contains the options for user to select, directs user to the relevant function"""
+    """Welcome function which contains the options for user to select, directs user to the relevant function"""
+
     def welcome(self):
         while True:
             user_choice = input("""Welcome to {APP NAME}!\nWhat would you like to do?
@@ -72,7 +49,8 @@ class UserInteractions:
             else:
                 print('Invalid choice. Please try again.')
 
-"""Function which allows user to input book selection criteria and calls API"""
+    """Function which allows user to input book selection criteria and calls API"""
+
     def filtered_choice(self):
         while True:
             try:
@@ -103,7 +81,8 @@ class UserInteractions:
 
         pp(self.internal_api.search_book_suggestions(user_input=self.book_criteria))
 
-"""Function which allows user to choose a book genre to generate a random book"""
+    """Function which allows user to choose a book genre to generate a random book"""
+
     def random_choice(self):
         chosen_genre = input('What genre are you looking for? ')
 
