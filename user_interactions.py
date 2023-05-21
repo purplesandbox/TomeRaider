@@ -178,47 +178,41 @@ class UserInteractions:
         while True:
             add_or_not = input('Would you like to add a book to your to-read list? (y/n) ')
             if add_or_not == 'y':
-                book_to_add = {
-                    'authors': input("Please enter the author(s) of the book: "),
-                    'title': input("Please enter the title of the book: ")
-                }
-                self.print_book_genre_dictionary()
-                book_to_add['categories'] = self.get_valid_genre_choice()
-
+                book_to_add = self.get_book_details()
                 self.internal_api.add_to_to_read_list(book_to_add)
 
                 while True:
                     add_another_book = input("Would you like to add another book to your to-read list? (y/n) ")
                     if add_another_book == 'y':
-                        another_book_to_add = {
-                            'authors': input("Please enter the author(s) of the book: "),
-                            'title': input("Please enter the title of the book: "),
-                            'categories': self.get_valid_genre_choice()
-                        }
+                        another_book_to_add = self.get_book_details()
                         self.internal_api.add_to_to_read_list(another_book_to_add)
                     elif add_another_book == 'n':
                         print("Nothing has been added to your to-read list.")
                         break
                     else:
                         print("Invalid input. Please enter 'y' or 'n'.")
-                        continue
             elif add_or_not == 'n':
                 print("Nothing has been added to your to-read list.")
                 break
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
-                continue
+
+    def get_book_details(self):
+        book_to_add = {
+            'authors': input("Please enter the author(s) of the book: "),
+            'title': input("Please enter the title of the book: ")
+        }
+        self.print_book_genre_dictionary()
+        book_to_add['categories'] = self.get_valid_genre_choice()
+        return book_to_add
+
 
     def add_book_to_read_list(self):
         while True:
-            book_to_add_title = input("What's the title of the book you would like to add? ")
-            book_to_add_author = input('Author: ')
-            self.print_book_genre_dictionary()
-            book_to_add_category = self.get_valid_genre_choice()
-
-            self.read_book_dict['title'] = book_to_add_title
-            self.read_book_dict['author'] = book_to_add_author
-            self.read_book_dict['categories'] = book_to_add_category
+            book_to_add = self.get_book_details()
+            self.read_book_dict['title'] = book_to_add['title']
+            self.read_book_dict['author'] = book_to_add['authors']
+            self.read_book_dict['categories'] = book_to_add['categories']
 
             try:
                 self.internal_api.add_to_read_list(self.read_book_dict)
@@ -228,6 +222,8 @@ class UserInteractions:
             finally:
                 self.user_review_and_call_star_rating(read=self.read_book_dict)
 
+
+
     def star_rating(self, read):
         while True:
             add_star_rating = input('Would you like to add a star rating for the book? (y/n) ')
@@ -236,6 +232,7 @@ class UserInteractions:
                 self.internal_api.add_star_rating(read, user_rating)
                 break
             elif add_star_rating == 'n':
+                print("No star rating has been added.")
                 break
             else:
                 print("Invalid input. Please enter 'y' or 'n'")
@@ -257,7 +254,7 @@ class UserInteractions:
         while True:
             review = input('Would you like to add a review for this book? (y/n) ')
             if review == 'y':
-                book_review = input('Add your review ')
+                book_review = input('Add your review: ')
                 self.internal_api.add_a_review(read, book_review)
                 self.star_rating(read)
                 break
