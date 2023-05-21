@@ -4,6 +4,7 @@ from pprint import pp
 from tabulate import tabulate
 
 
+"""User interactions class containing internal API, and default values for book criteria"""
 class UserInteractions:
     def __init__(self):
         self.book_criteria = {
@@ -18,6 +19,7 @@ class UserInteractions:
         }
         self.internal_api = InternalAPI()
 
+"""Welcome function which contains the options for user to select, directs user to the relevant function"""
     def welcome(self):
         while True:
             user_choice = input("""Welcome to {APP NAME}!\nWhat would you like to do?
@@ -45,6 +47,7 @@ class UserInteractions:
             else:
                 print('Invalid choice. Please try again.')
 
+"""Function which allows user to input book selection criteria and calls API"""
     def filtered_choice(self):
         while True:
             try:
@@ -75,6 +78,7 @@ class UserInteractions:
 
         pp(self.internal_api.search_book_suggestions(user_input=self.book_criteria))
 
+"""Function which allows user to choose a book genre to generate a random book"""
     def random_choice(self):
         chosen_genre = input('What genre are you looking for? ')
 
