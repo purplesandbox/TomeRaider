@@ -5,6 +5,8 @@ from tabulate import tabulate
 
 """User interactions class containing internal API, and default values for book criteria"""
 
+class BookNotFound(Exception):
+    pass
 
 class UserInteractions:
     def __init__(self):
@@ -24,7 +26,7 @@ class UserInteractions:
 
     def welcome(self):
         while True:
-            user_choice = input("""Welcome to {APP NAME}!\nWhat would you like to do?
+            user_choice = input("""Welcome to TomeRaider!\nWhat would you like to do?
             If you would like to search for a book, enter 'search'.
             If you would like to generate a random book, enter 'random'.
             If you would like to look at your to-read list, enter 'to-read'.
@@ -113,35 +115,41 @@ class UserInteractions:
         return user_rating
 
     def star_rating(self):
-        while True:
-            user_rating = input('How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
-            try:
-                rating = int(user_rating)
-                if 1 <= rating <= 5:
-                    return rating
-                else:
-                    print("Please enter a number between 1 and 5.")
-            except ValueError:
-                print("Please enter a valid number.")
+        book_list = self.internal_api.get_read_list()
+        book_to_review = input('Which book would you like to add a star rating for?')
+        titles_in_read_list = [book[book_to_review] for book in book_list]
+        if book_to_review in titles_in_read_list:
+            while True:
+                rating = input(
+                    'How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
+                try:
+                    user_rating = int(rating)
+                    if 1 <= user_rating <= 5:
+                        return user_rating
+                    else:
+                        print("Please enter a number between 1 and 5.")
+                except ValueError:
+                    print("Please enter a valid number.")
+        else:
+            raise BookNotFound("Book not on read list")
 
-    def add_a_review(self, read):
-        book_list = db_utils.get_all_books('read_books')
-        titles_in_to_read_list = [book['title'] for book in book_list]
 
-        if read['title'] not in titles_in_to_read_list:
-            raise BookNotFound('Book not found on read_books list')
-
-        user_review = self.user_review()
-        db_utils.update_review(read['title'], user_review)
-        return user_review
 
     def user_review(self):
-        user_review = input('Please enter your review for this book: ')
-        return user_review
+        book_list = self.internal_api.get_read_list()
+        book_to_review = input('Which book would you like to add a review for?')
+        titles_in_read_list = [book[book_to_review] for book in book_list]
+        if book_to_review in titles_in_read_list:
+            user_review = input('Please enter your review for this book: ')
+            return user_review
+        else:
+            raise BookNotFound("Book not on read list")
+
+
+
 
     def view_to_read_list(self):
-        to_read_list = self.internal_api.get_to_read_list()
-
+        to_read_list = self.internal_api.view_to_read_list()
         if not to_read_list:
             return "Your to-read list is empty."
         else:
@@ -176,5 +184,9 @@ class UserInteractions:
                 print('Invalid choice. Please try again.')
 
 
-user1 = UserInteractions()
-user1.welcome()
+#
+#
+# user1 = UserInteractions()
+# user1.welcome()
+user2 = UserInteractions()
+user2.view_read_list()
