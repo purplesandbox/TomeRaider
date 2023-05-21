@@ -2,7 +2,7 @@ import db_utils
 from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
 from pprint import pp
 from tabulate import tabulate
-from db_utils import _connect_to_db, get_all_books, insert_book, update_rating, update_review,delete_book, move_book, move_book2
+
 
 class UserInteractions:
     def __init__(self):
@@ -101,27 +101,27 @@ class UserInteractions:
         to_read_list = db_utils.get_all_books(table='to_read_books')
 
         if not to_read_list:
-            print("Your to-read list is empty.")
+            return "Your to-read list is empty."
         else:
             table = []
             for book in to_read_list:
                 table.append([book['title'], book['author'], book['category']])
 
             headers = ['Title', 'Author', 'Category']
-            print(tabulate(table, headers, tablefmt='grid'))
+            return tabulate(table, headers, tablefmt='grid')
 
     def view_read_list(self):
         read_list = db_utils.get_all_books(table='read_books')
 
         if not read_list:
-            print("Your Read list is empty.")
+            return "Your Read list is empty."
         else:
             table = []
             for book in read_list:
                 table.append([book['title'], book['author'], book['category']])
 
             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
-            print(tabulate(table, headers, tablefmt='grid'))
+            return tabulate(table, headers, tablefmt='grid')
 
 
 
