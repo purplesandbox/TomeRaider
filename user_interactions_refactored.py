@@ -1,5 +1,9 @@
+import db_utils
 from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
 from pprint import pp
+from tabulate import tabulate
+from db_utils import _connect_to_db, get_all_books, insert_book, update_rating, update_review,delete_book, move_book, move_book2
+
 class UserInteractions:
     def __init__(self):
         self.book_criteria = {
@@ -69,7 +73,7 @@ class UserInteractions:
         self.book_criteria['lexile_min'] = lexile_min
         self.book_criteria['lexile_max'] = lexile_max
 
-        pp(self.internal_api.search_book_suggestions(user_input = self.book_criteria))
+        pp(self.internal_api.search_book_suggestions(user_input=self.book_criteria))
 
     def random_choice(self):
         chosen_genre = input('What genre are you looking for? ')
@@ -77,7 +81,7 @@ class UserInteractions:
         self.book_criteria['categories'] = chosen_genre
         self.book_criteria['random_choice'] = True
 
-        pp(self.internal_api.random_book_suggestion(user_input = self.book_criteria))
+        pp(self.internal_api.random_book_suggestion(user_input=self.book_criteria))
 
     def add_book_to_list_or_not(self):
         while True:
@@ -94,7 +98,17 @@ class UserInteractions:
         return int(user_rating)
 
     def view_to_read_list(self):
-        return True
+        to_read_list = db_utils.get_all_books(table='to_read_books')
+
+        if not to_read_list:
+            print("Your to-read list is empty.")
+        else:
+            table = []
+            for book in to_read_list:
+                table.append([book['title'], book['author'], book['categories'], book['summary']])
+
+            headers = ['Title', 'Author', 'Categories', 'Summary']
+            print(tabulate(table, headers, tablefmt='grid'))
 
     def view_read_list(self):
         return True
@@ -107,7 +121,7 @@ class UserInteractions:
             elif happy_with_results.lower() == 'n':
                 return False
             else:
-                    print('Invalid choice. Please try again.')
+                print('Invalid choice. Please try again.')
 
 
 user1 = UserInteractions()
