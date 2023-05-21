@@ -14,7 +14,32 @@ class UserInteractions:
             'lexile_min': '',
             'lexile_max': '',
             'book_num': '',
-            'random_choice': False,
+            'random_choice': False,   def welcome(self):
+        while True:
+            user_choice = input("""Welcome to {APP NAME}!\nWhat would you like to do?
+            If you would like to search for a book, enter 'search'.
+            If you would like to generate a random book, enter 'random'.
+            If you would like to look at your to-read list, enter 'to-read'.
+            If you would like to look at your read list, enter 'read'.
+            To exit the program, enter 'exit'.\nPlease enter: """)
+            lowercase_choice = user_choice.lower()
+            if lowercase_choice == 'search':
+                self.filtered_choice()
+                break
+            elif lowercase_choice == 'random':
+                self.random_choice()
+                break
+            elif lowercase_choice == 'to-read':
+                self.view_to_read_list()
+                break
+            elif lowercase_choice == 'read':
+                self.view_read_list()
+                break
+            elif lowercase_choice == 'exit':
+                print('Goodbye!')
+                break
+            else:
+                print('Invalid choice. Please try again.')
             'filtered_choice': False
         }
         self.internal_api = InternalAPI()
