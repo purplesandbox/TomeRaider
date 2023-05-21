@@ -35,16 +35,15 @@ class InternalAPI:
         user_input = self.clean_user_input(user_input)
         book_suggestions = self.book_app_api.get_filtered_results(user_input)
 
-        if book_suggestions is None:
-            raise NoSearchResultsWithGivenCriteria('No search results, ask user to try again with different parameters')
-
         # check for duplicates from read_list and return the number the person wanted
         unique_book_suggestions = self.check_for_duplicates_from_read_list(book_suggestions)
 
         unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
 
+        if unique_book_suggestions is None:
+            raise NoSearchResultsWithGivenCriteria('No search results that are not already on the read or to-read lists')
         # Return book suggestion
-        return {'Suggestions': unique_book_suggestions}
+        return unique_book_suggestions
         # print this in user interactions class
 
     # function to give out a list of books with none of them being in the read_books section
@@ -74,7 +73,7 @@ class InternalAPI:
         random_book = self.book_app_api.get_random_result(user_input)
 
         # Return random_book
-        return ({'Random Book': random_book})
+        return random_book
 
     def check_random_suggestion_in_to_read_list(self, random_book):
         book_list = db_utils.get_all_books('to_read_books')
@@ -96,8 +95,7 @@ class InternalAPI:
         else:
             return False
 
-    # Endpoint to add a book to the reading list
-    # @app.route('/books/reading_list', methods=['POST'])
+
     def add_to_to_read_list(self, to_read):
         # to_read should be a dictionay coming from the user interactions where it gives the author, title, etc
         # check if book is already on the list. If it is an exception is raised
@@ -108,7 +106,7 @@ class InternalAPI:
 
         # Call function to add book to reading list
         db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['author'],
-                             category=to_read['category'])
+                             category=to_read['categories'])
 
         # Return success message
         return f"{to_read['title']} has been added to reading list"
@@ -121,8 +119,8 @@ class InternalAPI:
         # Return reading list
         return to_read_list
 
-    # Endpoint to add a book to the read list
-    # @app.route('/books/already_read', methods=['POST'])
+
+#function that takes in the book to be added to the to-read list and adds it to the table in the db.
     def add_to_read_list(self, read):
         # read should be a dictionary for the book from the user interaction
         # check if book already in the to_read list
@@ -132,14 +130,14 @@ class InternalAPI:
             raise BookAlreadyOnTable('This book is already on the read list')
         # Call function to add book to list of books already read
         db_utils.insert_book(table='read_books', title=read['title'], author=read['author'],
-                             category=read['category'])
+                             category=read['categories'])
 
         # Return success message
         return f"{read['title']} has been added to books read list"
 
-        # Endpoint to get the read books list
-        # @app.route('/books/read', methods=['GET'])
 
+
+#function that brings the read_list from the db_utils file
     def get_read_list(self):
         # Call function to get list of books already read
         read_list = db_utils.get_all_books(table='read_books')
@@ -147,6 +145,8 @@ class InternalAPI:
         # Return list of books already read
         return (read_list)
 
+#function that takes in the user review and the book you want to add the review too and adds the review to the stored table
+# if the book is not in the table an error is raised
     def add_a_review(self, read, user_review):
         # logic here for if the book is not in the list an error is raised
         book_list = db_utils.get_all_books('read_books')
@@ -156,6 +156,8 @@ class InternalAPI:
         # else user_review is added
         return db_utils.update_review(read['title'], user_review)
 
+
+#function that takes in a book in the book and adds a star rating to the book in the stored table
     def add_star_rating(self, read, user_rating):
         # logic here for if the book is not in the list an error is raised
         book_list = db_utils.get_all_books('read_books')
