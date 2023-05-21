@@ -116,6 +116,8 @@ class UserInteractions:
         self.read_book_dict['categories'] = book_to_add_category
 
         self.internal_api.add_to_read_list(self.read_book_dict)
+        self.user_review_and_call_star_rating(read = self.read_book_dict)
+
 
         # while True:
         #     add_to_list_or_not = input('Would you like to add this book to a list? (y/n): ')
@@ -126,48 +128,39 @@ class UserInteractions:
         #     else:
         #         print('Invalid choice. Please try again.')
 
-    def add_star_rating(self, read):
-        book_list = db_utils.get_all_books('read_books')
-        titles_in_to_read_list = [book['title'] for book in book_list]
 
-        if read['title'] not in titles_in_to_read_list:
-            raise BookNotFound('Book not found on read_books list')
-
-        user_rating = self.star_rating()
-        db_utils.update_rating(read['title'], user_rating)
-        return user_rating
-
-    def star_rating(self):
-        book_list = self.internal_api.get_read_list()
-        book_to_review = input('Which book would you like to add a star rating for?')
-        titles_in_read_list = [book[book_to_review] for book in book_list]
-        if book_to_review in titles_in_read_list:
-            while True:
-                rating = input(
-                    'How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
-                try:
-                    user_rating = int(rating)
-                    if 1 <= user_rating <= 5:
-                        return user_rating
-                    else:
-                        print("Please enter a number between 1 and 5.")
-                except ValueError:
-                    print("Please enter a valid number.")
-        else:
-            raise BookNotFound("Book not on read list")
+    def star_rating(self, read):
+        while True:
+            star_rating = input('Would you like to add a star rating for the book? (y/n) ')
+            if star_rating == 'y':
+                while True:
+                    rating = input(
+                        'How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
+                    try:
+                        user_rating = int(rating)
+                        if 1 <= user_rating <= 5:
+                            self.internal_api.add_star_rating(read, user_rating)
+                            break
+                        else:
+                            print("Please enter a number between 1 and 5.")
+                    except ValueError:
+                        print("Please enter a valid number.")
+            if star_rating == 'n':
+                break
 
 
 
-    def user_review(self):
-        book_list = self.internal_api.get_read_list()
-        book_to_review = input('Which book would you like to add a review for?')
-        titles_in_read_list = [book[book_to_review] for book in book_list]
-        if book_to_review in titles_in_read_list:
-            user_review = input('Please enter your review for this book: ')
-            return user_review
-        else:
-            raise BookNotFound("Book not on read list")
-
+    def user_review_and_call_star_rating(self, read):
+        while True:
+            review = input('Would you like to add a review for this book? (y/n) ')
+            if review == 'y':
+                book_review = input('Add your review ')
+                self.internal_api.add_a_review(read, book_review)
+                self.star_rating(read)
+                break
+            elif review == 'n':
+                self.star_rating(read)
+                break
 
 
 
@@ -191,7 +184,7 @@ class UserInteractions:
         else:
             table = []
             for book in read_list:
-                table.append([book[0], book[1], book[2]])
+                table.append([book[0], book[1], book[2], book[3]])
 
             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
             pp(tabulate(table, headers, tablefmt='grid'))
@@ -209,7 +202,7 @@ class UserInteractions:
 
 #
 #
-# user1 = UserInteractions()
-# user1.welcome()
-user2 = UserInteractions()
-user2.view_read_list()
+user1 = UserInteractions()
+user1.welcome()
+# user2 = UserInteractions()
+# user2.view_read_list()
