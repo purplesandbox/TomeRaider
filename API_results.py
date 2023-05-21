@@ -53,21 +53,8 @@ class BookAppAPI:
         books = int(user_input['book_num'])
         records = self.make_api_request(user_input)
         if records['total_results'] < books:
-            print(f"There are only {records['total_results']} available for your search criteria")
-            users_choice = input("Would you like to return those results or would you like to start a new search? Enter ('return' or 'search') \n>" )
-            user_choice_flag = False
-            while user_choice_flag == False:
-                if users_choice == 'return':
-                    user_choice_flag = True
-                    return [{key: d[key] for key in self.relevant_keys} for d in records['results']]
-                elif users_choice == 'search':
-                    user_choice_flag = True
-                    exit(0)
-                else:
-                    user_choice_flag = False
-                    print("Your entry was incorrect, please try again!")
-                    users_choice = input("Would you like to return those results or would you like to start a new search? Enter ('return' or 'search') \n>" )
 
+            return [{key: d[key] for key in self.relevant_keys} for d in records['results']]
 
         random_sample = random.sample(records['results'], books)
         random_sample_reduced = [{key: d[key] for key in self.relevant_keys} for d in random_sample]
@@ -104,6 +91,5 @@ class BookAppAPI:
 
 # book_finder = BookAppAPI()
 # pprint(book_finder.get_filtered_results(user_input))
-
 
 
