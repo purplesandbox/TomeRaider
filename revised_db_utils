@@ -63,7 +63,7 @@ def get_all_books(table):
             print("DB connection is closed")
 
 
-print(get_all_books('to_read_books'))
+# print(get_all_books('to_read_books'))
 
 
 def insert_book(table, title, author, category):
@@ -91,8 +91,6 @@ def insert_book(table, title, author, category):
     return True
 
 
-def close_db_connection(db_connection):
-    pass
 
 
 def update_rating(book_title, rating):
@@ -120,7 +118,9 @@ def update_rating(book_title, rating):
         raise DbConnectionError(f"Failed to update rating: {str(e)}")
 
     finally:
-        close_db_connection(db_connection)
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
 
 
 def update_review(book_title, review):
@@ -145,7 +145,9 @@ def update_review(book_title, review):
         raise DbConnectionError(f"Failed to update review: {str(e)}")
 
     finally:
-        close_db_connection(db_connection)
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
 
 
 def delete_book(table, book_title):
@@ -169,7 +171,9 @@ def delete_book(table, book_title):
         raise DbConnectionError(f"Failed to delete book: {str(e)}")
 
     finally:
-        close_db_connection(db_connection)
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
 
 
 def move_book(book_title):
@@ -201,4 +205,6 @@ def move_book(book_title):
         raise DbConnectionError(f"Failed to move book: {str(e)}")
 
     finally:
-        close_db_connection(db_connection)
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
