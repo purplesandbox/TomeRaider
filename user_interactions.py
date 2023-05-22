@@ -72,7 +72,16 @@ class UserInteractions:
         this continues to loop until a valid response is given"""
 
     def delete_book(self):
-        pass
+        while True:
+            which_list = input("Which list would you like to delete a book from? ('to-read' or 'read')")
+            if which_list.lower() == 'to-read':
+                self.delete_from_to_read_list()
+                break
+            elif which_list.lower() == 'read':
+                self.delete_from_read_list()
+                break
+            else:
+                print("Invalid choice. Please try again.")
 
     def delete_from_read_list(self):
         pass
@@ -201,14 +210,14 @@ class UserInteractions:
             book_to_add = self.get_book_details()
             self.internal_api.add_to_to_read_list(book_to_add)
 
-            add_another_book = self.validate_input_y_or_n("Would you like to add another book to your to-read list? (y/n) ")
+            add_another_book = self.validate_input_y_or_n(
+                "Would you like to add another book to your to-read list? (y/n) ")
             if add_another_book == 'n':
                 print("Nothing has been added to your to-read list.")
                 break
 
         if add_or_not == 'n':
             print("Nothing has been added to your to-read list.")
-
 
     def get_book_details(self):
         book_to_add = {
@@ -218,7 +227,6 @@ class UserInteractions:
         self.print_book_genre_dictionary()
         book_to_add['categories'] = self.get_valid_genre_choice()
         return book_to_add
-
 
     def add_book_to_read_list(self):
         while True:
@@ -234,8 +242,6 @@ class UserInteractions:
                 print("This book is already on the to-read list! Please try again.")
             finally:
                 self.user_review_and_call_star_rating(read=self.read_book_dict)
-
-
 
     def star_rating(self, read):
         while True:
@@ -261,7 +267,6 @@ class UserInteractions:
                     print("Please enter a number between 1 and 5.")
             except ValueError:
                 print("Please enter a valid number.")
-
 
     def user_review_and_call_star_rating(self, read):
         while True:
