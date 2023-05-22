@@ -138,12 +138,12 @@ class UserInteractions:
             '1': ['Animals, Bugs & Pets'],
             '2': ['Art, Creativity & Music'],
             '3': ['General Literature'],
-            '4': ['General Literature'],
-            '5': ['Hobbies, Sports & Outdoors'],
-            '6': ['Science Fiction & Fantasy'],
-            '7': ['Real Life'],
-            '8': ['Science & Technology'],
-            '9': ['Mystery & Suspense']
+            '4': ['Hobbies, Sports & Outdoors'],
+            '5': ['Science Fiction & Fantasy'],
+            '6': ['Real Life'],
+            '7': ['Science & Technology'],
+            '8': ['Mystery & Suspense'],
+            '9': ['Reference']
         }
         print('You can choose from the following categories: ')
         for key, value in genre_choices.items():
