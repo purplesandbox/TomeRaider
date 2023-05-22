@@ -28,23 +28,28 @@ class InternalAPI:
     def clean_user_input(self, user_input):
         return {k: v for k, v in user_input.items() if v != ''}
 
-
     def search_book_suggestions(self, user_input):
-        x = user_input['book_num']
-        user_input['book_num'] = 50
         user_input = self.clean_user_input(user_input)
         book_suggestions = self.book_app_api.get_filtered_results(user_input)
+        return book_suggestions
 
-        # check for duplicates from read_list and return the number the person wanted
-        unique_book_suggestions = self.check_for_duplicates_from_read_list(book_suggestions)
-
-        unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
-
-        if unique_book_suggestions is None:
-            raise NoSearchResultsWithGivenCriteria('No search results that are not already on the read or to-read lists')
-        # Return book suggestion
-        return unique_book_suggestions
-        # print this in user interactions class
+    # def search_book_suggestions(self, user_input):
+    #
+        # x = user_input['book_num']
+        # user_input['book_num'] = 50
+        # user_input = self.clean_user_input(user_input)
+        # book_suggestions = self.book_app_api.get_filtered_results(user_input)
+        #
+        # # check for duplicates from read_list and return the number the person wanted
+        # unique_book_suggestions = self.check_for_duplicates_from_read_list(book_suggestions)
+        #
+        # unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
+        #
+        # if unique_book_suggestions is None:
+        #     raise NoSearchResultsWithGivenCriteria('No search results that are not already on the read or to-read lists')
+        # # Return book suggestion
+        # return unique_book_suggestions
+        # # print this in user interactions class
 
     # function to give out a list of books with none of them being in the read_books section
     def check_for_duplicates_from_read_list(self, book_suggestions):
@@ -105,7 +110,7 @@ class InternalAPI:
             raise BookAlreadyOnTable('This book is already on the to read list')
 
         # Call function to add book to reading list
-        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['author'],
+        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['authors'],
                              category=to_read['categories'])
 
         # Return success message
@@ -129,7 +134,7 @@ class InternalAPI:
         if read['title'] in titles_in_read_list:
             raise BookAlreadyOnTable('This book is already on the read list')
         # Call function to add book to list of books already read
-        db_utils.insert_book(table='read_books', title=read['title'], author=read['author'],
+        db_utils.insert_book(table='read_books', title=read['title'], author=read['authors'],
                              category=read['categories'])
 
         # Return success message
