@@ -184,17 +184,11 @@ class UserInteractions:
         self.add_random_book_to_to_read_list(random_book)
 
     def add_random_book_to_to_read_list(self, random_book):
-        while True:
-            add_or_not = input('Would you like you add to your to-read list? (y/n)')
-            if add_or_not == 'y':
-                self.internal_api.add_to_to_read_list(random_book)
-                break
-            elif add_or_not == 'n':
-                print("Nothing has been added to your to-read list.")
-                break
-            else:
-                print("Invalid input. Please enter 'y' or 'n'")
-                continue
+        add_or_not = self.validate_input_y_or_n('Would you like you add to your to-read list? (y/n)')
+        if add_or_not == 'y':
+            self.internal_api.add_to_to_read_list(random_book)
+        else:
+            print("Nothing has been added to your to-read list.")
 
     def validate_input_y_or_n(self, prompt):
         while True:
