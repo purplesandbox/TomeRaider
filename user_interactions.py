@@ -187,28 +187,28 @@ class UserInteractions:
                 print("Invalid input. Please enter 'y' or 'n'")
                 continue
 
-    def add_filtered_book_to_to_read_list(self, filtered_book):
+    def validate_input_y_or_n(self, prompt):
         while True:
-            add_or_not = input('Would you like to add a book to your to-read list? (y/n) ')
-            if add_or_not == 'y':
-                book_to_add = self.get_book_details()
-                self.internal_api.add_to_to_read_list(book_to_add)
-
-                while True:
-                    add_another_book = input("Would you like to add another book to your to-read list? (y/n) ")
-                    if add_another_book == 'y':
-                        another_book_to_add = self.get_book_details()
-                        self.internal_api.add_to_to_read_list(another_book_to_add)
-                    elif add_another_book == 'n':
-                        print("Nothing has been added to your to-read list.")
-                        break
-                    else:
-                        print("Invalid input. Please enter 'y' or 'n'.")
-            elif add_or_not == 'n':
-                print("Nothing has been added to your to-read list.")
-                break
+            user_input = input(prompt)
+            if user_input.lower() == 'y' or user_input.lower() == 'n':
+                return user_input.lower()
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
+
+    def add_filtered_book_to_to_read_list(self, filtered_book):
+        add_or_not = self.validate_input_y_or_n('Would you like to add a book to your to-read list? (y/n) ')
+        while add_or_not == 'y':
+            book_to_add = self.get_book_details()
+            self.internal_api.add_to_to_read_list(book_to_add)
+
+            add_another_book = self.validate_input_y_or_n("Would you like to add another book to your to-read list? (y/n) ")
+            if add_another_book == 'n':
+                print("Nothing has been added to your to-read list.")
+                break
+
+        if add_or_not == 'n':
+            print("Nothing has been added to your to-read list.")
+
 
     def get_book_details(self):
         book_to_add = {
