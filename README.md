@@ -38,7 +38,7 @@ pip3 install urllib.error
 Lexile Chart:
 
 This chart briefly explains the average lexile ranges of different children to help you find an appropriate choice. 
-There is not average given for very young children as there is no expectation placed on their reading ability.
+There is not average given for very young children as there is no expectation placed on their reading ability. (add explanation A popular method used by schools to measure a student reader's ability)
 
 <img width="885" alt="Screenshot 2023-05-19 at 13 43 15" src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/2d30dc99-7c7e-48cc-a350-ae0cc9905dd4">
 
