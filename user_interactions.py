@@ -39,7 +39,8 @@ class UserInteractions:
             If you would like to generate a random book, enter 'random'.
             If you would like to look at your to-read list, enter 'to-read'.
             If you would like to look at your read list, enter 'read'.
-            If you would like to add a book to your read list, enter 'add'
+            If you would like to add a book to your read list, enter 'add'.
+            If you would like to delete a book from a list, enter 'delete'.
             Enter 'exit' to exit the program.\nPlease enter: """)
             lowercase_choice = user_choice.lower()
             if lowercase_choice == 'search':
@@ -60,12 +61,24 @@ class UserInteractions:
             elif lowercase_choice == 'add':
                 self.add_book_to_read_list()
                 break
+            elif lowercase_choice == 'delete':
+                self.delete_book()
+                break
 
             else:
                 print('Invalid choice. Please try again.')
 
     """function to ask user to enter the number of books they want to return
         this continues to loop until a valid response is given"""
+
+    def delete_book(self):
+        pass
+
+    def delete_from_read_list(self):
+        pass
+
+    def delete_from_to_read_list(self):
+        pass
 
     def get_number_of_books(self):
         while True:
