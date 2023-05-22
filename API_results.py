@@ -1,7 +1,6 @@
-from pprint import pprint
 import requests
 import random
-from urllib.error import HTTPError, URLError
+
 
 # """
 # Definition of the class which deals only with the external https://book-finder1.p.rapidapi.com/api API calls and returns results.
@@ -26,21 +25,22 @@ class BookAppAPI:
         try:
             user_input.update(self.request_params)
             response = requests.get(self.endpoint, params=user_input, headers=self.requirement)
-            records = response.json()
-            if records['total_results'] == 0:
-                raise ValueError("No records found for your search criteria. Please, try again!")
-        except ValueError as e:
-            print(str(e))
-            exit(1)
-        except HTTPError as error:
-            print(error.status, error.reason)
-            exit(1)
-        except URLError as error:
-            print(error.reason)
-            exit(1)
-        except TimeoutError:
-            print("Request timed out")
-            exit(1)
+            if response.status_code != 200:
+                response.raise_for_status()
+            else:
+                records = response.json()
+                if records is None:
+                    raise ValueError("No records found")
+                if records['total_results'] == 0:
+                    raise ValueError("No records found for your search criteria. Please, try again!")
+        except requests.exceptions.HTTPError:
+            print("Http Error")
+        except requests.exceptions.ConnectionError:
+            print("Error Connecting")
+        except requests.exceptions.Timeout:
+            print("Timeout Error")
+        except requests.exceptions.RequestException:
+            print("OOps: Something Else")
         else:
             return records
 
@@ -52,10 +52,9 @@ class BookAppAPI:
     def get_filtered_results(self, user_input):
         books = int(user_input['book_num'])
         records = self.make_api_request(user_input)
+        # in case the number of the API returned books is less that the requested, program returns all available ones from the API database
         if records['total_results'] < books:
-
             return [{key: d[key] for key in self.relevant_keys} for d in records['results']]
-
         random_sample = random.sample(records['results'], books)
         random_sample_reduced = [{key: d[key] for key in self.relevant_keys} for d in random_sample]
         return random_sample_reduced
@@ -70,26 +69,4 @@ class BookAppAPI:
         random_record = records['results'][random_number]
         random_record_reduced = {key: random_record[key] for key in self.relevant_keys}
         return random_record_reduced
-
-
-
-# """
-# Commented out - this part is only for the class method testing
-
-# """
-
-# user_input = {
-#     'author': 'J. K. Rowling',
-#     'book_type': 'Fiction',
-#     'lexile-min': 1000,
-#     'lexile-max':2000,
-#     'categories': None,
-#     'book_num': 20,
-#     'random_choice': True,
-#     'filtered_choice': False
-# }
-
-# book_finder = BookAppAPI()
-# pprint(book_finder.get_filtered_results(user_input))
-
 
