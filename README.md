@@ -34,30 +34,28 @@ git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
 
 In order to run the programme you will need to have the following installed and up to date: 
 
-flask
+pip install flask
 
-pprint
+pip install tabulate
 
-tabulate
+pip install requests
 
-requests
+pip install jsonify
 
-jsonify
+pip install mysql.connector
 
-itertools
-
-flask
-
-mysql.connector
-
-urllib.error
+pip install unittest.mock
 
 
-to install the minimal requirements run in your terminal or preferred IDE our requirements file
+to install the minimal requirements run in your terminal or preferred IDE our `requirements.txt` file
+
+*If you're running Python 3.3 you can delete pip install unittest.mock as it is included in the standard library.*
+ 
 
 ```
 pip install -r requirements.txt
 ```
+
 
 ---
 ### **Configuration** ###
