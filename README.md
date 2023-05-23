@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/97038b26-5cf1-409f-9f94-6dafc5d82c4c"/>
+  <img src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/1a75134c-a97b-4186-bbac-b3f03434b362"/>
 </p>
-
 
 # **TomeRaider** #
 
