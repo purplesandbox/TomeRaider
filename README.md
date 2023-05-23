@@ -25,25 +25,19 @@ Installing / Getting started:
 
 Minimal setup:
 
-pip3 install flask  
+flask
+pprint
+tabulate
+requests
+jsonify
+itertools
+flask
+mysql.connector
+urllib.error
 
-pip3 install pprint 
+to install the minimale requirements 
 
-pip3 install tabulate 
-
-pip3 install random
-
-pip3 install requests 
-
-pip3 install jsonify 
-
-pip3 install itertools 
-
-pip3 install flask 
-
-pip3 install mysql.connector
-
-pip3 install urllib.error
+`$ pip install -r requirements.txt`
 
 
 ### ***Configuration*** ###
