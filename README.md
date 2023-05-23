@@ -11,7 +11,6 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 
 
 --------
-
 ### **Getting Started** ###
 ----
 
@@ -24,9 +23,11 @@ You can copy the URL from our repo and use the `git clone` command to paste it i
 
 -need to finish this
 
-Installing / Getting started: 
+---
+**Minimal requirements:**
+---
 
-Minimal requirements:
+In order to run the programme you will need to have the following installed and up to date: 
 
 flask
 
@@ -47,11 +48,11 @@ mysql.connector
 urllib.error
 
 
-to install the minimal requirements 
+to install the minimal requirements, run in your terminal, or preferred IDE
 
 `$ pip install -r requirements.txt`
 
-
+---
 ### **Configuration** ###
 ---
 
@@ -63,9 +64,7 @@ Go to `create_tomeraider_db_script.sql` and run the script in your MySQL workben
 
 In `config.py` make sure to add your database password and user name 
 
-
-
-
+---
 ### **Try TomeRaider** ###
 ---
 
@@ -86,7 +85,7 @@ There is not average given for very young children as there is no expectation pl
 
 
 
-
+---
 ### **Future plans:** ###
 ---
 
@@ -94,7 +93,7 @@ With increased time and resources at our disposal, we have exciting plans to enh
 
 Furthermore, our immediate priority is to create a user-friendly interface for TomeRaider. We'll be developing a user interface using Flask, HTML, and CSS elements, ensuring that navigating and interacting with the application becomes even more seamless and enjoyable for our users. 
 
-
+---
 ### **Contributing:** ###
 ---
 
