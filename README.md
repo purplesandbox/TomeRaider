@@ -23,7 +23,7 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 
 You can copy the URL from our repo and use the `git clone` command to paste it in your working directory
 
-`$ git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
+`git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git`
 
 ---
 **Minimal requirements:**
@@ -53,7 +53,7 @@ urllib.error
 
 to install the minimal requirements run in your terminal or preferred IDE our requirements file
 
-`$ pip install -r requirements.txt`
+`pip install -r requirements.txt`
 
 ---
 ### **Configuration** ###
