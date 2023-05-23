@@ -71,6 +71,10 @@ Go to `create_tomeraider_db_script.sql` and run the script in your MySQL workben
 
 In `config.py` make sure to add your database password and user name 
 
+3 - Run APIs
+
+In (add files names) 
+
 ---
 ### **Try TomeRaider** ###
 ---
