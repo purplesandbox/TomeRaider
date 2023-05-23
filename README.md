@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=("[https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/79218855-10e2-44f5-8137-ee82f19aaf43)")/>
+  <img src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/79218855-10e2-44f5-8137-ee82f19aaf43"/>
 </p>
 
 # **TomeRaider** #
