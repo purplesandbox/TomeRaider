@@ -23,7 +23,7 @@ You can copy the URL from our repo and use the `git clone` command to paste it i
 
 Installing / Getting started: 
 
-Minimal setup:
+Minimal requirements:
 
 flask
 
@@ -44,7 +44,7 @@ mysql.connector
 urllib.error
 
 
-to install the minimale requirements 
+to install the minimal requirements 
 
 `$ pip install -r requirements.txt`
 
