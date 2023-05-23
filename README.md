@@ -1,5 +1,4 @@
-
-![TomeRaider-2](https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/66ea7d9e-355c-4bd3-bb8d-e97eb7d02399)
+![2](https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/79218855-10e2-44f5-8137-ee82f19aaf43)
 
 # **TomeRaider** #
 
@@ -93,7 +92,7 @@ There is not average given for very young children as there is no expectation pl
 ### **Future plans:** ###
 ---
 
-With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. One of our upcoming features includes the ability to generate book lists and recommendations in a convenient text file format, making them easily readable and accessible. Additionally, we are working on incorporating a functionality where you can receive these recommendations directly as a text message on your chosen phone number by using *TWILIO*
+With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. One of our upcoming features includes the ability to generate book lists and recommendations in a convenient text file format, making them easily readable and accessible. Additionally, we are working on incorporating a functionality where you can receive these recommendations directly as a text message on your chosen phone number by using *TWILIO*.
 
 Furthermore, our immediate priority is to create a user-friendly interface for TomeRaider. We'll be developing a user interface using Flask, HTML, and CSS elements, ensuring that navigating and interacting with the application becomes even more seamless and enjoyable for our users. 
 
