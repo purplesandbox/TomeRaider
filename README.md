@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/981693c2-24df-4122-be3a-a6c190296fbb"/>
+  <img src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/32a43747-c685-4684-b387-970a5e763617"/>
 </p>
 
 # **TomeRaider** #
