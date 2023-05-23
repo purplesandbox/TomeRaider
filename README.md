@@ -1,5 +1,5 @@
 
-![3](https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/c2b16125-1136-4f25-a922-b992922c1180)
+![2](https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/fc05b832-e0d4-42b0-b021-db70b46c61c8)
 
 # **TomeRaider** #
 
