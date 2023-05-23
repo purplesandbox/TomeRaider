@@ -5,6 +5,7 @@ from tabulate import tabulate
 
 """User interactions class containing internal API, and default values for book criteria"""
 
+
 class UserInteractions:
     def __init__(self):
         self.book_criteria = {
@@ -57,7 +58,6 @@ class UserInteractions:
             else:
                 print('Invalid choice. Please try again.')
 
-
     """function to ask user to enter the number of books they want to return
         this continues to loop until a valid response is given"""
 
@@ -74,14 +74,34 @@ class UserInteractions:
                 print("Invalid choice. Please try again.")
 
     def delete_from_read_list(self):
-        book_to_delete = input("Please enter the title of the book you would like to delete: ")
-        lower_case_book_to_delete = book_to_delete.lower()
-        self.internal_api.delete_from_read_list(lower_case_book_to_delete)
+        while True:
+            book_to_delete = input(
+                "Please enter the title of the book you would like to delete (or enter 'cancel' to go back): ")
+            lower_case_book_to_delete = book_to_delete.lower()
+            if lower_case_book_to_delete == 'cancel':
+                print("Deletion cancelled.")
+                break
+            try:
+                self.internal_api.delete_from_read_list(lower_case_book_to_delete)
+                print(f"{book_to_delete} has been deleted.")
+                break
+            except BookNotFound:
+                print(f"{book_to_delete} is not in your to-read list. Please try again.")
 
     def delete_from_to_read_list(self):
-        book_to_delete = input("Please enter the title of the book you would like to delete: ")
-        lower_case_book_to_delete = book_to_delete.lower()
-        self.internal_api.delete_from_to_read_list(lower_case_book_to_delete)
+        while True:
+            book_to_delete = input(
+                "Please enter the title of the book you would like to delete (or enter 'cancel' to go back): ")
+            lower_case_book_to_delete = book_to_delete.lower()
+            if lower_case_book_to_delete == 'cancel':
+                print("Deletion cancelled.")
+                break
+            try:
+                self.internal_api.delete_from_to_read_list(lower_case_book_to_delete)
+                print(f"{book_to_delete} has been deleted.")
+                break
+            except BookNotFound:
+                print(f"{book_to_delete} is not in your to-read list. Please try again.")
 
     def get_number_of_books(self):
         while True:
@@ -164,7 +184,6 @@ class UserInteractions:
                 return genre_choices[genre_input]
             else:
                 print('Invalid genre choice. Please choose a valid number from the genre choices.')
-
 
     """Function which allows user to choose a book genre to generate a random book"""
 
