@@ -84,7 +84,9 @@ class UserInteractions:
                 print("Invalid choice. Please try again.")
 
     def delete_from_read_list(self):
-        pass
+        book_to_delete = input("Please enter the title of the book you would like to delete: ")
+        lower_case_book_to_delete = book_to_delete.lower()
+        self.internal_api.delete_from_read_list(lower_case_book_to_delete)
 
     def delete_from_to_read_list(self):
         book_to_delete = input("Please enter the title of the book you would like to delete: ")
@@ -137,40 +139,42 @@ class UserInteractions:
 
     def print_book_genre_dictionary(self):
         genre_choices = {
-            '1': ['Animals, Bugs & Pets'],
-            '2': ['Art, Creativity & Music'],
-            '3': ['General Literature'],
-            '4': ['Hobbies, Sports & Outdoors'],
-            '5': ['Science Fiction & Fantasy'],
-            '6': ['Real Life'],
-            '7': ['Science & Technology'],
-            '8': ['Mystery & Suspense'],
-            '9': ['Reference']
+            '1': 'Animals, Bugs & Pets',
+            '2': 'Art, Creativity & Music',
+            '3': 'General Literature',
+            '4': 'Hobbies, Sports & Outdoors',
+            '5': 'Science Fiction & Fantasy',
+            '6': 'Real Life',
+            '7': 'Science & Technology',
+            '8': 'Mystery & Suspense',
+            '9': 'Reference'
         }
-        print('You can choose from the following categories: ')
+        print('You can choose from the following categories:')
         for key, value in genre_choices.items():
-            print(f"{key}: {value[0]}")
-
-    """function to validate the genre choice user input"""
+            print(f"{key}: {value}")
 
     def get_valid_genre_choice(self):
         genre_choices = {
-            '1': ['Animals, Bugs & Pets'],
-            '2': ['Art, Creativity & Music'],
-            '3': ['General Literature'],
-            '4': ['Hobbies, Sports & Outdoors'],
-            '5': ['Science Fiction & Fantasy'],
-            '6': ['Real Life'],
-            '7': ['Science & Technology'],
-            '8': ['Mystery & Suspense'],
-            '9': ['Reference']
+            '1': 'Animals, Bugs & Pets',
+            '2': 'Art, Creativity & Music',
+            '3': 'General Literature',
+            '4': 'Hobbies, Sports & Outdoors',
+            '5': 'Science Fiction & Fantasy',
+            '6': 'Real Life',
+            '7': 'Science & Technology',
+            '8': 'Mystery & Suspense',
+            '9': 'Reference'
         }
         while True:
-            genre_input = input('Please enter the number that corresponds with your genre choice: ')
-            if genre_input in genre_choices.keys():
-                return genre_choices[genre_input][0]
+            genre_input = input(
+                'Please enter the number that corresponds with your genre choice. (Press enter if you do not have a preference)')
+            if genre_input == '':
+                return None
+            elif genre_input in genre_choices.keys():
+                return genre_choices[genre_input]
             else:
                 print('Invalid genre choice. Please choose a valid number from the genre choices.')
+
 
     """Function which allows user to choose a book genre to generate a random book"""
 
