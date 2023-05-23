@@ -45,7 +45,7 @@ class InternalAPI:
 
         unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
 
-        if unique_book_suggestions is None:
+        if unique_book_suggestions == []:
             raise NoSearchResultsWithGivenCriteria(
                 'No search results that are not already on the read or to-read lists')
         # Return book suggestion
