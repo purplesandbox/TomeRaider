@@ -145,11 +145,20 @@ class InternalAPI:
     def delete_from_to_read_list(self, title):
         # check if book actually in to_read_list, if not raise error
         book_list = db_utils.get_all_books('to_read_books')
-        titles_in_read_list = (book[0] for book in book_list)
-        if title not in titles_in_read_list:
+        titles_in_to_read_list = (book[0] for book in book_list)
+        if title not in titles_in_to_read_list:
             raise BookNotFound('This book is not in the to-read list')
         else:
             db_utils.delete_book(table='to_read_books', book_title=title)
+
+    def delete_from_read_list(self, title):
+        # check if book actually in to_read_list, if not raise error
+        book_list = db_utils.get_all_books('read_books')
+        titles_in_read_list = (book[0] for book in book_list)
+        if title not in titles_in_read_list:
+            raise BookNotFound('This book is not in the read list')
+        else:
+            db_utils.delete_book(table='read_books', book_title=title)
 
     # function that brings the read_list from the db_utils file
     def get_read_list(self):
