@@ -25,6 +25,7 @@ You can copy the URL from our repo and use the `git clone` command to paste it i
 
 ---
 **Minimal requirements:**
+
 ----
 
 In order to run the programme you will need to have the following installed and up to date: 
