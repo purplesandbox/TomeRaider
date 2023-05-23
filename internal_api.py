@@ -76,6 +76,9 @@ class InternalAPI:
     def random_book_suggestion(self, user_input):
         user_input = self.clean_user_input(user_input)
         random_book = self.book_app_api.get_random_result(user_input)
+        # Convert authors and categories lists to strings
+        random_book['authors'] = ', '.join(random_book['authors'])
+        random_book['categories'] = ', '.join(random_book['categories'])
 
         # Return random_book
         return random_book
@@ -108,13 +111,9 @@ class InternalAPI:
         if to_read['title'] in titles_in_to_read_list:
             raise BookAlreadyOnTable('This book is already on the to read list')
 
-        # Convert authors and categories lists to strings
-        author = ', '.join(to_read['authors'])
-        categories = ', '.join(to_read['categories'])
-
         # Call function to add book to reading list
-        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=author,
-                             category=categories)
+        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['authors'],
+                             category=to_read['categories'])
 
         # Return success message
         return f"{to_read['title']} has been added to reading list"
