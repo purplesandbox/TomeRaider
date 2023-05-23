@@ -87,7 +87,9 @@ class UserInteractions:
         pass
 
     def delete_from_to_read_list(self):
-        pass
+        book_to_delete = input("Please enter the title of the book you would like to delete: ")
+        lower_case_book_to_delete = book_to_delete.lower()
+        self.internal_api.delete_from_to_read_list(lower_case_book_to_delete)
 
     def get_number_of_books(self):
         while True:
