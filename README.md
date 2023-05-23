@@ -15,9 +15,9 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 
 1 - Clone the repo
 
-You can copy the URL from our repo and use the ' git clone ' command to paste it in your working directory
+You can copy the URL from our repo and use the `git clone` command to paste it in your working directory
 
-' $ git clone (add link) '
+`$ git clone (add link)`
 
 -need to finish this
 
@@ -50,18 +50,18 @@ pip3 install urllib.error
 
 1 - Set up database
 
-Go to ' create_tomeraider_db_script.sql ' and run the script in your MySQL workbench or your preferred IDE to set up the database
+Go to `create_tomeraider_db_script.sql` and run the script in your MySQL workbench or your preferred IDE to set up the database
 
 2 - Add your DB password
 
-In ' config.py ' make sure to add your database password and user name 
+In `config.py` make sure to add your database password and user name 
 
 
 
 
 ### ***Try TomeRaider*** ###
 
-Run user_interactions.py and get books recommended based on the genre, check what you have in your database, or get a random book recommended if you're not sure what to read next. Something you read and liked? You can leave a review and a rating! 
+Run `user_interactions.py` and get books recommended based on the genre, check what you have in your database, or get a random book recommended if you're not sure what to read next. Something you read and liked? You can leave a review and a rating! 
 
 Lexile Chart:
 
