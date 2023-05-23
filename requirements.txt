@@ -1,0 +1,6 @@
+pip install flask
+pip install tabulate
+pip install requests
+pip install jsonify
+pip install mysql.connector
+pip install unittest.mock
