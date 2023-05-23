@@ -1,10 +1,10 @@
 import mysql.connector
 from tabulate import tabulate
-# from config import USER, PASSWORD, HOST
+from config import USER, PASSWORD, HOST
 
-HOST = "localhost"
-USER = "root"
-PASSWORD = "password"
+# HOST = "localhost"
+# USER = "root"
+# PASSWORD = "password"
 
 
 class DbConnectionError(Exception):
@@ -134,15 +134,15 @@ def insert_book(table, title, author, category):
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
-        # not sure what format the data from the api will be in to add it to the query
+
         query = f"""INSERT INTO {table} (title, author, category) VALUES ('{title}', '{author}', '{category}')"""
         cur.execute(query)
         db_connection.commit()
         cur.close()
 
     except Exception as e:
-        print(f"Error raised - {str(e)}")
-        raise DbConnectionError("Failed to read data from DB")
+        print(f"Failed to insert book - {str(e)}")
+        raise DbConnectionError(f"Failed to insert book: {str(e)}")
 
     finally:
         if db_connection:
@@ -150,7 +150,7 @@ def insert_book(table, title, author, category):
             print("DB connection is closed")
 
     print(f"{title} has been added to {table}.")
-
+    return True
 
 # for the following functions, if there are duplicate entries the function will apply to all
 # function to add a review to read books
@@ -171,10 +171,16 @@ def update_rating(book_title, rating):
 
         cur.close()
         print(f'Your Star rating has been added to {book_title}')
+        return True
 
     except Exception as e:
-        print(f"Error raised = {str(e)}")
+        raise DbConnectionError(f"Failed to update rating: {str(e)}")
+        print(f"Failed to update rating: {str(e)}")
 
+    finally:
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
 
 def update_review(book_title, review):  # review can be max 16,777,215 characters
     try:
@@ -193,9 +199,17 @@ def update_review(book_title, review):  # review can be max 16,777,215 character
 
         cur.close()
         print(f'Your review has been added to {book_title}')
+        return True
 
     except Exception as e:
+        raise DbConnectionError(f"Failed to update review: {str(e)}")
         print(f"Error raised = {str(e)}")
+
+    finally:
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
+
 
 
 def delete_book(table, book_title):
@@ -207,16 +221,23 @@ def delete_book(table, book_title):
 
         query = f"""
                 DELETE FROM {table}
-                WHERE title = '{book_title}'      
+                WHERE title = '{book_title}'
         """
         cur.execute(query)
         db_connection.commit()
 
         cur.close()
         print(f'{book_title} has been deleted from {table}')
+        return True
 
     except Exception as e:
+        raise DbConnectionError(f"Failed to delete book: {str(e)}")
         print(f"Error raised = {str(e)}")
+
+    finally:
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
 
 
 # insert_book('read_books', 'The Great Gatsby', 'F.Scott Fitzgerald', 'Literary Fiction')
@@ -273,11 +294,20 @@ def move_book2(book_title):  # does remove the book from the to-read table
 
         cur.close()
         print(f'{book_title} has been moved to your Read Books!')
+        return True
 
     except Exception as e:
+        raise DbConnectionError(f"Failed to move book: {str(e)}")
         print(f"Error raised = {str(e)}")
+
+    finally:
+        if db_connection:
+            db_connection.close()
+            print("DB connection is closed")
 
 # update_review('The Great Gatsby', "The plot itself is slow.\n In a time before authors cared more plot\n and cared more about how their book was written")
 # update_rating('The Hobbit', '4')
 # delete_book('read_books', 'The Hobbit')
 # get_all_books('read_books')
+
+
