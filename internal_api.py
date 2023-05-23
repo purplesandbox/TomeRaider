@@ -109,9 +109,13 @@ class InternalAPI:
         if to_read['title'] in titles_in_to_read_list:
             raise BookAlreadyOnTable('This book is already on the to read list')
 
+        # Convert authors and categories lists to strings
+        author = ', '.join(to_read['authors'])
+        categories = ', '.join(to_read['categories'])
+
         # Call function to add book to reading list
-        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['authors'],
-                             category=to_read['categories'])
+        db_utils.insert_book(table='to_read_books', title=to_read['title'], author = author,
+                             category=categories)
 
         # Return success message
         return f"{to_read['title']} has been added to reading list"
