@@ -10,7 +10,7 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 
 --------
 
-###**Getting Started**###
+### **Getting Started** ###
 
 
 1 - Clone the repo
@@ -46,7 +46,7 @@ pip3 install mysql.connector
 pip3 install urllib.error
 
 
-###***Configuration***###
+### ***Configuration*** ###
 
 1 - Set up database
 
@@ -59,7 +59,7 @@ In 'config.py' make sure to add your database password and user name
 
 
 
-###***Try TomeRaider***###
+### ***Try TomeRaider*** ###
 
 Run user_interactions.py and get books recommended based on the genre, check what you have in your database, or get a random book recommended if you're not sure what to read next. Something you read and liked? You can leave a review and a rating! 
 
