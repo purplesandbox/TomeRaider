@@ -45,7 +45,7 @@ class InternalAPI:
 
         unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
 
-        if unique_book_suggestions is None:
+        if unique_book_suggestions == []:
             raise NoSearchResultsWithGivenCriteria(
                 'No search results that are not already on the read or to-read lists')
         # Return book suggestion
@@ -76,6 +76,9 @@ class InternalAPI:
     def random_book_suggestion(self, user_input):
         user_input = self.clean_user_input(user_input)
         random_book = self.book_app_api.get_random_result(user_input)
+        # Convert authors and categories lists to strings
+        random_book['authors'] = ', '.join(random_book['authors'])
+        random_book['categories'] = ', '.join(random_book['categories'])
 
         # Return random_book
         return random_book
@@ -108,13 +111,9 @@ class InternalAPI:
         if to_read['title'] in titles_in_to_read_list:
             raise BookAlreadyOnTable('This book is already on the to read list')
 
-        # Convert authors and categories lists to strings
-        author = ', '.join(to_read['authors'])
-        categories = ', '.join(to_read['categories'])
-
         # Call function to add book to reading list
-        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=author,
-                             category=categories)
+        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['authors'],
+                             category=to_read['categories'])
 
         # Return success message
         return f"{to_read['title']} has been added to reading list"
@@ -134,7 +133,7 @@ class InternalAPI:
         if read['title'] in titles_in_read_list:
             raise BookAlreadyOnTable('This book is already on the read list')
         # Call function to add book to list of books already read
-        db_utils.insert_book(table='read_books', title=read['title'], author=read['authors'],
+        db_utils.insert_book(table='read_books', title=read['title'], author=read['author'],
                              category=read['categories'])
 
         # Return success message
@@ -145,11 +144,20 @@ class InternalAPI:
     def delete_from_to_read_list(self, title):
         # check if book actually in to_read_list, if not raise error
         book_list = db_utils.get_all_books('to_read_books')
-        titles_in_read_list = (book[0] for book in book_list)
-        if title not in titles_in_read_list:
+        titles_in_to_read_list = (book[0].lower() for book in book_list)
+        if title.lower() not in titles_in_to_read_list:
             raise BookNotFound('This book is not in the to-read list')
         else:
             db_utils.delete_book(table='to_read_books', book_title=title)
+
+    def delete_from_read_list(self, title):
+        # check if book actually in to_read_list, if not raise error
+        book_list = db_utils.get_all_books('read_books')
+        titles_in_read_list = (book[0].lower() for book in book_list)
+        if title.lower() not in titles_in_read_list:
+            raise BookNotFound('This book is not in the read list')
+        else:
+            db_utils.delete_book(table='read_books', book_title=title)
 
     # function that brings the read_list from the db_utils file
     def get_read_list(self):
