@@ -5,11 +5,6 @@ from tabulate import tabulate
 
 """User interactions class containing internal API, and default values for book criteria"""
 
-
-class BookNotFound(Exception):
-    pass
-
-
 class UserInteractions:
     def __init__(self):
         self.book_criteria = {
@@ -43,30 +38,25 @@ class UserInteractions:
             If you would like to delete a book from a list, enter 'delete'.
             Enter 'exit' to exit the program.\nPlease enter: """)
             lowercase_choice = user_choice.lower()
+
             if lowercase_choice == 'search':
                 self.filtered_choice()
-                break
             elif lowercase_choice == 'random':
                 self.random_choice()
-                break
             elif lowercase_choice == 'to-read':
                 self.view_to_read_list()
-                break
             elif lowercase_choice == 'read':
                 self.view_read_list()
-                break
             elif lowercase_choice == 'exit':
                 print('Goodbye!')
                 break
             elif lowercase_choice == 'add':
                 self.add_book_to_read_list()
-                break
             elif lowercase_choice == 'delete':
                 self.delete_book()
-                break
-
             else:
                 print('Invalid choice. Please try again.')
+
 
     """function to ask user to enter the number of books they want to return
         this continues to loop until a valid response is given"""
