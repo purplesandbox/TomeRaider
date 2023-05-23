@@ -53,7 +53,7 @@ mysql.connector
 urllib.error
 
 
-to install the minimal requirements, run in your terminal, or preferred IDE
+to install the minimal requirements run in your terminal or preferred IDE our requirements file
 
 `$ pip install -r requirements.txt`
 
