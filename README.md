@@ -19,7 +19,7 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 -----
 
 
-1 - Clone the repo
+Clone the repo
 
 You can copy the URL from our repo and use the `git clone` command to paste it in your working directory
 
@@ -106,7 +106,20 @@ Furthermore, our immediate priority is to create a user-friendly interface for T
 
 You're welcome to contribute to our project! Just work on a different branch from main and submit a pull request. We'll review and implement your code if relevant. 
 
-### **Who are we** ##
+---
+### **Who we are** ##
+---
 
+. [Maryam Asaria](https://github.com/MaryamA123)
+
+. [Mun-Wei Kan](https://github.com/mwkan)
+
+. [Caitlin Oddy](https://github.com/Catreeney2)
+
+. [Sophie Philipps](https://github.com/SaPhilipps)
+
+. [Sabine Lazuhina](https://github.com/purplesandbox)
+
+. [Tania Alessi](https://github.com/16tales)
 
 
