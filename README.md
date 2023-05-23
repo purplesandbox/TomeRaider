@@ -23,9 +23,7 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 
 You can copy the URL from our repo and use the `git clone` command to paste it in your working directory
 
-`$ git clone (add link)`
-
--need to finish this
+`$ git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
 
 ---
 **Minimal requirements:**
@@ -103,6 +101,8 @@ Furthermore, our immediate priority is to create a user-friendly interface for T
 ---
 
 You're welcome to contribute to our project! Just work on a different branch from main and submit a pull request. We'll review and implement your code if relevant. 
+
+### **Who are we** ##
 
 
 
