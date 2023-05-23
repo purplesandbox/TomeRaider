@@ -134,7 +134,7 @@ class InternalAPI:
         if read['title'] in titles_in_read_list:
             raise BookAlreadyOnTable('This book is already on the read list')
         # Call function to add book to list of books already read
-        db_utils.insert_book(table='read_books', title=read['title'], author=read['authors'],
+        db_utils.insert_book(table='read_books', title=read['title'], author=read['author'],
                              category=read['categories'])
 
         # Return success message
