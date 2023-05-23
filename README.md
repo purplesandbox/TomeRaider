@@ -1,9 +1,11 @@
 # **TomeRaider** #
 
+----
+
 
 Introducing TomeRaider, the ultimate solution to relieve you from the overwhelming burden of decision fatigue when choosing your next book to read. Whether you're a parent of a little adventurer or a bookworm seeking your next literary journey, TomeRaider has got you covered. With its features, TomeRaider can help you select age-appropriate books for your little ones, ensuring their reading experiences are both enjoyable and educational. Simply let TomeRaider work its magic, and discover the perfect book tailored to your child's age and interests. Say goodbye to the endless search and let TomeRaider guide you on your literary adventures!
 
-----
+
 
 TomeRaider is the brainchild of a group of six women with diverse backgrounds who joined forces during their Code First Girls Degree. As their final project, they collaborated and harnessed their strengths to bring the concept of TomeRaider to life. This app is the result of their collective efforts and showcases their dedication and skill in its development.
 
@@ -11,6 +13,7 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 --------
 
 ### **Getting Started** ###
+----
 
 
 1 - Clone the repo
@@ -50,6 +53,7 @@ to install the minimal requirements
 
 
 ### **Configuration** ###
+---
 
 1 - Set up database
 
@@ -63,6 +67,7 @@ In `config.py` make sure to add your database password and user name
 
 
 ### **Try TomeRaider** ###
+---
 
 Run `user_interactions.py` and get books recommended based on the genre, check what you have in your database, or get a random book recommended if you're not sure what to read next. Something you read and liked? You can leave a review and a rating! 
 
@@ -83,6 +88,7 @@ There is not average given for very young children as there is no expectation pl
 
 
 ### **Future plans:** ###
+---
 
 With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. One of our upcoming features includes the ability to generate book lists and recommendations in a convenient text file format, making them easily readable and accessible. Additionally, we are working on incorporating a functionality where you can receive these recommendations directly as a text message on your chosen phone number by using *TWILIO*
 
@@ -90,6 +96,7 @@ Furthermore, our immediate priority is to create a user-friendly interface for T
 
 
 ### **Contributing:** ###
+---
 
 You're welcome to contribute to our project! Just work on a different branch from main and submit a pull request. We'll review and implement your code if relevant. 
 
