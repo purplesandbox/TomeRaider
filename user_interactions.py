@@ -1,6 +1,6 @@
 import db_utils
 from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
-from pprint import pp
+from pprint import pprint as pp
 from tabulate import tabulate
 
 class UserInteractions:
@@ -208,16 +208,7 @@ class UserInteractions:
     """ function to prompt the user to select the book from the filtered selection to collect the book details"""
 
     def get_book_details_from_the_sequence_number(self):
-        try:
-            self.book_from_the_filtered_list = int(
-                input("""Please enter the number that corresponds to the book you would like to add:""")) - 1
-            if self.book_from_the_filtered_list > len(self.filtered_books):
-                raise IndexError
-        except IndexError:
-            print("The sequence number entered is out of the provided book range. Please, try again!")
-            self.welcome()
-        else:
-            self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
+            self.book_to_add_from_the_sequence_validated = self.get_valid_filtered_book_choice()
             del self.book_to_add_from_the_sequence['summary']
             author = self.book_to_add_from_the_sequence['authors']
             self.book_to_add_from_the_sequence['authors'] = author[0]
@@ -225,6 +216,29 @@ class UserInteractions:
             self.book_to_add_from_the_sequence['categories'] = category[0]
 
             return self.book_to_add_from_the_sequence
+    
+    """function to validate entry of filtered books"""
+
+    def get_valid_filtered_book_choice(self):
+
+        while True:
+            self.book_from_the_filtered_list = input("""Please enter the number that corresponds to the book you would like to add:""")
+            if self.book_from_the_filtered_list == '':
+                print("Please enter the NUMBER that corresponds to the book you would like to add to your to-read list!")
+                self.get_book_details_from_the_sequence_number()
+            else:
+                self.book_from_the_filtered_list = int(self.book_from_the_filtered_list) - 1
+            if self.book_from_the_filtered_list >= 0 and self.book_from_the_filtered_list <= len(self.filtered_books):
+                self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
+                if 'summary' not in self.book_to_add_from_the_sequence.keys():
+                    print("This book has been already selected!")
+                    self.get_book_details_from_the_sequence_number()
+                else:
+                    return self.book_to_add_from_the_sequence
+
+            else:
+                print("The sequence number entered is out of the provided book range. Please, try again!")
+                self.get_book_details_from_the_sequence_number()
 
     """ function to add book to read list """
     def add_book_to_read_list(self):
