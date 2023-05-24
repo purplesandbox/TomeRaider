@@ -100,8 +100,48 @@ class InternalAPITests(TestCase):
         self.assertEqual(self.internal_api.search_book_suggestions(user_input=user_input), book_results)
         # mock_get_all_books.assert_has_calls([call('read_books'), call('to_read_books')])
 
-    def test_search_book_suggestion_if_API_returns_book_on_read_list(self):
-        pass
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('The Witches', 'Roald Dahl', 'Science Fiction & Fantasy')
+                    ]
+                ))
+    @responses.activate
+    def test_search_book_suggestion_if_API_returns_book_on_read_list(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        book_results = [
+            {
+                'authors': ['Toshikazu Kawaguchi'],
+                'title': 'Before the coffee gets cold',
+                'categories': ['fiction'],
+                'summary': ''
+            }
+        ]
+        search_results = {
+            'total_results': 1,
+            'total_pages': 1,
+            'results': book_results
+        }
+        responses.get(
+            url='https://book-finder1.p.rapidapi.com/api/search',
+            json=search_results,
+            status=200
+        )
+        user_input = {
+            'author': 'Toshikazu Kawaguchi',
+            'categories': '',
+            'book_type': 'Fiction',
+            'book_num': 1}
+        with self.assertRaises(Exception):
+            self.internal_api.search_book_suggestions(user_input)
+
 
     def test_search_book_suggestion_returns_right_number_of_books(self):
         pass
