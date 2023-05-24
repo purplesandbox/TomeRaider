@@ -7,7 +7,7 @@
 ----
 
 
-Introducing TomeRaider, the ultimate solution to relieve you from the overwhelming burden of decision fatigue when choosing your next book to read. Whether you're a parent of a little adventurer or a bookworm seeking your next literary journey, TomeRaider has got you covered. With its features, TomeRaider can help you select age-appropriate books for your little ones, ensuring their reading experiences are both enjoyable and educational. Simply let TomeRaider work its magic, and discover the perfect book tailored to your child's age and interests. Say goodbye to the endless search and let TomeRaider guide you on your literary adventures!
+Introducing TomeRaider, the ultimate solution to relieve you from the overwhelming burden of decision fatigue when choosing your next book to read. Whether you're the parent of a little adventurer or a bookworm seeking your next literary journey, TomeRaider has got you covered. With its features, TomeRaider can help you select age-appropriate books for your little ones, ensuring their reading experiences are both enjoyable and educational. Simply let TomeRaider work its magic, and discover the perfect book tailored to your child's age and interests. Say goodbye to the endless search and let TomeRaider guide you on your literary adventures!
 
 
 
@@ -21,8 +21,6 @@ TomeRaider is the brainchild of a group of six women with diverse backgrounds wh
 
 Clone the repo
 
-You can copy the URL from our repo and use the `git clone` command to paste it in your working directory
-
 ```
 git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
 ```
@@ -34,20 +32,15 @@ git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
 
 In order to run the programme you will need to have the following installed and up to date: 
 
-pip install flask
-
-pip install tabulate
-
-pip install requests
-
-pip install jsonify
-
-pip install mysql.connector
-
-pip install unittest.mock
+- pip install flask
+- pip install tabulate
+- pip install requests
+- pip install jsonify
+- pip install mysql.connector
+- pip install unittest.mock
 
 
-to install the minimal requirements run in your terminal or preferred IDE our `requirements.txt` file
+Install the minimal requirments
 
 *If you are running a Python version >=3.3 you can delete pip install unittest.mock as it is included in the standard library.*
  
@@ -63,7 +56,7 @@ pip install -r requirements.txt
 
 1 - Set up database
 
-Go to `create_tomeraider_db_script.sql` and run the script in your MySQL workbench or your preferred IDE to set up the database
+Use`create_tomeraider_db_script.sql` 
 
 2 - Add your DB password
 
@@ -103,13 +96,7 @@ With increased time and resources at our disposal, we have exciting plans to enh
 Furthermore, our immediate priority is to create a user-friendly interface for TomeRaider. We'll be developing a user interface using Flask, HTML, and CSS elements, ensuring that navigating and interacting with the application becomes even more seamless and enjoyable for our users. 
 
 ---
-### **Contributing:** ###
----
-
-You're welcome to contribute to our project! Just work on a different branch from main and submit a pull request. We'll review and implement your code if relevant. 
-
----
-### **Who we are** ##
+### **The team** ##
 ---
 
 . [Maryam Asaria](https://github.com/MaryamA123)
@@ -124,4 +111,9 @@ You're welcome to contribute to our project! Just work on a different branch fro
 
 . [Tania Alessi](https://github.com/16tales)
 
+---
+### **Contributing:** ###
+---
+
+You're welcome to contribute to our project! Just work on a different branch from main and submit a pull request. We'll review and implement your code if relevant. 
 
