@@ -227,7 +227,6 @@ def delete_book(table, book_title):
         db_connection.commit()
 
         cur.close()
-        print(f'{book_title} has been deleted from {table}')
         return True
 
     except Exception as e:
