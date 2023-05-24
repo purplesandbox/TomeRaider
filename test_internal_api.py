@@ -250,7 +250,8 @@ class InternalAPITests(TestCase):
                     ]
                 ))
     @responses.activate
-    def test_search_book_suggestion_returns_books_even_though_results_give_less_than_asked_for(self, mock_get_all_books):
+    def test_search_book_suggestion_returns_books_even_though_results_give_less_than_asked_for(self,
+                                                                                               mock_get_all_books):
         self.internal_api = InternalAPI()
         book_results = [
             {
@@ -286,15 +287,104 @@ class InternalAPITests(TestCase):
         result = len(self.internal_api.search_book_suggestions(user_input))
         self.assertEqual(result, expected)
 
-    # def test_check_for_duplicates_from_read_list_when_no_duplicates(self):
-    #     pass
-    #
-    # def test_check_for_duplicates_from_read_list_when_one_duplicate(self):
-    #     pass
-    #
-    # def test_check_for_duplicates_from_read_list_when_multiple_duplicates(self):
-    #     pass
-    #
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('The Witches', 'Roald Dahl', 'Science Fiction & Fantasy')
+                    ]
+                )
+                )
+    def test_check_for_duplicates_from_read_list_when_no_duplicates(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        book_suggestions = [
+            {
+                'authors': ['Roald Dahl'],
+                'title': 'The Magic Finger',
+                'categories': ['Hobbies, Sports & Outdoors',
+                               'Fiction, Non-fiction & Poetry',
+                               'Science Fiction & Fantasy'],
+                'summary': 'The Gregg family loves hunting, but their eight-year-old '
+                           "neighbor can't stand it. After countless pleas for them to stop "
+                           'are ignored, she has no other choice -- she has to put her magic '
+                           'finger on them. Now the Greggs are a family of birds, and like '
+                           "it or not, they're going to find out how it feels to be on the "
+                           'other end of the gun.'
+            }
+        ]
+        expected = book_suggestions
+        result = self.internal_api.check_for_duplicates_from_read_list(book_suggestions)
+        self.assertEqual(expected, result)
+
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('The Witches', 'Roald Dahl', 'Science Fiction & Fantasy')
+                    ]
+                )
+                )
+    def test_check_for_duplicates_from_read_list_when_one_duplicate(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        book_suggestions = [
+            {
+                'authors': ['Toshikazu Kawaguchi'],
+                'title': 'Before the coffee gets cold',
+                'categories': ['fiction'],
+                'summary': ''
+            }
+        ]
+        expected = []
+        result = self.internal_api.check_for_duplicates_from_read_list(book_suggestions)
+        self.assertEqual(expected, result)
+
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('The Witches', 'Roald Dahl', 'Science Fiction & Fantasy')
+                    ]
+                )
+                )
+    def test_check_for_duplicates_from_read_list_when_multiple_duplicates(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        book_suggestions = [
+            {
+                'authors': ['Toshikazu Kawaguchi'],
+                'title': 'Before the coffee gets cold',
+                'categories': ['fiction'],
+                'summary': ''
+            },
+            {
+                'authors': ['Malcolm Gladwell'],
+                'title': 'Talking to strangers',
+                'categories': ['nonfiction'],
+                'summary': ''
+            }
+        ]
+        expected = []
+        result = self.internal_api.check_for_duplicates_from_read_list(book_suggestions)
+        self.assertEqual(expected, result)
+
+
     # def test_check_for_duplicates_from_to_read_list_when_no_duplicates(self):
     #     pass
     #
