@@ -143,8 +143,55 @@ class InternalAPITests(TestCase):
             self.internal_api.search_book_suggestions(user_input)
 
 
-    def test_search_book_suggestion_returns_right_number_of_books(self):
-        pass
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('The Witches', 'Roald Dahl', 'Science Fiction & Fantasy')
+                    ]
+                ))
+    @responses.activate
+    def test_search_book_suggestion_returns_right_number_of_books(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        book_results = [
+            {
+                'authors': ['Roald Dahl'],
+                'title': 'The Magic Finger',
+                'categories': ['Hobbies, Sports & Outdoors',
+                               'Fiction, Non-fiction & Poetry',
+                               'Science Fiction & Fantasy'],
+                'summary': 'The Gregg family loves hunting, but their eight-year-old '
+                           "neighbor can't stand it. After countless pleas for them to stop "
+                           'are ignored, she has no other choice -- she has to put her magic '
+                           'finger on them. Now the Greggs are a family of birds, and like '
+                           "it or not, they're going to find out how it feels to be on the "
+                           'other end of the gun.'
+            }
+        ]
+        search_results = {
+            'total_results': 1,
+            'total_pages': 1,
+            'results': book_results
+        }
+        responses.get(
+            url='https://book-finder1.p.rapidapi.com/api/search',
+            json=search_results,
+            status=200
+        )
+        user_input = {
+            'author': 'Toshikazu Kawaguchi',
+            'categories': '',
+            'book_type': 'Fiction',
+            'book_num': 1}
+        with self.assertRaises(Exception):
+            self.internal_api.search_book_suggestions(user_input)
+
 
     def test_search_book_suggestion_returns_books_even_though_results_give_less_than_asked_for(self):
         pass
