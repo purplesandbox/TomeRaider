@@ -49,7 +49,7 @@ pip install unittest.mock
 
 to install the minimal requirements run in your terminal or preferred IDE our `requirements.txt` file
 
-*If you're running Python 3.3 you can delete pip install unittest.mock as it is included in the standard library.*
+*If you are running a Python version >=3.3 you can delete pip install unittest.mock as it is included in the standard library.*
  
 
 ```
