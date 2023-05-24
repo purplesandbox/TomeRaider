@@ -232,14 +232,14 @@ class UserInteractions:
     """ function to prompt the user to select the book from the filtered selection to collect the book details"""
     def get_book_details_from_the_sequence_number(self):
         try:
-            book_from_the_filtered_list = int(input("Please, select the book from the selection by it's sequence number! \n >" )) -1
-            if book_from_the_filtered_list > len(self.filtered_books):
+            self.book_from_the_filtered_list = int(input("Please, select the book from the selection by it's sequence number! \n >" )) -1
+            if self.book_from_the_filtered_list > len(self.filtered_books):
                 raise IndexError
         except IndexError:
             print("The sequence number entered is out of the provided book range. Please, try again!")
-            self.welcome()
+            self.get_book_details_from_the_sequence_number()
         else:
-            self.book_to_add_from_the_sequence = self.filtered_books[book_from_the_filtered_list]
+            self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
             del self.book_to_add_from_the_sequence['summary']
             author = self.book_to_add_from_the_sequence['authors']
             self.book_to_add_from_the_sequence['authors'] = author[0]
