@@ -1,7 +1,7 @@
 from unittest import TestCase, main, mock
 from unittest.mock import call
 
-from internal_api import InternalAPI
+from internal_api import InternalAPI, BookAlreadyOnTable
 
 import responses
 
@@ -482,23 +482,86 @@ class InternalAPITests(TestCase):
         result = self.internal_api.check_for_duplicates_from_to_read_list(1, book_suggestions)
         self.assertEqual(expected, result)
 
-    # def test_check_random_suggestion_in_to_read_list_to_return_false(self):
-    #     pass
-    #
-    # def test_check_random_suggestion_in_to_read_list_to_return_true(self):
-    #     pass
-    #
-    # def test_check_random_suggestion_in_read_list_to_return_false(self):
-    #     pass
-    #
-    # def test_check_random_suggestion_in_read_list_to_return_true(self):
-    #     pass
-    #
-    # def test_add_to_to_read_list_when_adding_a_book(self):
-    #     pass
-    #
-    # def test_add_to_to_read_list_when_book_already_on_table(self):
-    #     pass
+    @responses.activate
+    def test_random_book_suggestion(self):
+        self.internal_api = InternalAPI()
+        book_results = [
+            {
+                'authors': ['Roald Dahl'],
+                'title': 'The Magic Finger',
+                'categories': ['Hobbies, Sports & Outdoors',
+                               'Fiction, Non-fiction & Poetry',
+                               'Science Fiction & Fantasy'],
+                'summary': 'The Gregg family loves hunting, but their eight-year-old '
+                           "neighbor can't stand it. After countless pleas for them to stop "
+                           'are ignored, she has no other choice -- she has to put her magic '
+                           'finger on them. Now the Greggs are a family of birds, and like '
+                           "it or not, they're going to find out how it feels to be on the "
+                           'other end of the gun.'
+            }
+        ]
+        search_results = {
+            'total_results': 1,
+            'total_pages': 1,
+            'results': book_results
+        }
+        responses.get(
+            url='https://book-finder1.p.rapidapi.com/api/search',
+            json=search_results,
+            status=200
+        )
+        user_input = {
+            'categories': 'Fiction, Non-fiction & Poetry',
+        }
+        book_results[0]['authors'] = ', '.join(book_results[0]['authors'])
+        book_results[0]['categories'] = ', '.join(book_results[0]['categories'])
+        expected = book_results[0]
+        result = self.internal_api.random_book_suggestion(user_input)
+        self.assertEqual(expected, result)
+
+    @mock.patch("db_utils.insert_book")
+    def test_add_to_to_read_list_when_adding_a_book(self, mock_insert_book):
+        self.internal_api = InternalAPI()
+        to_read = {
+            'authors': ['Khaled Hosseini'],
+            'title': 'Sea Prayer',
+            'categories': ['Mystery & Suspense']
+        }
+        expected = 'Sea Prayer has been added to reading list'
+        result = self.internal_api.add_to_to_read_list(to_read)
+        mock_insert_book.assert_called_once_with(
+            table='to_read_books', title=to_read['title'], author=to_read['authors'], category=to_read['categories']
+        )
+        self.assertEqual(expected, result)
+
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    @mock.patch("db_utils.insert_book")
+    def test_add_to_to_read_list_when_book_already_on_table(self, mock_insert_book, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        to_read = {
+            'authors': ['Roald Dahl'],
+            'title': 'Dirty Beasts',
+            'categories': ['Fiction, Non-fiction & Poetry']
+        }
+        with self.assertRaises(BookAlreadyOnTable):
+            self.internal_api.add_to_to_read_list(to_read)
+
+        mock_insert_book.assert_not_called()
+
     #
     # def test_add_to_read_list_when_adding_a_book(self):
     #     pass
