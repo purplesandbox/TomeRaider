@@ -237,7 +237,7 @@ class UserInteractions:
                 raise IndexError
         except IndexError:
             print("The sequence number entered is out of the provided book range. Please, try again!")
-            self.get_book_details_from_the_sequence_number()
+            self.welcome()
         else:
             self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
             del self.book_to_add_from_the_sequence['summary']
