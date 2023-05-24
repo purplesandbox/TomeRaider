@@ -28,6 +28,7 @@ class UserInteractions:
 
     """Welcome function which contains the options for user to select, directs user to the relevant function"""
 
+# Tests written
     def welcome(self):
         while True:
             user_choice = input("""Welcome to TomeRaider!\nWhat would you like to do?
@@ -61,6 +62,7 @@ class UserInteractions:
     """function to ask user to enter the number of books they want to return
         this continues to loop until a valid response is given"""
 
+    # Tests written
     def get_number_of_books(self):
         while True:
             try:
@@ -75,11 +77,13 @@ class UserInteractions:
 
     """function to return the search criteria messages for filtered_choice book(s)"""
 
+    # Tests written
     def print_search_criteria_message(self):
         print('What would you like to search by? (Press enter if you would like to leave blank):')
 
     """function to display the genres available to user """
 
+    # Tests written
     def print_book_genre_dictionary(self):
         genre_choices = {
             '1': 'Animals, Bugs & Pets',
@@ -96,6 +100,7 @@ class UserInteractions:
         for key, value in genre_choices.items():
             print(f"{key}: {value}")
 
+    # Repeated - can we delete?
     def print_book_genre_dictionary(self):
         genre_choices = {
             '1': 'Animals, Bugs & Pets',
@@ -114,6 +119,7 @@ class UserInteractions:
 
     """ function to validate the user's genre choice """
 
+    # SOME tests written
     def get_valid_genre_choice(self):
         genre_choices = {
             '1': 'Animals, Bugs & Pets',
@@ -138,6 +144,7 @@ class UserInteractions:
 
             """ function to validate the user's genre choice """
 
+    # Repeated - can we delete?
     def get_valid_genre_choice(self):
         genre_choices = {
             '1': 'Animals, Bugs & Pets',
@@ -162,6 +169,8 @@ class UserInteractions:
 
                 """ function to validate the user's yes or no input """
 
+    # SOME tests written
+
     def validate_input_y_or_n(self, prompt):
         while True:
             user_input = input(prompt)
@@ -172,6 +181,7 @@ class UserInteractions:
 
     """ function to allow user to search for a book and input different search params """
 
+    # Not started tests yet, looks tricky....
     def filtered_choice(self):
         number_of_books = self.get_number_of_books()
         self.book_criteria['book_num'] = number_of_books
@@ -238,6 +248,7 @@ class UserInteractions:
 
     """ function to ask for book details that user would like to add to read list """
 
+    # Tests for all details, no author and no title. No genre doesn't work
     def get_book_details(self):
         book_to_add = {
             'authors': input("Please enter the author(s) of the book: "),
@@ -383,6 +394,7 @@ user1.welcome()
 # user2 = UserInteractions()
 # user2.view_read_list()
 
+#################################################################################################################
 
 # import db_utils
 # from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
