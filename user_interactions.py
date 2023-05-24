@@ -1,6 +1,6 @@
 import db_utils
 from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
-from pprint import pp
+from pprint import pprint as pp
 from tabulate import tabulate
 
 """User interactions class containing internal API, and default values for book criteria"""
@@ -18,6 +18,19 @@ class UserInteractions:
             'random_choice': False,
             'filtered_choice': False
         }
+        self.genre_choices = {
+            '1': 'Animals, Bugs & Pets',
+            '2': 'Art, Creativity & Music',
+            '3': 'General Literature',
+            '4': 'Hobbies, Sports & Outdoors',
+            '5': 'Science Fiction & Fantasy',
+            '6': 'Real Life',
+            '7': 'Science & Technology',
+            '8': 'Mystery & Suspense',
+            '9': 'Reference'
+        }
+
+
         self.internal_api = InternalAPI()
 
         self.read_book_dict = {
@@ -85,60 +98,27 @@ class UserInteractions:
 
     # Tests written
     def print_book_genre_dictionary(self):
-        genre_choices = {
-            '1': 'Animals, Bugs & Pets',
-            '2': 'Art, Creativity & Music',
-            '3': 'General Literature',
-            '4': 'Hobbies, Sports & Outdoors',
-            '5': 'Science Fiction & Fantasy',
-            '6': 'Real Life',
-            '7': 'Science & Technology',
-            '8': 'Mystery & Suspense',
-            '9': 'Reference'
-        }
         print('You can choose from the following categories:')
-        for key, value in genre_choices.items():
+        for key, value in self.genre_choices.items():
             print(f"{key}: {value}")
 
     # Repeated - can we delete?
     def print_book_genre_dictionary(self):
-        genre_choices = {
-            '1': 'Animals, Bugs & Pets',
-            '2': 'Art, Creativity & Music',
-            '3': 'General Literature',
-            '4': 'Hobbies, Sports & Outdoors',
-            '5': 'Science Fiction & Fantasy',
-            '6': 'Real Life',
-            '7': 'Science & Technology',
-            '8': 'Mystery & Suspense',
-            '9': 'Reference'
-        }
         print('You can choose from the following categories:')
-        for key, value in genre_choices.items():
+        for key, value in self.genre_choices.items():
             print(f"{key}: {value}")
 
     """ function to validate the user's genre choice """
 
     # SOME tests written
     def get_valid_genre_choice(self):
-        genre_choices = {
-            '1': 'Animals, Bugs & Pets',
-            '2': 'Art, Creativity & Music',
-            '3': 'General Literature',
-            '4': 'Hobbies, Sports & Outdoors',
-            '5': 'Science Fiction & Fantasy',
-            '6': 'Real Life',
-            '7': 'Science & Technology',
-            '8': 'Mystery & Suspense',
-            '9': 'Reference'
-        }
         while True:
             genre_input = input(
-                'Please enter the number that corresponds with your genre choice. (Press enter if you do not have a preference)')
+                'Please enter the number that corresponds with your genre choice. (Press enter if you do not have a preference)\n>')
             if genre_input == '':
                 return None
-            elif genre_input in genre_choices.keys():
-                return genre_choices[genre_input]
+            elif genre_input in self.genre_choices.keys():
+                return self.genre_choices[genre_input]
             else:
                 print('Invalid genre choice. Please choose a valid number from the genre choices.')
 
@@ -146,24 +126,13 @@ class UserInteractions:
 
     # Repeated - can we delete?
     def get_valid_genre_choice(self):
-        genre_choices = {
-            '1': 'Animals, Bugs & Pets',
-            '2': 'Art, Creativity & Music',
-            '3': 'General Literature',
-            '4': 'Hobbies, Sports & Outdoors',
-            '5': 'Science Fiction & Fantasy',
-            '6': 'Real Life',
-            '7': 'Science & Technology',
-            '8': 'Mystery & Suspense',
-            '9': 'Reference'
-        }
         while True:
             genre_input = input(
-                'Please enter the number that corresponds with your genre choice. (Press enter if you do not have a preference)')
+                'Please enter the number that corresponds with your genre choice. (Press enter if you do not have a preference)\n>')
             if genre_input == '':
                 return None
-            elif genre_input in genre_choices.keys():
-                return genre_choices[genre_input]
+            elif genre_input in self.genre_choices.keys():
+                return self.genre_choices[genre_input]
             else:
                 print('Invalid genre choice. Please choose a valid number from the genre choices.')
 
@@ -203,9 +172,11 @@ class UserInteractions:
         self.book_criteria['lexile_min'] = lexile_min_input
         self.book_criteria['lexile_max'] = lexile_max_input
 
-        filtered_books = self.internal_api.search_book_suggestions(user_input=self.book_criteria)
-        pp(filtered_books)
-        self.add_filtered_book_to_to_read_list(filtered_books)
+        self.filtered_books = self.internal_api.search_book_suggestions(user_input=self.book_criteria)
+        for index, element in enumerate(self.filtered_books):
+            print(f"{index + 1})")
+            pp(element)
+        self.add_filtered_book_to_to_read_list(self.filtered_books)
 
     """Function which allows user to choose a book genre to generate a random book"""
 
@@ -234,8 +205,8 @@ class UserInteractions:
     def add_filtered_book_to_to_read_list(self, filtered_book):
         add_or_not = self.validate_input_y_or_n('Would you like to add a book to your to-read list? (y/n) ')
         while add_or_not == 'y':
-            book_to_add = self.get_book_details()
-            self.internal_api.add_to_to_read_list(book_to_add)
+            self.book_to_add_from_the_sequence = self.get_book_details_from_the_sequence_number()
+            self.internal_api.add_to_to_read_list(self.book_to_add_from_the_sequence)
 
             add_another_book = self.validate_input_y_or_n(
                 "Would you like to add another book to your to-read list? (y/n) ")
@@ -250,13 +221,32 @@ class UserInteractions:
 
     # Tests for all details, no author and no title. No genre doesn't work
     def get_book_details(self):
-        book_to_add = {
+        self.book_to_add = {
             'authors': input("Please enter the author(s) of the book: "),
             'title': input("Please enter the title of the book: ")
         }
         self.print_book_genre_dictionary()
-        book_to_add['categories'] = self.get_valid_genre_choice()
-        return book_to_add
+        self.book_to_add['categories'] = self.get_valid_genre_choice()
+        return self.book_to_add
+
+    """ function to prompt the user to select the book from the filtered selection to collect the book details"""
+    def get_book_details_from_the_sequence_number(self):
+        try:
+            book_from_the_filtered_list = int(input("Please, select the book from the selection by it's sequence number! \n >" )) -1
+            if book_from_the_filtered_list > len(self.filtered_books):
+                raise IndexError
+        except IndexError:
+            print("The sequence number entered is out of the provided book range. Please, try again!")
+            self.welcome()
+        else:
+            self.book_to_add_from_the_sequence = self.filtered_books[book_from_the_filtered_list]
+            del self.book_to_add_from_the_sequence['summary']
+            author = self.book_to_add_from_the_sequence['authors']
+            self.book_to_add_from_the_sequence['authors'] = author[0]
+            category = self.book_to_add_from_the_sequence['categories']
+            self.book_to_add_from_the_sequence['categories'] = category[0]
+
+            return self.book_to_add_from_the_sequence
 
     """ function to add book to read list """
 
