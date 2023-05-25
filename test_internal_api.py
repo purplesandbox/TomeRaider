@@ -570,7 +570,7 @@ class InternalAPITests(TestCase):
             'title': 'Sea Prayer',
             'categories': ['Mystery & Suspense']
         }
-        expected = 'Sea Prayer has been added to books read list'
+        expected = 'Sea Prayer has been added to the books read list'
         result = self.internal_api.add_to_read_list(read)
         mock_insert_book.assert_called_once_with(
             table='read_books', title=read['title'], author=read['author'], category=read['categories']
