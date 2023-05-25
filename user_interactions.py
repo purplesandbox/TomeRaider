@@ -305,6 +305,18 @@ class UserInteractions:
                 self.star_rating(read)
                 break
 
+     """ function to view read list """
+
+     def view_read_list(self):
+         read_list = self.internal_api.get_read_list()
+
+         if not read_list:
+             return "Your Read list is empty."
+         else:
+             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
+             print(tabulate(read_list, headers, tablefmt='grid'))
+                
+               
     """ function to view to read list """
 
     def view_to_read_list(self):
