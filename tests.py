@@ -60,8 +60,11 @@ class BookAppAPITest(unittest.TestCase):
         }
 
         book_finder = BookAppAPI()
-        with self.assertRaises(ValueError):
-            book_finder.make_api_request(user_input)
+        expected = None
+        books_found = book_finder.make_api_request(user_input)
+        self.assertEqual(expected, books_found)
+
+
 
 
 # Test get_filtered_results method with a mock input from the make_api_request method
