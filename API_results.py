@@ -30,9 +30,11 @@ class BookAppAPI:
             else:
                 records = response.json()
                 if records is None:
-                    raise ValueError("No records found")
+                    raise ValueError
                 if records['total_results'] == 0:
-                    raise ValueError("No records found for your search criteria. Please, try again!")
+                    raise ValueError
+        except ValueError:
+            print("No records found for your search criteria. Please, try again")
         except requests.exceptions.HTTPError:
             print("Http Error")
         except requests.exceptions.ConnectionError:
