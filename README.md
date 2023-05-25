@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/32a43747-c685-4684-b387-970a5e763617"/>
+  <img src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/8100ac21-4749-446c-9a33-4bbc6dee001a"/>
 </p>
 
 # **TomeRaider** #
+
 
 ----
 
