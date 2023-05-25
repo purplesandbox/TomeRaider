@@ -60,6 +60,8 @@ pip install -r requirements.txt
 
 Use`create_tomeraider_db_script.sql` 
 
+ - optional: use the `populate_db` file to add entries to the db
+
 2 - Add your DB password
 
 In `config.py` make sure to add your database password and user name 
