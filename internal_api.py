@@ -28,11 +28,6 @@ class InternalAPI:
     def clean_user_input(self, user_input):
         return {k: v for k, v in user_input.items() if v != ''}
 
-    # def search_book_suggestions(self, user_input):
-    #     user_input = self.clean_user_input(user_input)
-    #     book_suggestions = self.book_app_api.get_filtered_results(user_input)
-    #     return book_suggestions
-
     def search_book_suggestions(self, user_input):
 
         x = user_input['book_num']
@@ -114,8 +109,8 @@ class InternalAPI:
             raise BookAlreadyOnTable('This book is already on the to read list')
 
         # Call function to add book to reading list
-        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read['authors'],
-                             category=to_read['categories'])
+        db_utils.insert_book(table='to_read_books', title=to_read['title'], author=to_read["authors"],
+                             category=to_read["categories"])
 
         # Return success message
         return f"{to_read['title']} has been added to reading list"
@@ -137,9 +132,9 @@ class InternalAPI:
         # Call function to add the book to the list of books already read
         db_utils.insert_book(
             table='read_books',
-            title=read['title'],
-            author=read['author'],
-            category=read['categories']
+            title= read["title"],
+            author=read["author"],
+            category=read["categories"]
         )
 
         # Return success message

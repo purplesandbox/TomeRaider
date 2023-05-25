@@ -135,7 +135,7 @@ def insert_book(table, title, author, category):
         cur = db_connection.cursor()
         print(f"Connected to DB: {db_name}")
 
-        query = f"""INSERT INTO {table} (title, author, category) VALUES ('{title}', '{author}', '{category}')"""
+        query = f"""INSERT INTO {table} (title, author, category) VALUES ("{title}", "{author}", "{category}")"""
         cur.execute(query)
         db_connection.commit()
         cur.close()
@@ -164,13 +164,13 @@ def update_rating(book_title, rating):
         query = f"""
                 UPDATE read_books
                 SET star_rating = '{rating}'
-                WHERE title = '{book_title}'
+                WHERE title = "{book_title}"
         """
         cur.execute(query)
         db_connection.commit()
 
         cur.close()
-        print(f'Your Star rating has been added to {book_title}')
+        print(f"Your Star rating has been added to {book_title}")
         return True
 
     except Exception as e:
@@ -191,14 +191,14 @@ def update_review(book_title, review):  # review can be max 16,777,215 character
 
         query = f"""
                 UPDATE read_books
-                SET review = '{review}'
-                WHERE title = '{book_title}'
+                SET review = "{review}"
+                WHERE title = "{book_title}"
         """
         cur.execute(query)
         db_connection.commit()
 
         cur.close()
-        print(f'Your review has been added to {book_title}')
+        print(f"Your review has been added to {book_title}")
         return True
 
     except Exception as e:
@@ -221,7 +221,7 @@ def delete_book(table, book_title):
 
         query = f"""
                 DELETE FROM {table}
-                WHERE title = '{book_title}'
+                WHERE title = "{book_title}"
         """
         cur.execute(query)
         db_connection.commit()
@@ -254,12 +254,12 @@ def move_book(book_title):  # doesn't take it off the to-read table
                 INSERT INTO read_books (title, author, category)
                 SELECT title, author, category
                 FROM to_read_books
-                WHERE title = '{book_title}';"""
+                WHERE title = "{book_title}";"""
         cur.execute(query)
         db_connection.commit()
 
         cur.close()
-        print(f'{book_title} has been moved to your Read Books!')
+        print(f"{book_title} has been moved to your Read Books!")
 
     except Exception as e:
         print(f"Error raised = {str(e)}")
@@ -280,19 +280,19 @@ def move_book2(book_title):  # does remove the book from the to-read table
             INSERT INTO read_books (title, author, category)
             SELECT title, author, category
             FROM to_read_books
-            WHERE title = '{book_title}';"""
+            WHERE title = "{book_title}";"""
         cur.execute(query_insert)
         db_connection.commit()
 
         # Query to delete the book from the 'to_read_books' table
         query_delete = f"""
             DELETE FROM to_read_books
-            WHERE title = '{book_title}';"""
+            WHERE title = "{book_title}";"""
         cur.execute(query_delete)
         db_connection.commit()
 
         cur.close()
-        print(f'{book_title} has been moved to your Read Books!')
+        print(f"{book_title} has been moved to your Read Books!")
         return True
 
     except Exception as e:
