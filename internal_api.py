@@ -38,19 +38,21 @@ class InternalAPI:
         x = user_input['book_num']
         user_input['book_num'] = 50
         user_input = self.clean_user_input(user_input)
-        book_suggestions = self.book_app_api.get_filtered_results(user_input)
+        try:
+            book_suggestions = self.book_app_api.get_filtered_results(user_input)
 
-        # check for duplicates from read_list and return the number the person wanted
-        unique_book_suggestions = self.check_for_duplicates_from_read_list(book_suggestions)
+            # check for duplicates from read_list and return the number the person wanted
+            unique_book_suggestions = self.check_for_duplicates_from_read_list(book_suggestions)
 
-        unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
+            unique_book_suggestions = self.check_for_duplicates_from_to_read_list(x, unique_book_suggestions)
 
-        if unique_book_suggestions == []:
-            raise NoSearchResultsWithGivenCriteria(
-                'No search results that are not already on the read or to-read lists')
-        # Return book suggestion
-        return unique_book_suggestions
-        # print this in user interactions class
+            if unique_book_suggestions == []:
+                raise NoSearchResultsWithGivenCriteria(
+                    'No search results that are not already on the read or to-read lists')
+            # Return book suggestion
+            return unique_book_suggestions
+        except ValueError:
+            raise NoSearchResultsWithGivenCriteria('No search results for your given criteria')
 
     # function to give out a list of books with none of them being in the read_books section
     def check_for_duplicates_from_read_list(self, book_suggestions):
@@ -126,18 +128,22 @@ class InternalAPI:
 
     # function that takes in the book to be added to the to-read list and adds it to the table in the db.
     def add_to_read_list(self, read):
-        # read should be a dictionary for the book from the user interaction
-        # check if book already in the to_read list
+        # Check if the book is already in the to_read list
         book_list = db_utils.get_all_books('read_books')
         titles_in_read_list = (book[0] for book in book_list)
         if read['title'] in titles_in_read_list:
             raise BookAlreadyOnTable('This book is already on the read list')
-        # Call function to add book to list of books already read
-        db_utils.insert_book(table='read_books', title=read['title'], author=read['author'],
-                             category=read['categories'])
+
+        # Call function to add the book to the list of books already read
+        db_utils.insert_book(
+            table='read_books',
+            title=read['title'],
+            author=read['author'],
+            category=read['categories']
+        )
 
         # Return success message
-        return f"{read['title']} has been added to books read list"
+        return f"{read['title']} has been added to the books read list"
 
     # function that deletes a book from the to-read list. Put in the title that needs to be deleted and it will take
     # away that entry
