@@ -1,7 +1,7 @@
 from unittest import TestCase, main, mock
 from unittest.mock import call
 
-from internal_api import InternalAPI, BookAlreadyOnTable
+from internal_api import InternalAPI, BookAlreadyOnTable, BookNotFound
 
 import responses
 
@@ -562,7 +562,6 @@ class InternalAPITests(TestCase):
 
         mock_insert_book.assert_not_called()
 
-
     @mock.patch("db_utils.insert_book")
     def test_add_to_read_list_when_adding_a_book(self, mock_insert_book):
         self.internal_api = InternalAPI()
@@ -577,7 +576,6 @@ class InternalAPITests(TestCase):
             table='read_books', title=read['title'], author=read['author'], category=read['categories']
         )
         self.assertEqual(expected, result)
-
 
     @mock.patch("db_utils.get_all_books",
                 side_effect=mock_db_responses(
@@ -607,39 +605,246 @@ class InternalAPITests(TestCase):
 
         mock_insert_book.assert_not_called()
 
-    # def delete_from_to_read_list_when_book_not_on_list(self):
-    #     pass
-    #
-    # def delete_from_to_read_list_when_book_is_on_list(self):
-    #     pass
-    #
-    # @mock.patch('db_utils.get_all_books')
-    # def test_get_read_list_returns_list(self, mock_get_all_books):
-    #     read_books = [('The Witches', 'Roald Dahl', 'Science Fiction & Fantasy')]
-    #     mock_get_all_books.return_value = read_books
-    #     self.internal_api = InternalAPI()
-    #     result = self.internal_api.get_read_list()
-    #     self.assertEqual(result, read_books)
-    #     mock_get_all_books.assert_called_once_with(table='read_books')
-    #
-    # @mock.patch('db_utils.get_all_books')
-    # def test_get_to_read_list_returns_list(self, mock_get_all_books):
-    #     to_read_books = [('The Witches', 'Roald Dahl', 'Science Fiction & Fantasy')]
-    #     mock_get_all_books.return_value = to_read_books
-    #     self.internal_api = InternalAPI()
-    #     result = self.internal_api.get_to_read_list()
-    #     self.assertEqual(result, to_read_books)
-    #     mock_get_all_books.assert_called_once_with(table='to_read_books')
-    #
-    #
-    # def test_add_a_review_for_book_on_list(self):
-    #     pass
-    #
-    # def test_add_star_rating_for_book_not_on_list(self):
-    #     pass
-    #
-    # def test_add_star_rating_for_book_on_list(self):
-    #     pass
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    @mock.patch("db_utils.delete_book")
+    def delete_from_to_read_list_when_book_is_on_list(self, mock_delete_book, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        title = 'Dirty Beasts'
+        expected = 'Dirty Beasts has been deleted from the to-read list'
+        result = self.internal_api.delete_from_to_read_list(title)
+
+        mock_delete_book.assert_called_once_with(
+            table='to_read_books'
+        )
+        self.assertEqual(expected, result)
+
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    @mock.patch("db_utils.delete_book")
+    def test_delete_from_to_read_list_when_book_not_on_list(self, mock_delete_book, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        title = 'The girl on the train'
+
+        with self.assertRaises(BookNotFound):
+            self.internal_api.delete_from_to_read_list(title)
+
+        mock_delete_book.assert_not_called()
+
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    @mock.patch("db_utils.delete_book")
+    def test_delete_from_read_list_when_book_is_on_list(self, mock_delete_book, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        title = 'Before the coffee gets cold'
+        expected = 'Before the coffee gets cold has been deleted from the read list'
+        result = self.internal_api.delete_from_read_list(title)
+
+        mock_delete_book.assert_called_once_with(
+            table='read_books', book_title=title
+        )
+        self.assertEqual(expected, result)
+
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    @mock.patch("db_utils.delete_book")
+    def test_delete_from_read_list_when_book_not_on_list(self, mock_delete_book, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        title = 'The girl on the train'
+
+        with self.assertRaises(BookNotFound):
+            self.internal_api.delete_from_read_list(title)
+
+        mock_delete_book.assert_not_called()
+
+    @mock.patch('db_utils.get_all_books',
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    def test_get_read_list_returns_list(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        result = self.internal_api.get_read_list()
+        expected = [
+            ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+             'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+            ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+            ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+            ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+
+        ]
+        self.assertEqual(result, expected)
+
+    @mock.patch('db_utils.get_all_books',
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    def test_get_to_read_list_returns_list(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        result = self.internal_api.get_to_read_list()
+        expected = [
+            ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+            ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+        ]
+        self.assertEqual(result, expected)
+
+    @mock.patch('db_utils.get_all_books')
+    @mock.patch('db_utils.update_review')
+    def test_add_a_review_for_book_on_list(self, mock_update_review, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        mock_get_all_books.return_value = [
+            ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction', 'I loved the atmosphere...', '4'),
+            ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+            ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book!', '4'),
+            ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+        ]
+
+        internal_api = InternalAPI()
+
+        read = {
+            'authors': ['Malcolm Gladwell'],
+            'title': 'Talking to strangers',
+            'categories': ['nonfiction']
+        }
+        user_review = 'The book was great!'
+        result = internal_api.add_a_review(read, user_review)
+
+        # Assert that the update_review function was called with the correct arguments
+        mock_update_review.assert_called_once_with('Talking to strangers', 'The book was great!')
+
+        # Assert that the result matches the return value of update_review
+        self.assertEqual(result, mock_update_review.return_value)
+
+    @mock.patch('db_utils.get_all_books')
+    def test_add_a_review_book_not_found(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        mock_get_all_books.return_value = [
+            ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction', 'I loved the atmosphere...', '4'),
+            ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book!', '4'),
+            ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+        ]
+        read = {
+            'authors': ['Malcolm Gladwell'],
+            'title': 'Talking to strangers',
+            'categories': ['nonfiction']
+        }
+        user_review = 'Fantastic'
+        with self.assertRaises(BookNotFound):
+            self.internal_api.add_a_review(read, user_review)
+
+
+    @mock.patch('db_utils.get_all_books')
+    @mock.patch('db_utils.update_rating')
+    def test_add_a_star_rating_for_book_on_list(self, mock_update_rating, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        mock_get_all_books.return_value = [
+            ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction', 'I loved the atmosphere...', '4'),
+            ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', 'It was good!', None),
+            ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book!', '4'),
+            ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+        ]
+
+        internal_api = InternalAPI()
+
+        read = {
+            'authors': ['Malcolm Gladwell'],
+            'title': 'Talking to strangers',
+            'categories': ['nonfiction']
+        }
+        user_rating = '5'
+        result = internal_api.add_star_rating(read, user_rating)
+        mock_update_rating.assert_called_once_with('Talking to strangers', '5')
+        self.assertEqual(result, mock_update_rating.return_value)
+
+    @mock.patch('db_utils.get_all_books')
+    def test_add_a_star_rating_book_not_found(self, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        mock_get_all_books.return_value = [
+            ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction', 'I loved the atmosphere...', '4'),
+            ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book!', '4'),
+            ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+        ]
+        read = {
+            'authors': ['Malcolm Gladwell'],
+            'title': 'Talking to strangers',
+            'categories': ['nonfiction']
+        }
+        user_rating = 5
+        with self.assertRaises(BookNotFound):
+            self.internal_api.add_star_rating(read, user_rating)
 
 
 if __name__ == "__main__":

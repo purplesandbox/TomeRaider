@@ -83,25 +83,25 @@ class InternalAPI:
         # Return random_book
         return random_book
 
-    def check_random_suggestion_in_to_read_list(self, random_book):
-        book_list = db_utils.get_all_books('to_read_books')
-        # a list of all the titles in the to_read_books list
-        titles_in_to_read_list = [book[0] for book in book_list]
-        # repeat_books is a list of book titles that have been suggested but are also in the to_read_books list
-        if random_book['title'] in titles_in_to_read_list:
-            return True
-        else:
-            return False
-
-    def check_random_suggestion_in_read_list(self, random_book):
-        book_list = db_utils.get_all_books('read_books')
-        # a list of all the titles in the to_read_books list
-        titles_in_read_list = [book[0] for book in book_list]
-        # repeat_books is a list of book titles that have been suggested but are also in the to_read_books list
-        if random_book['title'] in titles_in_read_list:
-            return True
-        else:
-            return False
+    # def check_random_suggestion_in_to_read_list(self, random_book):
+    #     book_list = db_utils.get_all_books('to_read_books')
+    #     # a list of all the titles in the to_read_books list
+    #     titles_in_to_read_list = [book[0] for book in book_list]
+    #     # repeat_books is a list of book titles that have been suggested but are also in the to_read_books list
+    #     if random_book['title'] in titles_in_to_read_list:
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def check_random_suggestion_in_read_list(self, random_book):
+    #     book_list = db_utils.get_all_books('read_books')
+    #     # a list of all the titles in the to_read_books list
+    #     titles_in_read_list = [book[0] for book in book_list]
+    #     # repeat_books is a list of book titles that have been suggested but are also in the to_read_books list
+    #     if random_book['title'] in titles_in_read_list:
+    #         return True
+    #     else:
+    #         return False
 
     def add_to_to_read_list(self, to_read):
         # to_read should be a dictionay coming from the user interactions where it gives the author, title, etc
@@ -119,7 +119,7 @@ class InternalAPI:
         return f"{to_read['title']} has been added to reading list"
 
     def get_to_read_list(self):
-        to_read_list = db_utils.get_all_books(table='to_read_books')
+        to_read_list = db_utils.get_all_books('to_read_books')
 
         # Return reading list
         return to_read_list
@@ -144,25 +144,27 @@ class InternalAPI:
     def delete_from_to_read_list(self, title):
         # check if book actually in to_read_list, if not raise error
         book_list = db_utils.get_all_books('to_read_books')
-        titles_in_to_read_list = (book[0].lower() for book in book_list)
+        titles_in_to_read_list = [book[0].lower() for book in book_list]
         if title.lower() not in titles_in_to_read_list:
             raise BookNotFound('This book is not in the to-read list')
         else:
             db_utils.delete_book(table='to_read_books', book_title=title)
+            return f"{title} has been deleted from the to-read list"
 
     def delete_from_read_list(self, title):
         # check if book actually in to_read_list, if not raise error
         book_list = db_utils.get_all_books('read_books')
-        titles_in_read_list = (book[0].lower() for book in book_list)
+        titles_in_read_list = [book[0].lower() for book in book_list]
         if title.lower() not in titles_in_read_list:
             raise BookNotFound('This book is not in the read list')
         else:
             db_utils.delete_book(table='read_books', book_title=title)
+            return f"{title} has been deleted from the read list"
 
     # function that brings the read_list from the db_utils file
     def get_read_list(self):
         # Call function to get list of books already read
-        read_list = db_utils.get_all_books(table='read_books')
+        read_list = db_utils.get_all_books('read_books')
 
         # Return list of books already read
         return (read_list)
@@ -182,8 +184,8 @@ class InternalAPI:
     def add_star_rating(self, read, user_rating):
         # logic here for if the book is not in the list an error is raised
         book_list = db_utils.get_all_books('read_books')
-        titles_in_to_read_list = (book[0] for book in book_list)
-        if read['title'] not in titles_in_to_read_list:
+        titles_in_read_list = (book[0] for book in book_list)
+        if read['title'] not in titles_in_read_list:
             raise BookNotFound('Book not found on read_books list')
         # else user_rating is added
         return db_utils.update_rating(read['title'], user_rating)
