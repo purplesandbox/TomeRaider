@@ -63,15 +63,15 @@ Use`create_tomeraider_db_script.sql`
 
 In `config.py` make sure to add your database password and user name 
 
-3 - Run APIs
+3 - Run programme
 
-In (add files names) 
+Open and run `main.py` 
 
 ---
 ### **Try TomeRaider** ###
 ---
 
-Run `user_interactions.py` and get books recommended based on the genre, check what you have in your database, or get a random book recommended if you're not sure what to read next. Something you read and liked? You can leave a review and a rating! 
+Run `main.py` and get books recommended based on the genre, check what you have in your database, or get a random book recommended if you're not sure what to read next. Something you read and liked? You can leave a review and a rating! 
 
 **Features to look out for:** 
 
