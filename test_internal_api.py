@@ -562,13 +562,51 @@ class InternalAPITests(TestCase):
 
         mock_insert_book.assert_not_called()
 
-    #
-    # def test_add_to_read_list_when_adding_a_book(self):
-    #     pass
-    #
-    # def test_add_to_read_list_when_book_already_on_table(self):
-    #     pass
-    #
+
+    @mock.patch("db_utils.insert_book")
+    def test_add_to_read_list_when_adding_a_book(self, mock_insert_book):
+        self.internal_api = InternalAPI()
+        read = {
+            'author': ['Khaled Hosseini'],
+            'title': 'Sea Prayer',
+            'categories': ['Mystery & Suspense']
+        }
+        expected = 'Sea Prayer has been added to books read list'
+        result = self.internal_api.add_to_read_list(read)
+        mock_insert_book.assert_called_once_with(
+            table='read_books', title=read['title'], author=read['author'], category=read['categories']
+        )
+        self.assertEqual(expected, result)
+
+
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
+    @mock.patch("db_utils.insert_book")
+    def test_add_to_read_list_when_book_already_on_table(self, mock_insert_book, mock_get_all_books):
+        self.internal_api = InternalAPI()
+        read = {
+            'authors': ['Roald Dahl'],
+            'title': 'The B.F.G',
+            'categories': ['Animals, Bugs & Pets']
+        }
+        with self.assertRaises(BookAlreadyOnTable):
+            self.internal_api.add_to_read_list(read)
+
+        mock_insert_book.assert_not_called()
+
     # def delete_from_to_read_list_when_book_not_on_list(self):
     #     pass
     #
@@ -593,13 +631,6 @@ class InternalAPITests(TestCase):
     #     self.assertEqual(result, to_read_books)
     #     mock_get_all_books.assert_called_once_with(table='to_read_books')
     #
-    # # @mock.patch('shop.how_much_extra_money')
-    # # def test_validate_extra_with_invalid_input(self, mock_how_much_extra_money):
-    # #     mock_how_much_extra_money.return_value = 'blabla'
-    # #     with self.assertRaises(ValueError):
-    # #         get_extra_money()
-    # def test_add_a_review_for_book_not_on_list(self):
-    #     pass
     #
     # def test_add_a_review_for_book_on_list(self):
     #     pass
@@ -609,35 +640,6 @@ class InternalAPITests(TestCase):
     #
     # def test_add_star_rating_for_book_on_list(self):
     #     pass
-    #
-    # # def test_add_to_to_read_list(self):
-    # #     self.internal_api = InternalAPI()
-    # #     to_read = {
-    # #         'title': 'The Great Gatsby',
-    # #         'author': 'F. Scott Fitzgerald',
-    # #         'category': 'Fiction, Non-Fiction & Poetry'
-    # #     }
-    # #     expected = 'The Great Gatsby has been added to reading list'
-    # #     result = self.internal_api.add_to_to_read_list(to_read)
-    # #     self.assertEqual(expected, result)
-    #
-    # # def test_search_book_suggestions(self):
-    # #     # Create an instance of the class being tested
-    # #     # and any necessary dependencies
-    # #
-    # #     self.internal_api = InternalAPI()
-    # #     self.book_app_api = BookAppAPI()
-    #
-    # # def test_add_to_to_read_list_1(self):
-    # #     self.internal_api = InternalAPI()
-    # #     to_read = {
-    # #         'title': 'The B.F.G',
-    # #         'author': 'Roald Dahl',
-    # #         'category': 'Fiction'
-    # #     }
-    # #     expected = 'The B.F.G has been added to reading list'
-    # #     result = self.internal_api.add_to_to_read_list(to_read)
-    # #     self.assertEqual(expected, result)
 
 
 if __name__ == "__main__":
