@@ -119,9 +119,9 @@ class UserInteractions:
 
     def validate_input_y_or_n(self, prompt):
         while True:
-            user_input = input(prompt)
-            if user_input.lower().strip() == 'y' or user_input.lower().strip() == 'n':
-                return user_input.lower()
+            user_input = input(prompt).lower().strip()
+            if user_input == 'y' or user_input == 'n':
+                return user_input
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
 
