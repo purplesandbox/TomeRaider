@@ -100,7 +100,7 @@ class UserInteractions:
 
     """ function to validate the user's genre choice """
 
-    # SOME tests written
+    # Tests written
     def get_valid_genre_choice(self):
 
         while True:
@@ -162,6 +162,7 @@ class UserInteractions:
                 print("No search results found. Please refine your search criteria and try again.")
                 continue  # Continue the loop to prompt the user for new search criteria
 
+    # Tests written
     """function to validate fiction or nonfiction input"""
 
     def validate_fiction_nonfiction_input(self):
@@ -301,7 +302,7 @@ class UserInteractions:
                 print("Invalid input. Please enter 'y' or 'n'")
 
     """ function to validate the user star rating input """
-
+    # Test written
     def get_valid_star_rating(self):
         while True:
             rating = input('How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
@@ -399,5 +400,5 @@ class UserInteractions:
                 print(f"{book_to_delete} is not in your to-read list. Please try again.")
 
 
-user1 = UserInteractions()
-user1.welcome()
+# user1 = UserInteractions()
+# user1.welcome()
