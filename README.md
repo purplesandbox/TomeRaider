@@ -97,7 +97,7 @@ There is not average given for very young children as there is no expectation pl
 
 With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. One of our upcoming features includes the ability to generate book lists and recommendations in a convenient text file format, making them easily readable and accessible. Additionally, we are working on incorporating a functionality where you can receive these recommendations directly as a text message on your chosen phone number by using *TWILIO*.
 
-Furthermore, our immediate priority is to create a user-friendly interface for TomeRaider. We'll be developing a user interface using Flask, HTML, and CSS elements, ensuring that navigating and interacting with the application becomes even more seamless and enjoyable for our users. 
+Furthermore, our immediate priority is to create a user-friendly interface for TomeRaider. We'll be developing a user interface using Flask, HTML, and CSS elements, ensuring that navigating and interacting with the application becomes even more seamless and enjoyable for our users. We intend to use a cloud based hostig service  to deploy our app on world wide web, that also entails moving the currently locally served data base to a cloud based database service. Further development foresees adding user accounts and authentication so that usser can interact with his own book lists created in the database.
 
 ---
 ### **The team** ##
