@@ -3,6 +3,7 @@ from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
 from pprint import pprint as pp
 from tabulate import tabulate
 
+
 class UserInteractions:
     def __init__(self):
         self.book_criteria = {
@@ -191,7 +192,6 @@ class UserInteractions:
             else:
                 add_or_not == 'y'
 
-
         if add_or_not == 'n':
             print("Nothing has been added to your to-read list.")
 
@@ -210,25 +210,25 @@ class UserInteractions:
     """ function to prompt the user to select the book from the filtered selection to collect the book details"""
 
     def get_book_details_from_the_sequence_number(self):
-            self.book_to_add_from_the_sequence_validated = self.get_valid_filtered_book_choice()
-            del self.book_to_add_from_the_sequence_validated['summary']
-            author = self.book_to_add_from_the_sequence_validated['authors']
-            self.book_to_add_from_the_sequence_validated['authors'] = author[0]
-            category = self.book_to_add_from_the_sequence_validated['categories']
-            self.book_to_add_from_the_sequence_validated['categories'] = category[0]
-            return self.book_to_add_from_the_sequence_validated
-
-
+        self.book_to_add_from_the_sequence_validated = self.get_valid_filtered_book_choice()
+        del self.book_to_add_from_the_sequence_validated['summary']
+        author = self.book_to_add_from_the_sequence_validated['authors']
+        self.book_to_add_from_the_sequence_validated['authors'] = author[0]
+        category = self.book_to_add_from_the_sequence_validated['categories']
+        self.book_to_add_from_the_sequence_validated['categories'] = category[0]
+        return self.book_to_add_from_the_sequence_validated
 
     """function to validate entry of filtered books"""
 
     def get_valid_filtered_book_choice(self):
 
         while True:
-            self.book_from_the_filtered_list = input("""Please enter the number that corresponds to the book you would like to add:""")
+            self.book_from_the_filtered_list = input(
+                """Please enter the number that corresponds to the book you would like to add:""")
             if self.book_from_the_filtered_list.isdigit():
                 self.book_from_the_filtered_list = int(self.book_from_the_filtered_list) - 1
-                if self.book_from_the_filtered_list >= 0 and self.book_from_the_filtered_list <= len(self.filtered_books):
+                if self.book_from_the_filtered_list >= 0 and self.book_from_the_filtered_list <= len(
+                        self.filtered_books):
                     self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
                     if 'summary' in self.book_to_add_from_the_sequence.keys():
                         return self.book_to_add_from_the_sequence
@@ -240,13 +240,12 @@ class UserInteractions:
                     print("The sequence number entered is out of the provided book range. Please, try again!")
                     self.add_filtered_book_to_to_read_list()
             elif self.book_from_the_filtered_list == '' or isinstance(self.book_from_the_filtered_list, str):
-                print("Please enter the NUMBER that corresponds to the book you would like to add to your to-read list!")
+                print(
+                    "Please enter the NUMBER that corresponds to the book you would like to add to your to-read list!")
                 self.add_filtered_book_to_to_read_list()
 
-
-
-
     """ function to add book to read list """
+
     def add_book_to_read_list(self):
         while True:
             book_to_add = self.get_book_details()
@@ -308,15 +307,14 @@ class UserInteractions:
     """ function to view read list """
 
     def view_read_list(self):
-         read_list = self.internal_api.get_read_list()
+        read_list = self.internal_api.get_read_list()
 
-         if not read_list:
-             return "Your Read list is empty."
-         else:
-             headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
-             print(tabulate(read_list, headers, tablefmt='grid'))
-                
-               
+        if not read_list:
+            return "Your Read list is empty."
+        else:
+            headers = ['Title', 'Author', 'Category', 'Review', 'Star Rating']
+            print(tabulate(read_list, headers, tablefmt='grid'))
+
     """ function to view to read list """
 
     def view_to_read_list(self):
