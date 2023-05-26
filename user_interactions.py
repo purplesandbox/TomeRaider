@@ -142,7 +142,7 @@ class UserInteractions:
                 genre_input = self.get_valid_genre_choice()
 
                 fiction_input = self.validate_fiction_nonfiction_input()
-                lexile_min_input = input('Lexile min: ')
+                lexile_min_input = self.validate_lexile_min_input()
                 lexile_max_input = input('Lexile max: ')
 
                 self.book_criteria['author'] = author_input
@@ -171,12 +171,23 @@ class UserInteractions:
             if fiction_input == "" or fiction_input in ['fiction', 'nonfiction']:
                 return fiction_input
             else:
-                print("Invalid input. Please enter 'fiction' or 'nonfiction'.")
+                print("Invalid input. Please enter 'fiction' or 'nonfiction', or press enter if you have no preference. ")
 
     """function to validate lexile_min input"""
 
     def validate_lexile_min_input(self):
-        pass
+        while True:
+            lexile_min_input = input('Lexile min: ')
+            if lexile_min_input == '':
+                return ''  # Return empty string if input is empty
+            try:
+                lexile_min = int(lexile_min_input)
+                if -650 <= lexile_min <= 2150:
+                    return lexile_min
+                else:
+                    print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no preference. ")
+            except ValueError:
+                print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no preference. ")
 
     """function to validate lexile_max input"""
 
