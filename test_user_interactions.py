@@ -196,11 +196,12 @@ class TestValidateFictionNonFiction(unittest.TestCase):
                     patch('builtins.print') as mock_print:
                 result = self.user_interactions.validate_fiction_nonfiction_input()
                 self.assertEqual(result, None)
-                mock_print.assert_called_with("Invalid input. Please enter 'fiction' or 'nonfiction'.")
+                mock_print.assert_called_with("Invalid input. Please enter 'fiction' or 'nonfiction', or press enter if you have no preference. ")
 
 
 class TestGetValidStarRating(unittest.TestCase):
     """Test get valid star rating function"""
+
     def setUp(self):
         self.userinteractions = UserInteractions()
 
@@ -231,6 +232,7 @@ class TestGetValidStarRating(unittest.TestCase):
 
 class TestUserReviewStarRating(unittest.TestCase):
     """Tests for user_review_and_call_star_rating function"""
+
     def setUp(self):
         self.userinteractions = UserInteractions()
 
