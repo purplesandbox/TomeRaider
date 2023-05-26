@@ -1,5 +1,5 @@
 import db_utils
-from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable
+from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable, NoSearchResultsWithGivenCriteria
 from pprint import pprint as pp
 from tabulate import tabulate
 
@@ -128,6 +128,40 @@ class UserInteractions:
     """ function to allow user to search for a book and input different search params """
 
     # Not started tests yet, looks tricky....
+    # def filtered_choice(self):
+    #     number_of_books = self.get_number_of_books()
+    #     self.book_criteria['book_num'] = number_of_books
+    #     self.book_criteria['filtered_choice'] = True
+
+        # while True:
+        #     try:
+        #         self.print_search_criteria_message()
+        #         author_input = input('Author: ')
+        #
+        #         self.print_book_genre_dictionary()
+        #         genre_input = self.get_valid_genre_choice()
+        #
+        #         fiction_input = input('Fiction or NonFiction: ')
+        #         lexile_min_input = input('Lexile min: ')
+        #         lexile_max_input = input('Lexile max: ')
+        #
+        #         self.book_criteria['author'] = author_input
+        #         self.book_criteria['categories'] = genre_input
+        #         self.book_criteria['book_type'] = fiction_input
+        #         self.book_criteria['lexile_min'] = lexile_min_input
+        #         self.book_criteria['lexile_max'] = lexile_max_input
+        #
+        #         self.filtered_books = self.internal_api.search_book_suggestions(user_input=self.book_criteria)
+        #         for index, element in enumerate(self.filtered_books):
+        #             print(f"{index + 1})")
+        #             pp(element)
+        #
+        #         self.add_filtered_book_to_to_read_list()
+        #         break  # Exit the loop if no exception is raised
+        #     except NoSearchResultsWithGivenCriteria:
+        #         print("No search results found. Please refine your search criteria and try again.")
+        #         continue  # Continue the loop to prompt the user for new search criteria
+
     def filtered_choice(self):
         number_of_books = self.get_number_of_books()
         self.book_criteria['book_num'] = number_of_books
@@ -253,8 +287,8 @@ class UserInteractions:
                 break
             except BookAlreadyOnTable:
                 print("This book is already on the to-read list! Please try again.")
-            finally:
-                self.user_review_and_call_star_rating(read=self.read_book_dict)
+
+        self.user_review_and_call_star_rating(read=self.read_book_dict)
 
     """ function to ask user whether they would like to add a star rating """
 
