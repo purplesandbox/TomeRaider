@@ -269,7 +269,9 @@ class UserInteractions:
                 "Please enter the number that corresponds to the book you would like to add: ")
             if self.book_from_the_filtered_list.isdigit():
                 self.book_from_the_filtered_list = int(self.book_from_the_filtered_list) - 1
-                if 0 <= self.book_from_the_filtered_list <= len(self.filtered_books):
+                if self.book_from_the_filtered_list > len(self.filtered_books):
+                    print("The entry is out of range of the book selecton list! Please, try again!")
+                elif 0 <= self.book_from_the_filtered_list <= len(self.filtered_books):
                     self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
                     if 'summary' in self.book_to_add_from_the_sequence.keys():
                         return self.book_to_add_from_the_sequence
