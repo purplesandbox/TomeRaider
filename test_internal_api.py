@@ -519,8 +519,23 @@ class InternalAPITests(TestCase):
         result = self.internal_api.random_book_suggestion(user_input)
         self.assertEqual(expected, result)
 
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
     @mock.patch("db_utils.insert_book")
-    def test_add_to_to_read_list_when_adding_a_book(self, mock_insert_book):
+    def test_add_to_to_read_list_when_adding_a_book(self, mock_insert_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         to_read = {
             'authors': ['Khaled Hosseini'],
@@ -562,8 +577,23 @@ class InternalAPITests(TestCase):
 
         mock_insert_book.assert_not_called()
 
+    @mock.patch("db_utils.get_all_books",
+                side_effect=mock_db_responses(
+                    read=[
+                        ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
+                         'I loved the atmosphere in the book, so dreamy, but also full of emotions', '4'),
+                        ('Talking to strangers', 'Malcolm Gladwell', 'nonfiction', None, '5'),
+                        ('The B.F.G', 'Roald Dahl', 'Animals, Bugs & Pets', 'Really enjoyed this book! ', '4'),
+                        ('Wilderness tips', 'Margaret Atwood', 'fiction', 'A short stories anthology', '3')
+                    ],
+                    to_read=[
+                        ('Dirty Beasts', 'Roald Dahl', 'Fiction, Non-fiction & Poetry'),
+                        ('The Magic Finger', 'Roald Dahl', 'Hobbies, Sports & Outdoors')
+                    ]
+                )
+                )
     @mock.patch("db_utils.insert_book")
-    def test_add_to_read_list_when_adding_a_book(self, mock_insert_book):
+    def test_add_to_read_list_when_adding_a_book(self, mock_insert_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         read = {
             'author': ['Khaled Hosseini'],
