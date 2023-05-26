@@ -198,8 +198,9 @@ class TestValidateFictionNonFiction(unittest.TestCase):
                 self.assertEqual(result, None)
                 mock_print.assert_called_with("Invalid input. Please enter 'fiction' or 'nonfiction'.")
 
-class TestGetValidStarRating(unittest.TestCase):
 
+class TestGetValidStarRating(unittest.TestCase):
+    """Test get valid star rating function"""
     def setUp(self):
         self.userinteractions = UserInteractions()
 
@@ -226,6 +227,31 @@ class TestGetValidStarRating(unittest.TestCase):
             result = self.userinteractions.get_valid_star_rating()
         self.assertEqual(result, 3)
         mock_print.assert_called_with("Please enter a number between 1 and 5.")
+
+
+class TestUserReviewStarRating(unittest.TestCase):
+    """Tests for user_review_and_call_star_rating function"""
+    def setUp(self):
+        self.userinteractions = UserInteractions()
+
+    @patch('builtins.input')
+    def test_user_review_and_call_star_rating_add_review(self, mock_input):
+        mock_input.side_effect = ['y', 'Really nice to read.', '5']
+        with patch.object(self.userinteractions.internal_api, 'add_a_review') as mock_add_review, \
+                patch.object(self.userinteractions, 'star_rating') as mock_star_rating:
+            read_book_dict = {'title': 'Monday Morning', 'author': 'Author', 'categories': 'Fiction'}
+            self.userinteractions.user_review_and_call_star_rating(read_book_dict)
+            mock_add_review.assert_called_with(read_book_dict, 'Really nice to read.')
+            mock_star_rating.assert_called_with(read_book_dict)
+
+    @patch('builtins.input')
+    def test_user_review_and_call_star_rating_no_review(self, mock_input):
+        mock_input.side_effect = ['n', '4']
+        with patch.object(self.userinteractions, 'star_rating') as mock_star_rating:
+            read_book_dict = {'title': 'Harry Potter', 'author': 'J.K. Rowling', 'categories': 'Fiction'}
+            self.userinteractions.user_review_and_call_star_rating(read_book_dict)
+            mock_star_rating.assert_called_with(read_book_dict)
+            mock_star_rating.assert_called_with(read_book_dict)
 
 
 if __name__ == '__main__':
