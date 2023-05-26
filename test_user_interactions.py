@@ -196,7 +196,8 @@ class TestValidateFictionNonFiction(unittest.TestCase):
                     patch('builtins.print') as mock_print:
                 result = self.user_interactions.validate_fiction_nonfiction_input()
                 self.assertEqual(result, None)
-                mock_print.assert_called_with("Invalid input. Please enter 'fiction' or 'nonfiction', or press enter if you have no preference. ")
+                mock_print.assert_called_with(
+                    "Invalid input. Please enter 'fiction' or 'nonfiction', or press enter if you have no preference. ")
 
 
 class TestGetValidStarRating(unittest.TestCase):
@@ -254,6 +255,25 @@ class TestUserReviewStarRating(unittest.TestCase):
             self.userinteractions.user_review_and_call_star_rating(read_book_dict)
             mock_star_rating.assert_called_with(read_book_dict)
             mock_star_rating.assert_called_with(read_book_dict)
+
+
+class TestValidateLexileMinMax(unittest.TestCase):
+    """Testing ValidateLexileMinMax function"""
+
+    def setUp(self):
+        self.userinteractions = UserInteractions()
+
+    @patch('builtins.input', side_effect=['500', '1000', ''])
+    def test_validate_lexile_min_and_max_input(self, mock_input):
+        # Test valid input within the range
+        result = self.userinteractions.validate_lexile_min_and_max_input()
+        self.assertEqual(result, 500)
+
+        result = self.userinteractions.validate_lexile_min_and_max_input()
+        self.assertEqual(result, 1000)
+
+        result = self.userinteractions.validate_lexile_min_and_max_input()
+        self.assertEqual(result, '')
 
 
 if __name__ == '__main__':
