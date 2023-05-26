@@ -88,13 +88,13 @@ class UserInteractions:
 
     # Tests written
     def print_search_criteria_message(self):
-        print('What would you like to search by? (Press enter if you would like to leave blank):')
+        print('What would you like to search by? (Press enter if you would like to leave blank): ')
 
     """function to display the genres available to user """
 
     # Tests written
     def print_book_genre_dictionary(self):
-        print('You can choose from the following categories:')
+        print('You can choose from the following categories: ')
         for key, value in self.genre_choices.items():
             print(f"{key}: {value}")
 
@@ -105,7 +105,7 @@ class UserInteractions:
 
         while True:
             genre_input = input(
-                'Please enter the number that corresponds with your genre choice. (Press enter if you do not have a preference)')
+                'Please enter the number that corresponds with your genre choice. (Press enter if you do not have a preference) ')
             if genre_input == '':
                 return None
             elif genre_input in self.genre_choices.keys():
@@ -171,7 +171,7 @@ class UserInteractions:
     """ function to add random book to to read list """
 
     def add_random_book_to_to_read_list(self, random_book):
-        add_or_not = self.validate_input_y_or_n('Would you like you add to your to-read list? (y/n)')
+        add_or_not = self.validate_input_y_or_n('Would you like you add to your to-read list? (y/n) ')
         if add_or_not == 'y':
             self.internal_api.add_to_to_read_list(random_book)
         else:
@@ -224,10 +224,10 @@ class UserInteractions:
 
         while True:
             self.book_from_the_filtered_list = input(
-                """Please enter the number that corresponds to the book you would like to add:""")
+                """Please enter the number that corresponds to the book you would like to add: """)
             if self.book_from_the_filtered_list.isdigit():
                 self.book_from_the_filtered_list = int(self.book_from_the_filtered_list) - 1
-                if self.book_from_the_filtered_list >= 0 and self.book_from_the_filtered_list <= len(
+                if 0 <= self.book_from_the_filtered_list <= len(
                         self.filtered_books):
                     self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
                     if 'summary' in self.book_to_add_from_the_sequence.keys():
