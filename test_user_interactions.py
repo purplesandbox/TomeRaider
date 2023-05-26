@@ -3,7 +3,7 @@ from unittest import mock
 from unittest.mock import patch
 from user_interactions import UserInteractions
 from io import StringIO
-from internal_api import NoSearchResultsWithGivenCriteria, BookNotFound, BookAlreadyOnTable
+from internal_api import NoSearchResultsWithGivenCriteria, BookNotFound, BookAlreadyOnTable, InternalAPI
 import sys
 
 
@@ -178,6 +178,7 @@ class TestValidateInputYorN(unittest.TestCase):
 
 class TestValidateFictionNonFiction(unittest.TestCase):
     """Tests for validate fiction or nonfiction input"""
+
     def setUp(self):
         self.user_interactions = UserInteractions()
 
@@ -197,66 +198,34 @@ class TestValidateFictionNonFiction(unittest.TestCase):
                 self.assertEqual(result, None)
                 mock_print.assert_called_with("Invalid input. Please enter 'fiction' or 'nonfiction'.")
 
+class TestGetValidStarRating(unittest.TestCase):
 
-# ##################################################################################################
-#
-# class TestRandomChoice(unittest.TestCase):
-#
-#     def setUp(self):
-#         self.userinteractions = UserInteractions()
-#
-# ##################################################################################################
-#
-# class TestAddRandomBookToToReadList(unittest.TestCase):
-#
-#     def setUp(self):
-#         self.userinteractions = UserInteractions()
-#
-# ##################################################################################################
-#
-# class TestAddFilteredBookToToReadList(unittest.TestCase):
-#
-#     def setUp(self):
-#         self.userinteractions = UserInteractions()
-#
-# ##################################################################################################
-#
-# class TestGetBookDetails(unittest.TestCase):
-#
-#     def setUp(self):
-#         self.userinteractions = UserInteractions()
-#
-#     @patch('builtins.input', side_effect=['Philip Pullman', 'Northern Lights', '5'])
-#     def test_get_book_details_all_given(self, mock_input):
-#         expected_result = {
-#             'authors': 'Philip Pullman',
-#             'title': 'Northern Lights',
-#             'categories': 'Science Fiction & Fantasy'
-#         }
-#         result = self.userinteractions.get_book_details()
-#         self.assertEqual(result, expected_result)
-#
-#     @patch('builtins.input', side_effect=['', 'Northern Lights', '5'])
-#     def test_get_book_details_no_author(self, mock_input):
-#         expected_result = {
-#             'authors': '',
-#             'title': 'Northern Lights',
-#             'categories': 'Science Fiction & Fantasy'
-#         }
-#         result = self.userinteractions.get_book_details()
-#         self.assertEqual(result, expected_result)
-#
-#     @patch('builtins.input', side_effect=['Philip Pullman', '', '5'])
-#     def test_get_book_details_no_title(self, mock_input):
-#         expected_result = {
-#             'authors': 'Philip Pullman',
-#             'title': '',
-#             'categories': 'Science Fiction & Fantasy'
-#         }
-#         result = self.userinteractions.get_book_details()
-#         self.assertEqual(result, expected_result)
-#
-#
+    def setUp(self):
+        self.userinteractions = UserInteractions()
+
+    @patch('builtins.input')
+    def test_get_valid_star_rating_valid_input(self, mock_input):
+        mock_input.return_value = '4'
+
+        result = self.userinteractions.get_valid_star_rating()
+
+        self.assertEqual(result, 4)
+
+    @patch('builtins.input')
+    def test_get_valid_star_rating_invalid_input(self, mock_input):
+        mock_input.side_effect = ['abc', '6', '2']
+        with patch('builtins.print') as mock_print:
+            result = self.userinteractions.get_valid_star_rating()
+        self.assertEqual(result, 2)
+        mock_print.assert_called_with("Please enter a number between 1 and 5.")
+
+    @patch('builtins.input')
+    def test_get_valid_star_rating_out_of_range_input(self, mock_input):
+        mock_input.side_effect = ['0', '7', '3']
+        with patch('builtins.print') as mock_print:
+            result = self.userinteractions.get_valid_star_rating()
+        self.assertEqual(result, 3)
+        mock_print.assert_called_with("Please enter a number between 1 and 5.")
 
 
 if __name__ == '__main__':
