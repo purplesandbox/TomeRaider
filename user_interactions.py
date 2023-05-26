@@ -120,7 +120,7 @@ class UserInteractions:
     def validate_input_y_or_n(self, prompt):
         while True:
             user_input = input(prompt)
-            if user_input.lower() == 'y' or user_input.lower() == 'n':
+            if user_input.lower().strip() == 'y' or user_input.lower().strip() == 'n':
                 return user_input.lower()
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
@@ -205,7 +205,7 @@ class UserInteractions:
     """ function to add random book to to read list """
 
     def add_random_book_to_to_read_list(self, random_book):
-        add_or_not = self.validate_input_y_or_n('Would you like you add to your to-read list? (y/n) ')
+        add_or_not = self.validate_input_y_or_n('Would you like to add this to your to-read list? (y/n) ')
         if add_or_not == 'y':
             self.internal_api.add_to_to_read_list(random_book)
         else:
