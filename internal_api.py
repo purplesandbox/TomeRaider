@@ -1,12 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask
 from API_results import BookAppAPI
 import db_utils
 
 app = Flask(__name__)
 
 
-# Note: For category, the user has to input each word starting with a capital letter. The API will return an error
-# as it is case-sensitive
 
 class BookAlreadyOnTable(Exception):
     pass
@@ -46,7 +44,7 @@ class InternalAPI:
                     'No search results that are not already on the read or to-read lists')
             # Return book suggestion
             return unique_book_suggestions
-        except ValueError:
+        except TypeError:
             raise NoSearchResultsWithGivenCriteria('No search results for your given criteria')
 
     # function to give out a list of books with none of them being in the read_books section
