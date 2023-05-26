@@ -173,7 +173,7 @@ class UserInteractions:
         self.print_book_genre_dictionary()
         genre_input = self.get_valid_genre_choice()
 
-        fiction_input = input('Fiction or NonFiction: ')
+        fiction_input = self.validate_fiction_nonfiction_input()
         lexile_min_input = input('Lexile min: ')
         lexile_max_input = input('Lexile max: ')
 
@@ -188,6 +188,15 @@ class UserInteractions:
             print(f"{index + 1})")
             pp(element)
         self.add_filtered_book_to_to_read_list()
+
+    """fuction to validate fiction or nonfiction input"""
+    def validate_fiction_nonfiction_input(self):
+        while True:
+            fiction_input = input('Fiction or Nonfiction: ').lower().strip()
+            if fiction_input == "" or 'fiction' or fiction_input == 'nonfiction':
+                return fiction_input
+            else:
+                print("Invalid input. Please enter 'fiction' or 'nonfiction'.")
 
     """Function which allows user to choose a book genre to generate a random book"""
 
