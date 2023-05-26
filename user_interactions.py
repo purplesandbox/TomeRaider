@@ -162,9 +162,7 @@ class UserInteractions:
                 print("No search results found. Please refine your search criteria and try again.")
                 continue  # Continue the loop to prompt the user for new search criteria
 
-
-
-    """fuction to validate fiction or nonfiction input"""
+    """function to validate fiction or nonfiction input"""
 
     def validate_fiction_nonfiction_input(self):
         while True:
@@ -173,6 +171,16 @@ class UserInteractions:
                 return fiction_input
             else:
                 print("Invalid input. Please enter 'fiction' or 'nonfiction'.")
+
+    """function to validate lexile_min input"""
+
+    def validate_lexile_min_input(self):
+        pass
+
+    """function to validate lexile_max input"""
+
+    def validate_lexile_max_input(self):
+        pass
 
     """Function which allows user to choose a book genre to generate a random book"""
 
