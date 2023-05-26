@@ -49,19 +49,6 @@ class TestWelcome(unittest.TestCase):
             mock_add_book.assert_called_once()
 
 
-class TestPrintSearchCriteriaMessage(unittest.TestCase):
-    """Test print search criteria message function"""
-
-    def setUp(self):
-        self.userinteractions = UserInteractions()
-
-    def test_print_search_criteria_message(self):
-        with patch('builtins.print') as mock_print:
-            self.userinteractions.print_search_criteria_message()
-            mock_print.assert_called_with(
-                'What would you like to search by? (Press enter if you would like to leave blank):')
-
-
 class TestNumberOfBooks(unittest.TestCase):
     """Test number of books function"""
 
@@ -91,6 +78,19 @@ class TestNumberOfBooks(unittest.TestCase):
             self.assertEqual(result, 10)
 
 
+class TestPrintSearchCriteriaMessage(unittest.TestCase):
+    """Test print search criteria message function"""
+
+    def setUp(self):
+        self.userinteractions = UserInteractions()
+
+    def test_print_search_criteria_message(self):
+        with patch('builtins.print') as mock_print:
+            self.userinteractions.print_search_criteria_message()
+            mock_print.assert_called_with(
+                'What would you like to search by? (Press enter if you would like to leave blank): ')
+
+
 class TestPrintBookGenreDictionary(unittest.TestCase):
     """Test print book genre dictionary function"""
 
@@ -98,7 +98,7 @@ class TestPrintBookGenreDictionary(unittest.TestCase):
         self.userinteractions = UserInteractions()
 
     def test_print_book_genre_dictionary(self):
-        expected_output = '''You can choose from the following categories:
+        expected_output = '''You can choose from the following categories: 
 1: Animals, Bugs & Pets
 2: Art, Creativity & Music
 3: General Literature
@@ -147,27 +147,33 @@ class TestValidateInputYorN(unittest.TestCase):
     def setUp(self):
         self.userinteractions = UserInteractions()
 
-    def test_validate_input_y(self):
-
-        with patch('builtins.input', return_value = 'Y'):
-            prompt = "Please enter 'y' or 'n': "
-            expected = 'y'
-            result = self.userinteractions.validate_input_y_or_n(prompt)
-            self.assertEqual(result, expected)
-
-    def test_validate_input_n(self):
+    def test_validate_input_y_or_n_valid_input(self):
+        with patch('builtins.input', return_value='y'):
+            result = self.userinteractions.validate_input_y_or_n('Prompt')
+            self.assertEqual(result, 'y')
 
         with patch('builtins.input', return_value='n'):
-            prompt = "Please enter 'y' or 'n': "
-            expected = 'n'
-            result = self.userinteractions.validate_input_y_or_n(prompt)
-            self.assertEqual(result, expected)
+            result = self.userinteractions.validate_input_y_or_n('Prompt')
+            self.assertEqual(result, 'n')
 
-    def test_validate_input_invalid(self):
-        with patch('builtins.input', return_value='T'):
-            prompt = "Please enter 'y' or 'n': "
-            result = self.userinteractions.validate_input_y_or_n(prompt)
-            self.assertEqual(result, None)
+    def test_validate_input_y_or_n_invalid_input_then_valid_input(self):
+        with patch('builtins.input', side_effect=['invalid', 'y']):
+            result = self.userinteractions.validate_input_y_or_n('Prompt')
+            self.assertEqual(result, 'y')
+
+        with patch('builtins.input', side_effect=['invalid', 'n']):
+            result = self.userinteractions.validate_input_y_or_n('Prompt')
+            self.assertEqual(result, 'n')
+
+    def test_validate_input_y_or_n_case_insensitive(self):
+        with patch('builtins.input', return_value='Y'):
+            result = self.userinteractions.validate_input_y_or_n('Prompt')
+            self.assertEqual(result, 'y')
+
+        with patch('builtins.input', return_value='N'):
+            result = self.userinteractions.validate_input_y_or_n('Prompt')
+            self.assertEqual(result, 'n')
+
 
 
 # ##################################################################################################
