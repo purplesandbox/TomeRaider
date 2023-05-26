@@ -142,8 +142,8 @@ class UserInteractions:
                 genre_input = self.get_valid_genre_choice()
 
                 fiction_input = self.validate_fiction_nonfiction_input()
-                lexile_min_input = self.validate_lexile_min_input()
-                lexile_max_input = input('Lexile max: ')
+                lexile_min_input = self.validate_lexile_min_and_max_input()
+                lexile_max_input = self.validate_lexile_min_and_max_input()
 
                 self.book_criteria['author'] = author_input
                 self.book_criteria['categories'] = genre_input
@@ -171,28 +171,27 @@ class UserInteractions:
             if fiction_input == "" or fiction_input in ['fiction', 'nonfiction']:
                 return fiction_input
             else:
-                print("Invalid input. Please enter 'fiction' or 'nonfiction', or press enter if you have no preference. ")
+                print("Invalid input. Please enter 'fiction' or 'nonfiction', or press enter if you have no "
+                      "preference. ")
 
-    """function to validate lexile_min input"""
-
-    def validate_lexile_min_input(self):
+    """function to validate lexile min & max input"""
+    def validate_lexile_min_and_max_input(self):
         while True:
             lexile_min_input = input('Lexile min: ')
             if lexile_min_input == '':
-                return ''  # Return empty string if input is empty
+                return ''
             try:
                 lexile_min = int(lexile_min_input)
                 if -650 <= lexile_min <= 2150:
                     return lexile_min
                 else:
-                    print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no preference. ")
+                    print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no "
+                          "preference. ")
             except ValueError:
-                print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no preference. ")
+                print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no "
+                      "preference. ")
 
-    """function to validate lexile_max input"""
 
-    def validate_lexile_max_input(self):
-        pass
 
     """Function which allows user to choose a book genre to generate a random book"""
 
