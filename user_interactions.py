@@ -305,9 +305,9 @@ class UserInteractions:
                 self.star_rating(read)
                 break
 
-     """ function to view read list """
+    """ function to view read list """
 
-     def view_read_list(self):
+    def view_read_list(self):
          read_list = self.internal_api.get_read_list()
 
          if not read_list:
