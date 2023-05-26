@@ -221,28 +221,23 @@ class UserInteractions:
     """function to validate entry of filtered books"""
 
     def get_valid_filtered_book_choice(self):
-
         while True:
             self.book_from_the_filtered_list = input(
-                """Please enter the number that corresponds to the book you would like to add: """)
+                "Please enter the number that corresponds to the book you would like to add: ")
             if self.book_from_the_filtered_list.isdigit():
                 self.book_from_the_filtered_list = int(self.book_from_the_filtered_list) - 1
-                if 0 <= self.book_from_the_filtered_list <= len(
-                        self.filtered_books):
+                if 0 <= self.book_from_the_filtered_list <= len(self.filtered_books):
                     self.book_to_add_from_the_sequence = self.filtered_books[self.book_from_the_filtered_list]
                     if 'summary' in self.book_to_add_from_the_sequence.keys():
                         return self.book_to_add_from_the_sequence
                     else:
-                        print("This book has been already selected!")
-                        self.get_book_details_from_the_sequence_number()
+                        print("This book has already been selected!")
 
                 else:
-                    print("The sequence number entered is out of the provided book range. Please, try again!")
-                    self.add_filtered_book_to_to_read_list()
-            elif self.book_from_the_filtered_list == '' or isinstance(self.book_from_the_filtered_list, str):
-                print(
-                    "Please enter the NUMBER that corresponds to the book you would like to add to your to-read list!")
-                self.add_filtered_book_to_to_read_list()
+                    print("The number you provided is invalid. Please try again.")
+            else:
+                print("Invalid input. Please try again.")
+                continue
 
     """ function to add book to read list """
 
