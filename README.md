@@ -32,26 +32,20 @@ git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
 
 ----
 
-In order to run the programme you will need to have the following installed and up to date: 
+In order to run the programme you will need to have the following installed: 
 
-- pip install flask
-- pip install tabulate
-- pip install requests
-- pip install jsonify
-- pip install mysql.connector
-- pip install unittest.mock
+- Flask==2.3.2
+- tabulate==0.9.0
+- requests==2.31.0
+- jsonify==0.5
+- mysql-connector-python==8.0.33
 
 
 Install the minimal requirments
-
-*If you are running a Python version >=3.3 you can delete pip install unittest.mock as it is included in the standard library.*
  
-
 ```
 pip install -r requirements.txt
 ```
-
-
 ---
 ### **Configuration** ###
 ---
@@ -60,7 +54,7 @@ pip install -r requirements.txt
 
 Use`create_tomeraider_db_script.sql` 
 
- - optional: use the `populate_db` file to add entries to the db
+ - optional: use the `populate_db` file to add entries to the db, if you wish to prepopulate it
 
 2 - Add your DB password
 
@@ -80,7 +74,8 @@ Run `main.py` and get books recommended based on the genre, check what you have 
 
 1. Search for books by specifying different parameters such as lexile measure (entering values for lexile is optional) and genre
 2. Get a random book suggestion by only specifying a genre
-3. Look at the database to view their table of to-read books and/or read books.
+3. Look at the database to view their table of to-read books and/or read books
+4. Add a book to your read list
 
 **Lexile Chart:** 
 
