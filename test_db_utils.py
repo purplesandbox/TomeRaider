@@ -1,9 +1,10 @@
 import unittest
-from db_utils import *
+from db_utils import get_all_books, insert_book, move_book, delete_book, update_review, update_rating
 
 """"
 Make sure your db is empty before running these tests
 """""
+
 
 class TestToReadBooksDb(unittest.TestCase):
     """
@@ -24,8 +25,6 @@ class TestToReadBooksDb(unittest.TestCase):
         move_book('Python Tricks')
         result_move = get_all_books('read_books')
         self.assertEqual(result_move[0][0], 'Python Tricks')
-        print(f"I'm here {result_move}")
-
 
     def test_delete_to_read_book(self):
         delete_book('to_read_books', 'The Great Gatsby')

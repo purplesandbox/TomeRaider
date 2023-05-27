@@ -170,7 +170,11 @@ def delete_book(table, book_title):
             db_connection.close()
 
 
-# function to move books between the tables
+""""
+move_book is part of our expansion plans, and it's not currently implemented in the programme
+"""""
+
+
 def move_book(book_title):  # doesn't take it off the to-read table
     try:
         db_name = 'TomeRaider'
@@ -193,44 +197,8 @@ def move_book(book_title):  # doesn't take it off the to-read table
     except Exception as e:
         print(f"Error raised = {str(e)}")
 
-
-# function to move books between the tables
-def move_book2(book_title):  # does remove the book from the to-read table
-    try:
-        db_name = 'TomeRaider'
-        db_connection = _connect_to_db(db_name)
-        cur = db_connection.cursor()
-
-        book_title = book_title.replace('"', '\\"')  # removing " and ' from titles
-
-        # Query to insert the book into the 'read_books' table
-        query_insert = f"""
-            INSERT INTO read_books (title, author, category)
-            SELECT title, author, category
-            FROM to_read_books
-            WHERE title = "{book_title}";"""
-        cur.execute(query_insert)
-        db_connection.commit()
-
-        # Query to delete the book from the 'to_read_books' table
-        query_delete = f"""
-            DELETE FROM to_read_books
-            WHERE title = "{book_title}";"""
-        cur.execute(query_delete)
-        db_connection.commit()
-
-        cur.close()
-        print(f"{book_title} has been moved to your Read Books!")
-        return True
-
-    except Exception as e:
-        raise DbConnectionError(f"Failed to move book: {str(e)}")
-        print(f"Error raised = {str(e)}")
-
     finally:
         if db_connection:
             db_connection.close()
-
-
 
 
