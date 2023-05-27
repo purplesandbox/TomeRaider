@@ -5,7 +5,6 @@ from config import USER, PASSWORD, HOST
 class DbConnectionError(Exception):
     pass
 
-
 def _connect_to_db(db_name):
     try:
         cnx = mysql.connector.connect(
@@ -59,6 +58,8 @@ def insert_book(table, title, author, category):
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
+        title = title.replace('"', '\\"')  # removing " and ' from titles
+
         query = f"""INSERT INTO {table} (title, author, category) VALUES ("{title}", "{author}", "{category}")"""
         cur.execute(query)
         db_connection.commit()
@@ -84,7 +85,7 @@ def update_rating(book_title, rating):
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
-        book_title = book_title.replace('"', '\"')
+        book_title = book_title.replace('"', '\\"')  # removing " and ' from titles
 
         query = f"""
                 UPDATE read_books
@@ -113,15 +114,14 @@ def update_review(book_title, review):  # review can be max 16,777,215 character
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
-        review = review.replace('"', '\"')
-        book_title = book_title.replace('"', '\"')
-
+        review = review.replace('"', '\\"')  # removing " and ' from reviews
 
         query = f"""
                 UPDATE read_books
                 SET review = "{review}"
                 WHERE title = "{book_title}"
         """
+
         cur.execute(query)
         db_connection.commit()
 
@@ -146,8 +146,7 @@ def delete_book(table, book_title):
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
-        book_title = book_title.replace('"', '\"')
-
+        book_title = book_title.replace('"', '\\"')  # removing " and ' from titles
 
         query = f"""
                 DELETE FROM {table}
@@ -176,6 +175,7 @@ def move_book(book_title):  # doesn't take it off the to-read table
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
+        book_title = book_title.replace('"', '\\"') # removing " and ' from titles
 
         query = f"""
                 INSERT INTO read_books (title, author, category)
@@ -198,8 +198,7 @@ def move_book2(book_title):  # does remove the book from the to-read table
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
-        book_title = book_title.replace('"', '\"')
-
+        book_title = book_title.replace('"', '\\"')  # removing " and ' from titles
 
         # Query to insert the book into the 'read_books' table
         query_insert = f"""
