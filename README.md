@@ -40,6 +40,7 @@ In order to run the programme you will need to have the following installed:
 - jsonify==0.5
 - mysql-connector-python==8.0.33
 - responses==0.23.1
+- python-dotenv==1.0.0
 
 
 Install the minimal requirments
