@@ -1,6 +1,6 @@
 from flask import Flask
-from API_results import BookAppAPI
-import db_utils
+from CFG_S3_Group4_Project.src.API.API_results import BookAppAPI
+from CFG_S3_Group4_Project.src.Database import db_utils
 
 app = Flask(__name__)
 

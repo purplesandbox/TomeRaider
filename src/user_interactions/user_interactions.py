@@ -1,5 +1,4 @@
-import db_utils
-from internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable, NoSearchResultsWithGivenCriteria
+from CFG_S3_Group4_Project.src.API.internal_api import InternalAPI, BookNotFound, BookAlreadyOnTable, NoSearchResultsWithGivenCriteria
 from pprint import pprint as pp
 from tabulate import tabulate
 

@@ -1,8 +1,6 @@
 from unittest import TestCase, main, mock
-from unittest.mock import call
 
-from internal_api import InternalAPI, BookAlreadyOnTable, BookNotFound
-
+from CFG_S3_Group4_Project.src.API.internal_api import InternalAPI, BookAlreadyOnTable, BookNotFound
 import responses
 
 
@@ -51,7 +49,7 @@ class InternalAPITests(TestCase):
         result = self.internal_api.clean_user_input(user_input)
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -100,7 +98,7 @@ class InternalAPITests(TestCase):
         self.assertEqual(self.internal_api.search_book_suggestions(user_input=user_input), book_results)
         # mock_get_all_books.assert_has_calls([call('read_books'), call('to_read_books')])
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -142,7 +140,7 @@ class InternalAPITests(TestCase):
         with self.assertRaises(Exception):
             self.internal_api.search_book_suggestions(user_input)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -236,7 +234,7 @@ class InternalAPITests(TestCase):
         result = len(self.internal_api.search_book_suggestions(user_input))
         self.assertEqual(result, expected)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -287,7 +285,7 @@ class InternalAPITests(TestCase):
         result = len(self.internal_api.search_book_suggestions(user_input))
         self.assertEqual(result, expected)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -322,7 +320,7 @@ class InternalAPITests(TestCase):
         result = self.internal_api.check_for_duplicates_from_read_list(book_suggestions)
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -350,7 +348,7 @@ class InternalAPITests(TestCase):
         result = self.internal_api.check_for_duplicates_from_read_list(book_suggestions)
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -384,7 +382,7 @@ class InternalAPITests(TestCase):
         result = self.internal_api.check_for_duplicates_from_read_list(book_suggestions)
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -412,7 +410,7 @@ class InternalAPITests(TestCase):
         result = self.internal_api.check_for_duplicates_from_to_read_list(1, book_suggestions)
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -440,7 +438,7 @@ class InternalAPITests(TestCase):
         result = self.internal_api.check_for_duplicates_from_to_read_list(1, book_suggestions)
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -519,7 +517,7 @@ class InternalAPITests(TestCase):
         result = self.internal_api.random_book_suggestion(user_input)
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -534,7 +532,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.insert_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.insert_book")
     def test_add_to_to_read_list_when_adding_a_book(self, mock_insert_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         to_read = {
@@ -549,7 +547,7 @@ class InternalAPITests(TestCase):
         )
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -564,7 +562,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.insert_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.insert_book")
     def test_add_to_to_read_list_when_book_already_on_table(self, mock_insert_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         to_read = {
@@ -577,7 +575,7 @@ class InternalAPITests(TestCase):
 
         mock_insert_book.assert_not_called()
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -592,7 +590,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.insert_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.insert_book")
     def test_add_to_read_list_when_adding_a_book(self, mock_insert_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         read = {
@@ -607,7 +605,7 @@ class InternalAPITests(TestCase):
         )
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -622,7 +620,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.insert_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.insert_book")
     def test_add_to_read_list_when_book_already_on_table(self, mock_insert_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         read = {
@@ -635,7 +633,7 @@ class InternalAPITests(TestCase):
 
         mock_insert_book.assert_not_called()
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -650,7 +648,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.delete_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.delete_book")
     def delete_from_to_read_list_when_book_is_on_list(self, mock_delete_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         title = 'Dirty Beasts'
@@ -662,7 +660,7 @@ class InternalAPITests(TestCase):
         )
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -677,7 +675,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.delete_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.delete_book")
     def test_delete_from_to_read_list_when_book_not_on_list(self, mock_delete_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         title = 'The girl on the train'
@@ -687,7 +685,7 @@ class InternalAPITests(TestCase):
 
         mock_delete_book.assert_not_called()
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -702,7 +700,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.delete_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.delete_book")
     def test_delete_from_read_list_when_book_is_on_list(self, mock_delete_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         title = 'Before the coffee gets cold'
@@ -714,7 +712,7 @@ class InternalAPITests(TestCase):
         )
         self.assertEqual(expected, result)
 
-    @mock.patch("db_utils.get_all_books",
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.get_all_books",
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -729,7 +727,7 @@ class InternalAPITests(TestCase):
                     ]
                 )
                 )
-    @mock.patch("db_utils.delete_book")
+    @mock.patch("CFG_S3_Group4_Project.src.Database.db_utils.delete_book")
     def test_delete_from_read_list_when_book_not_on_list(self, mock_delete_book, mock_get_all_books):
         self.internal_api = InternalAPI()
         title = 'The girl on the train'
@@ -739,7 +737,7 @@ class InternalAPITests(TestCase):
 
         mock_delete_book.assert_not_called()
 
-    @mock.patch('db_utils.get_all_books',
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.get_all_books',
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -767,7 +765,7 @@ class InternalAPITests(TestCase):
         ]
         self.assertEqual(result, expected)
 
-    @mock.patch('db_utils.get_all_books',
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.get_all_books',
                 side_effect=mock_db_responses(
                     read=[
                         ('Before the coffee gets cold', 'Toshikazu Kawaguchi', 'fiction',
@@ -791,8 +789,8 @@ class InternalAPITests(TestCase):
         ]
         self.assertEqual(result, expected)
 
-    @mock.patch('db_utils.get_all_books')
-    @mock.patch('db_utils.update_review')
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.get_all_books')
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.update_review')
     def test_add_a_review_for_book_on_list(self, mock_update_review, mock_get_all_books):
         self.internal_api = InternalAPI()
         mock_get_all_books.return_value = [
@@ -818,7 +816,7 @@ class InternalAPITests(TestCase):
         # Assert that the result matches the return value of update_review
         self.assertEqual(result, mock_update_review.return_value)
 
-    @mock.patch('db_utils.get_all_books')
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.get_all_books')
     def test_add_a_review_book_not_found(self, mock_get_all_books):
         self.internal_api = InternalAPI()
         mock_get_all_books.return_value = [
@@ -836,8 +834,8 @@ class InternalAPITests(TestCase):
             self.internal_api.add_a_review(read, user_review)
 
 
-    @mock.patch('db_utils.get_all_books')
-    @mock.patch('db_utils.update_rating')
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.get_all_books')
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.update_rating')
     def test_add_a_star_rating_for_book_on_list(self, mock_update_rating, mock_get_all_books):
         self.internal_api = InternalAPI()
         mock_get_all_books.return_value = [
@@ -859,7 +857,7 @@ class InternalAPITests(TestCase):
         mock_update_rating.assert_called_once_with('Talking to strangers', '5')
         self.assertEqual(result, mock_update_rating.return_value)
 
-    @mock.patch('db_utils.get_all_books')
+    @mock.patch('CFG_S3_Group4_Project.src.Database.db_utils.get_all_books')
     def test_add_a_star_rating_book_not_found(self, mock_get_all_books):
         self.internal_api = InternalAPI()
         mock_get_all_books.return_value = [
