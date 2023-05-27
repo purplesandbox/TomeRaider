@@ -75,7 +75,7 @@ Run `main.py` and get books recommended based on the genre, check what you have 
 1. Search for books by specifying different parameters such as lexile measure (entering values for lexile is optional) and genre
 2. Get a random book suggestion by only specifying a genre
 3. Look at the database to view their table of to-read books and/or read books
-4. Add a book to your read list
+4. Add a book to your read list and leave a review and/or a rating
 
 **Lexile Chart:** 
 
@@ -90,7 +90,7 @@ There is not average given for very young children as there is no expectation pl
 ### **Future plans:** ###
 ---
 
-With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. Our immediate priority is to create a user-friendly anf beautiful graphical interface for TomeRaider. We'll be developing a user interface using Flask, HTML, and CSS elements, ensuring that navigation and interaction with the application becomes even more seamless and enjoyable for our users. We intend to use a cloud based hosting service to deploy our app on the world wide web, that also entails moving the currently locally served data base to a cloud based database service. Further development foresees adding user accounts and authentication so that users can interact with their own book lists created in the database.
+With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. Our immediate priority is to create a user-friendly and beautiful graphical interface for TomeRaider. We'll be developing a user interface using the Flask framework ensuring that navigation and interaction with the programme becomes even more seamless and enjoyable for our users. We intend to use a cloud based hosting service to deploy our app on the world wide web, that also entails moving the currently locally served data base to a cloud based database service. Further development foresees adding user accounts and authentication so that users can interact with their own book lists created in the database.
 
 ---
 ### **The team** ##
