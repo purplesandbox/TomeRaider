@@ -19,10 +19,12 @@ class TestToReadBooksDb(unittest.TestCase):
         result = get_all_books("to_read_books")
         self.assertEqual(inserted_book_to_read, result)
 
-    # def test_move_book(self):
-    #     move_book('The Great Gatsby')
-    #     result_move = get_all_books('read_books')
-    #     self.assertEqual(result_move, 'The Great Gatsby')
+    def test_move_book(self):
+        insert_book('to_read_books', 'Python Tricks', 'Dab Bader', 'Science & Technology')
+        move_book('Python Tricks')
+        result_move = get_all_books('read_books')
+        self.assertEqual(result_move[0][0], 'Python Tricks')
+        print(f"I'm here {result_move}")
 
 
     def test_delete_to_read_book(self):
