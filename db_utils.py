@@ -84,6 +84,8 @@ def update_rating(book_title, rating):
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
 
+        book_title = book_title.replace('"', '\"')
+
         query = f"""
                 UPDATE read_books
                 SET star_rating = '{rating}'
@@ -110,6 +112,10 @@ def update_review(book_title, review):  # review can be max 16,777,215 character
         db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
+
+        review = review.replace('"', '\"')
+        book_title = book_title.replace('"', '\"')
+
 
         query = f"""
                 UPDATE read_books
@@ -139,6 +145,9 @@ def delete_book(table, book_title):
         db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
+
+        book_title = book_title.replace('"', '\"')
+
 
         query = f"""
                 DELETE FROM {table}
@@ -188,6 +197,9 @@ def move_book2(book_title):  # does remove the book from the to-read table
         db_name = 'TomeRaider'
         db_connection = _connect_to_db(db_name)
         cur = db_connection.cursor()
+
+        book_title = book_title.replace('"', '\"')
+
 
         # Query to insert the book into the 'read_books' table
         query_insert = f"""
