@@ -395,12 +395,12 @@ class UserInteractions:
         while True:
             book_to_delete = input(
                 "Please enter the title of the book you would like to delete (or enter 'cancel' to go back): ")
-            lower_case_book_to_delete = book_to_delete.lower()
-            if lower_case_book_to_delete == 'cancel':
+            lower_stripped_case_book_to_delete = book_to_delete.lower().strip()
+            if lower_stripped_case_book_to_delete == 'cancel':
                 print("Deletion cancelled.")
                 break
             try:
-                self.internal_api.delete_from_to_read_list(lower_case_book_to_delete)
+                self.internal_api.delete_from_to_read_list(lower_stripped_case_book_to_delete)
                 print(f"{book_to_delete} has been deleted.")
                 break
             except BookNotFound:
