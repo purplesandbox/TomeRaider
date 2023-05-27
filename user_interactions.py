@@ -199,7 +199,12 @@ class UserInteractions:
         self.print_book_genre_dictionary()
         chosen_genre = self.get_valid_genre_choice()
 
+        self.book_criteria['author'] = ''
         self.book_criteria['categories'] = chosen_genre
+        self.book_criteria['book_type'] = ''
+        self.book_criteria['lexile_min'] = ''
+        self.book_criteria['lexile_max'] = ''
+        self.book_criteria['filtered_choice'] = False
         self.book_criteria['random_choice'] = True
 
         random_book = self.internal_api.random_book_suggestion(user_input=self.book_criteria)
