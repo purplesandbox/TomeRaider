@@ -37,7 +37,6 @@ class UserInteractions:
 
     """Welcome function which contains the options for user to select, directs user to the relevant function"""
 
-    # Tests written
     def welcome(self):
         while True:
             user_choice = input("""Welcome to TomeRaider!\nWhat would you like to do?
@@ -71,7 +70,6 @@ class UserInteractions:
     """function to ask user to enter the number of books they want to return
         this continues to loop until a valid response is given"""
 
-    # Tests written
     def get_number_of_books(self):
         while True:
             try:
@@ -86,7 +84,6 @@ class UserInteractions:
 
     """function to return the search criteria messages for filtered_choice book(s)"""
 
-    # Tests written
     def print_search_criteria_message(self):
         print('What would you like to search by? (Press enter if you would like to leave blank): ')
 
@@ -100,7 +97,6 @@ class UserInteractions:
 
     """ function to validate the user's genre choice """
 
-    # Tests written
     def get_valid_genre_choice(self):
 
         while True:
@@ -115,8 +111,6 @@ class UserInteractions:
 
     """ function to validate the user's yes or no input """
 
-    # SOME tests written
-
     def validate_input_y_or_n(self, prompt):
         while True:
             user_input = input(prompt).lower().strip()
@@ -127,7 +121,6 @@ class UserInteractions:
 
     """ function to allow user to search for a book and input different search params """
 
-    # Not started tests yet, looks tricky....
     def filtered_choice(self):
         number_of_books = self.get_number_of_books()
         self.book_criteria['book_num'] = number_of_books
@@ -240,7 +233,6 @@ class UserInteractions:
 
     """ function to ask for book details that user would like to add to read list """
 
-    # Tests for all details, no author and no title. No genre doesn't work
     def get_book_details(self):
         self.book_to_add = {
             'authors': input("Please enter the author(s) of the book: "),
@@ -317,7 +309,7 @@ class UserInteractions:
                 print("Invalid input. Please enter 'y' or 'n'")
 
     """ function to validate the user star rating input """
-    # Test written
+
     def get_valid_star_rating(self):
         while True:
             rating = input('How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
@@ -415,5 +407,3 @@ class UserInteractions:
                 print(f"{book_to_delete} is not in your to-read list. Please try again.")
 
 
-# user1 = UserInteractions()
-# user1.welcome()

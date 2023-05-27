@@ -99,7 +99,7 @@ class TestPrintBookGenreDictionary(unittest.TestCase):
         self.userinteractions = UserInteractions()
 
     def test_print_book_genre_dictionary(self):
-        expected_output = '''You can choose from the following categories: 
+        expected_output = '''You can choose from the following categories:
 1: Animals, Bugs & Pets
 2: Art, Creativity & Music
 3: General Literature
