@@ -5,6 +5,7 @@ from config import USER, PASSWORD, HOST
 class DbConnectionError(Exception):
     pass
 
+# function to connect to the database
 def _connect_to_db(db_name):
     try:
         cnx = mysql.connector.connect(
@@ -19,7 +20,7 @@ def _connect_to_db(db_name):
         print(f'failed to connect + {str(e)}')
 
 
-# combined function to view entries in the tables, this version just prints results
+# combined function to view entries in the tables
 def get_all_books(table):
     try:
         db_name = 'TomeRaider'
@@ -52,6 +53,7 @@ def get_all_books(table):
 
 
 
+# function to add book to either table
 def insert_book(table, title, author, category):
     try:
         db_name = 'TomeRaider'
@@ -77,8 +79,8 @@ def insert_book(table, title, author, category):
     print(f"{title} has been added to {table}.")
     return True
 
-# for the following functions, if there are duplicate entries the function will apply to all
-# function to add a review to read books
+# for the following functions, if there are duplicate entries in table the function will apply to all
+# function to add a rating to read_books table
 def update_rating(book_title, rating):
     try:
         db_name = 'TomeRaider'
@@ -108,6 +110,7 @@ def update_rating(book_title, rating):
             db_connection.close()
 
 
+# function to add a review to read_books table
 def update_review(book_title, review):  # review can be max 16,777,215 characters
     try:
         db_name = 'TomeRaider'
@@ -139,7 +142,7 @@ def update_review(book_title, review):  # review can be max 16,777,215 character
 
 
 
-
+# function to delete a book from either table
 def delete_book(table, book_title):
     try:
         db_name = 'TomeRaider'
@@ -167,8 +170,7 @@ def delete_book(table, book_title):
             db_connection.close()
 
 
-
-
+# function to move books between the tables
 def move_book(book_title):  # doesn't take it off the to-read table
     try:
         db_name = 'TomeRaider'
@@ -192,6 +194,7 @@ def move_book(book_title):  # doesn't take it off the to-read table
         print(f"Error raised = {str(e)}")
 
 
+# function to move books between the tables
 def move_book2(book_title):  # does remove the book from the to-read table
     try:
         db_name = 'TomeRaider'
