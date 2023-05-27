@@ -39,6 +39,7 @@ In order to run the programme you will need to have the following installed:
 - requests==2.31.0
 - jsonify==0.5
 - mysql-connector-python==8.0.33
+- responses==0.13.3
 
 
 Install the minimal requirments
