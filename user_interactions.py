@@ -363,10 +363,11 @@ class UserInteractions:
     def delete_book(self):
         while True:
             which_list = input("Which list would you like to delete a book from? ('to-read' or 'read')")
-            if which_list.lower() == 'to-read':
+            lower_stripped_which_list = which_list.lower().strip()
+            if lower_stripped_which_list == 'to-read':
                 self.delete_from_to_read_list()
                 break
-            elif which_list.lower() == 'read':
+            elif lower_stripped_which_list == 'read':
                 self.delete_from_read_list()
                 break
             else:
