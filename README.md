@@ -42,7 +42,7 @@ In order to run the programme you will need to have the following installed:
 - python-dotenv==1.0.0
 
 
-Your system should nstall the minimal requirments automatically, but if needed run
+Your system should install the minimal requirments automatically, but if needed run
  
 ```
 pip install -r requirements.txt
