@@ -32,7 +32,7 @@ git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
 
 ----
 
-In order to run the programme you will need to have the following installed: 
+In order to run the program you will need to have the following installed: 
 
 - tabulate==0.9.0
 - requests==2.31.0
@@ -42,7 +42,7 @@ In order to run the programme you will need to have the following installed:
 - python-dotenv==1.0.0
 
 
-Your system should install the minimal requirments automatically, but if needed run
+Your system should install the minimal requirements automatically, but if needed run
  
 ```
 pip install -r requirements.txt
@@ -55,18 +55,18 @@ pip install -r requirements.txt
 
 From the src folder open the Database folder and use`create_tomeraider_db_script.sql` to create your database
 
- - optional: use the `populate_db.sql` file to add entries to the db, if you wish to prepopulate it with sample data
+ - Optional: use the `populate_db.sql` file to add entries to the db, if you wish to pre-populate it with sample data
 
 2 - Add your DB password
 
-In `config.py` make sure to add your database password and user name 
+In `config.py` make sure to add your database password and username 
 
 3 - Create `.env` file and generate your own API keys:
-- create `.env` file in the project folder and paste the following into the `.env` file:<br />
+- Create `.env` file in the project folder and paste the following into the `.env` file:<br />
         `X-RapidAPI-Key=`<br />
         `X-RapidAPI-Host=book-finder1.p.rapidapi.com`<br />
         
-- go to the https://rapidapi.com/dfskGT/api/book-finder1/ - signup and login so that `X-RapidAPI-Key` can be generated (you can find it under Header Parameters), copy the key and paste it in the .env file like this: `X-RapidAPI-Key=XXXXXXXXXXXXXXXXXX`
+- Go to the https://rapidapi.com/dfskGT/api/book-finder1/ - signup and login so that `X-RapidAPI-Key` can be generated (you can find it under Header Parameters), copy the key and paste it in the .env file like this: `X-RapidAPI-Key=XXXXXXXXXXXXXXXXXX`
 
 4 - Run programme
 
@@ -88,7 +88,7 @@ Run `main.py` and get books recommended based on the genre, check what you have 
 **Lexile Chart:** 
 
 Lexile levels are a popular method used by schools to measure a student reader's ability. This chart briefly explains the average lexile ranges of different children to help you find an appropriate choice. 
-There is not average given for very young children as there is no expectation placed on their reading ability.
+There is no average given for very young children as there is no expectation placed on their reading ability.
 
 <img width="885" alt="Screenshot 2023-05-19 at 13 43 15" src="https://github.com/purplesandbox/CFG_S3_Group4_Project/assets/128521409/2d30dc99-7c7e-48cc-a350-ae0cc9905dd4">
 
@@ -98,7 +98,9 @@ There is not average given for very young children as there is no expectation pl
 ### **Future plans:** ###
 ---
 
-With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. Our immediate priority is to create a user-friendly and beautiful graphical interface for TomeRaider. We'll be developing a user interface using the Flask framework ensuring that navigation and interaction with the programme becomes even more seamless and enjoyable for our users. We intend to use a cloud based hosting service to deploy our app on the world wide web, that also entails moving the currently locally served data base to a cloud based database service. Further development foresees adding user accounts and authentication so that users can interact with their own book lists created in the database.
+With increased time and resources at our disposal, we have exciting plans to enhance TomeRaider even further. Our immediate priority is to create a user-friendly and beautiful graphical interface for TomeRaider. We'll be developing a user interface using the Flask framework ensuring that navigation and interaction with the programme becomes even more seamless and enjoyable for our users. 
+
+We intend to use a cloud based hosting service to deploy our app on the world wide web, that also entails moving the currently locally served data base to a cloud based database service. Further development foresees adding user accounts and authentication so that users can interact with their own book lists created in the database.
 
 ---
 ### **The team** ##
