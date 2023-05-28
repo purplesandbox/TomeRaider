@@ -66,7 +66,7 @@ In `config.py` make sure to add your database password and user name
         `X-RapidAPI-Key=`<br />
         `X-RapidAPI-Host=`<br />
         
-- go to the https://rapidapi.com/dfskGT/api/book-finder1/ - signup and login so that X-RapidAPI-Key can be generated, copy the key and paste it in the .env file like this: `X-RapidAPI-Key=XXXXXXXXXXXXXXXXXX`
+- go to the https://rapidapi.com/dfskGT/api/book-finder1/ - signup and login so that `X-RapidAPI-Key` can be generated, copy the key and paste it in the .env file like this: `X-RapidAPI-Key=XXXXXXXXXXXXXXXXXX`
 
 4 - Run programme
 
