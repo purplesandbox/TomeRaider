@@ -34,7 +34,6 @@ git clone https://github.com/purplesandbox/CFG_S3_Group4_Project.git
 
 In order to run the programme you will need to have the following installed: 
 
-- Flask==2.3.2
 - tabulate==0.9.0
 - requests==2.31.0
 - jsonify==0.5
