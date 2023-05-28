@@ -54,7 +54,7 @@ pip install -r requirements.txt
 
 1 - Set up database
 
-Use`create_tomeraider_db_script.sql` 
+From the src folder open the Database folder and use`create_tomeraider_db_script.sql` to create your database
 
  - optional: use the `populate_db` file to add entries to the db, if you wish to prepopulate it
 
@@ -64,7 +64,7 @@ In `config.py` make sure to add your database password and user name
 
 3 - Run programme
 
-Open and run `main.py` 
+Open and run `main.py` from the src folder
 
 ---
 ### **Try TomeRaider** ###
