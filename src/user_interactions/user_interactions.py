@@ -35,7 +35,6 @@ class UserInteractions:
         }
 
     """Welcome function which contains the options for user to select, directs user to the relevant function"""
-
     def welcome(self):
         while True:
             user_choice = input("""Welcome to TomeRaider!\nWhat would you like to do?
@@ -68,7 +67,6 @@ class UserInteractions:
 
     """function to ask user to enter the number of books they want to return
         this continues to loop until a valid response is given"""
-
     def get_number_of_books(self):
         while True:
             try:
@@ -82,20 +80,16 @@ class UserInteractions:
                 print('Invalid input. Please try again.')
 
     """function to return the search criteria messages for filtered_choice book(s)"""
-
     def print_search_criteria_message(self):
         print('What would you like to search by? (Press enter if you would like to leave blank): ')
 
     """function to display the genres available to user """
-
-    # Tests written
     def print_book_genre_dictionary(self):
         print('You can choose from the following categories: ')
         for key, value in self.genre_choices.items():
             print(f"{key}: {value}")
 
     """ function to validate the user's genre choice """
-
     def get_valid_genre_choice(self):
 
         while True:
@@ -109,7 +103,6 @@ class UserInteractions:
                 print('Invalid genre choice. Please choose a valid number from the genre choices.')
 
     """ function to validate the user's yes or no input """
-
     def validate_input_y_or_n(self, prompt):
         while True:
             user_input = input(prompt).lower().strip()
@@ -119,7 +112,6 @@ class UserInteractions:
                 print("Invalid input. Please enter 'y' or 'n'.")
 
     """ function to allow user to search for a book and input different search params """
-
     def filtered_choice(self):
         number_of_books = self.get_number_of_books()
         self.book_criteria['book_num'] = number_of_books
@@ -154,9 +146,7 @@ class UserInteractions:
                 print("No search results found. Please refine your search criteria and try again.")
                 continue  # Continue the loop to prompt the user for new search criteria
 
-    # Tests written
     """function to validate fiction or nonfiction input"""
-
     def validate_fiction_nonfiction_input(self):
         while True:
             fiction_input = input('Fiction or Nonfiction: ').lower().strip()
@@ -167,7 +157,6 @@ class UserInteractions:
                       "preference. ")
 
     """function to validate lexile min input"""
-
     def validate_lexile_min_input(self):
         while True:
             lexile_min_input = input('Lexile min: ')
@@ -185,7 +174,6 @@ class UserInteractions:
                       "preference. ")
 
     """function to validate lexile max input"""
-
     def validate_lexile_max_input(self):
         while True:
             lexile_max_input = input('Lexile max: ')
@@ -203,7 +191,6 @@ class UserInteractions:
                       "preference. ")
 
     """Function which allows user to choose a book genre to generate a random book"""
-
     def random_choice(self):
         self.print_book_genre_dictionary()
         chosen_genre = self.get_valid_genre_choice()
@@ -221,7 +208,6 @@ class UserInteractions:
         self.add_random_book_to_to_read_list(random_book)
 
     """ function to add random book to to read list """
-
     def add_random_book_to_to_read_list(self, random_book):
         add_or_not = self.validate_input_y_or_n('Would you like to add this to your to-read list? (y/n) ')
         if add_or_not == 'y':
@@ -230,7 +216,6 @@ class UserInteractions:
             print("Nothing has been added to your to-read list.")
 
     """ function to add filtered book to to read list """
-
     def add_filtered_book_to_to_read_list(self):
         add_or_not = self.validate_input_y_or_n('Would you like to add a book to your to-read list? (y/n) ')
         while add_or_not == 'y':
@@ -248,7 +233,6 @@ class UserInteractions:
             print("Nothing has been added to your to-read list.")
 
     """ function to ask for book details that user would like to add to read list """
-
     def get_book_details(self):
         self.book_to_add = {
             'authors': input("Please enter the author(s) of the book: "),
@@ -259,7 +243,6 @@ class UserInteractions:
         return self.book_to_add
 
     """ function to prompt the user to select the book from the filtered selection to collect the book details"""
-
     def get_book_details_from_the_sequence_number(self):
         self.book_to_add_from_the_sequence_validated = self.get_valid_filtered_book_choice()
         del self.book_to_add_from_the_sequence_validated['summary']
@@ -270,7 +253,6 @@ class UserInteractions:
         return self.book_to_add_from_the_sequence_validated
 
     """function to validate entry of filtered books"""
-
     def get_valid_filtered_book_choice(self):
         while True:
             self.book_from_the_filtered_list = input(
@@ -293,7 +275,6 @@ class UserInteractions:
                 continue
 
     """ function to add book to read list """
-
     def add_book_to_read_list(self):
         while True:
             book_to_add = self.get_book_details()
@@ -310,7 +291,6 @@ class UserInteractions:
         self.user_review_and_call_star_rating(read=self.read_book_dict)
 
     """ function to ask user whether they would like to add a star rating """
-
     def star_rating(self, read):
         while True:
             add_star_rating = input('Would you like to add a star rating for the book? (y/n) ')
@@ -325,7 +305,6 @@ class UserInteractions:
                 print("Invalid input. Please enter 'y' or 'n'")
 
     """ function to validate the user star rating input """
-
     def get_valid_star_rating(self):
         while True:
             rating = input('How many stars would you like to rate this book? (Enter a number between 1 and 5): ')
@@ -339,7 +318,6 @@ class UserInteractions:
                 print("Please enter a valid number.")
 
     """ function to ask if user would like to add a review and then ask if they want to add a star rating """
-
     def user_review_and_call_star_rating(self, read):
         while True:
             review = input('Would you like to add a review for this book? (y/n) ')
@@ -353,7 +331,6 @@ class UserInteractions:
                 break
 
     """ function to view read list """
-
     def view_read_list(self):
         read_list = self.internal_api.get_read_list()
 
@@ -364,7 +341,6 @@ class UserInteractions:
             print(tabulate(read_list, headers, tablefmt='grid'))
 
     """ function to view to read list """
-
     def view_to_read_list(self):
         to_read_list = self.internal_api.get_to_read_list()
 
@@ -375,7 +351,6 @@ class UserInteractions:
             print(tabulate(to_read_list, headers, tablefmt='grid'))
 
     """ function to ask user which list they want to delete a book from """
-
     def delete_book(self):
         while True:
             which_list = input("Which list would you like to delete a book from? ('to-read' or 'read')")
@@ -390,7 +365,6 @@ class UserInteractions:
                 print("Invalid choice. Please try again.")
 
     """ function to ask user which book they want to delete from read list """
-
     def delete_from_read_list(self):
         while True:
             book_to_delete = input(
@@ -407,7 +381,6 @@ class UserInteractions:
                 print(f"{book_to_delete} is not in your to-read list. Please try again.")
 
     """ function to ask user which book they would like to delete from to-read list """
-
     def delete_from_to_read_list(self):
         while True:
             book_to_delete = input(
