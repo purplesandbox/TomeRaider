@@ -62,7 +62,7 @@ From the src folder open the Database folder and use`create_tomeraider_db_script
 In `config.py` make sure to add your database password and user name 
 
 3 - Create .env file and generate your own API keys:
-- create .env file in the project folder and paste the following into the .env file:
+- create .env file in the project folder and paste the following into the .env file:<br />
         X-RapidAPI-Key=<br />
         X-RapidAPI-Host=<br />
         
