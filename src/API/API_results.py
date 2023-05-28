@@ -1,5 +1,6 @@
 import requests
 import random
+import os
 
 
 # """
@@ -11,8 +12,8 @@ class BookAppAPI:
     def __init__(self):
         self.endpoint = 'https://book-finder1.p.rapidapi.com/api/search'
         self.requirement = {
-    'X-RapidAPI-Key': 'e42255e58dmsh896e188a4c3b74dp12368fjsn273ec0f1d7ca',
-    'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com'
+    'X-RapidAPI-Key': os.getenv('X-RapidAPI-Key'),
+    'X-RapidAPI-Host': os.getenv('X-RapidAPI-Host')
 }
         self.relevant_keys = ['authors', 'title', 'categories', 'summary']
         self.request_params = {'results_per_page': '100', 'page': '1'}

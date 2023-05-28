@@ -3,3 +3,4 @@ requests==2.31.0
 jsonify==0.5
 mysql-connector-python==8.0.33
 responses==0.23.1
+python-dotenv==1.0.0
