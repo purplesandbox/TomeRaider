@@ -134,8 +134,8 @@ class UserInteractions:
                 genre_input = self.get_valid_genre_choice()
 
                 fiction_input = self.validate_fiction_nonfiction_input()
-                lexile_min_input = self.validate_lexile_min_and_max_input()
-                lexile_max_input = self.validate_lexile_min_and_max_input()
+                lexile_min_input = self.validate_lexile_min_input()
+                lexile_max_input = self.validate_lexile_max_input()
 
                 self.book_criteria['author'] = author_input
                 self.book_criteria['categories'] = genre_input
@@ -166,8 +166,9 @@ class UserInteractions:
                 print("Invalid input. Please enter 'fiction' or 'nonfiction', or press enter if you have no "
                       "preference. ")
 
-    """function to validate lexile min & max input"""
-    def validate_lexile_min_and_max_input(self):
+    """function to validate lexile min input"""
+
+    def validate_lexile_min_input(self):
         while True:
             lexile_min_input = input('Lexile min: ')
             if lexile_min_input == '':
@@ -183,7 +184,23 @@ class UserInteractions:
                 print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no "
                       "preference. ")
 
+    """function to validate lexile max input"""
 
+    def validate_lexile_max_input(self):
+        while True:
+            lexile_max_input = input('Lexile max: ')
+            if lexile_max_input == '':
+                return ''
+            try:
+                lexile_max = int(lexile_max_input)
+                if -650 <= lexile_max <= 2150:
+                    return lexile_max
+                else:
+                    print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no "
+                          "preference. ")
+            except ValueError:
+                print("Invalid input. Please enter a number between -650 and 2150, or press enter if you have no "
+                      "preference. ")
 
     """Function which allows user to choose a book genre to generate a random book"""
 
@@ -405,5 +422,3 @@ class UserInteractions:
                 break
             except BookNotFound:
                 print(f"{book_to_delete} is not in your to-read list. Please try again.")
-
-
