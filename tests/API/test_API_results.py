@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from CFG_S3_Group4_Project.src.API.API_results import BookAppAPI
+from src.API.API_results import BookAppAPI
 
 
 class BookAppAPITest(unittest.TestCase):
@@ -68,7 +68,7 @@ class BookAppAPITest(unittest.TestCase):
 
 
 # Test get_filtered_results method with a mock input from the make_api_request method
-    @patch('CFG_S3_Group4_Project.src.API.API_results.BookAppAPI.make_api_request')
+    @patch('src.API.API_results.BookAppAPI.make_api_request')
     def test_get_filtered_results(self, mock_make_api_request):
         mock_make_api_request.return_value = {'results': [{
             'authors': ['J. R. R. Tolkien'],
@@ -107,7 +107,7 @@ class BookAppAPITest(unittest.TestCase):
         self.assertIn('summary', records[0])
 
 # Test get_random_results method with a mock input from the make_api_request method
-    @patch('CFG_S3_Group4_Project.src.API.API_results.BookAppAPI.make_api_request')
+    @patch('src.API.API_results.BookAppAPI.make_api_request')
     def test_get_random_result(self, mock_make_api_request):
         mock_make_api_request.return_value = {'results' :[{
             'authors': ['J. R. R. Tolkien'],

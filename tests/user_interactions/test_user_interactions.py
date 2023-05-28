@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 from unittest.mock import patch
-from CFG_S3_Group4_Project.src.user_interactions.user_interactions import UserInteractions
+from src.user_interactions.user_interactions import UserInteractions
 from io import StringIO
 import sys
 

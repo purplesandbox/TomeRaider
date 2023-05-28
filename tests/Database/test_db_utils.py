@@ -1,5 +1,5 @@
 import unittest
-from CFG_S3_Group4_Project.src.Database.db_utils import get_all_books, insert_book, move_book, delete_book, update_review, update_rating
+from src.Database.db_utils import get_all_books, insert_book, move_book, delete_book, update_review, update_rating
 
 """"
 Make sure your db is empty before running these tests

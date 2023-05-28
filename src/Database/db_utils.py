@@ -1,5 +1,5 @@
 import mysql.connector
-from CFG_S3_Group4_Project.src.Database.config import USER, PASSWORD, HOST
+from src.Database.config import USER, PASSWORD, HOST
 
 
 class DbConnectionError(Exception):
