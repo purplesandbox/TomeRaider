@@ -1,8 +1,5 @@
-from flask import Flask
 from src.API.API_results import BookAppAPI
 from src.Database import db_utils
-
-app = Flask(__name__)
 
 """
 This is the internal API which links the back end to the front end - links user_interactions with db_utils and API_results 
